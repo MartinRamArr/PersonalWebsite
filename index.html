@@ -31,7 +31,13 @@
       <!-- 1. Home Section -->
       <div id="tab-home" class="tab-content active visible">
         <div class="about-text">
-          <p>I am a multidisciplinary designer and creative, focusing on clean layouts, branding, and modern digital experiences. This space acts as an interactive archive of my work, thoughts, and architectural research.</p>
+          <p>Mario is a recent M.Arch graduate from Columbia University and a contractual adjunct instructor in the History Department at Montclair State University. Further, he is a co-founding member of Marra Roofing LLC along with his father, a roofing-construction company based in the Salt Lake Valley. He also holds a B.S. in Economics from the University of Utah (2021) and an M.A. in the History of Technology from the University of Oklahoma (2023). He is 25 years old, Mexican-American (first-generation student), and grew up in Salt Lake City, Utah. He is fluent in English and Spanish.</p>
+          
+          <p>As an undergraduate student Mario focused mainly on urban economic research and community service. In terms of his current academic endeavors, Mario is interested in late modern and contemporary art history and architecture. Specifically, he focuses on the interaction between technology and art in the postwar United States. His master's thesis involved primary-source research on Allan Sekula, a postwar American photographer.</p>
+          
+          <p>For Mario, every design project must be stringent in its analysis of culture, history, theory, and representation. Mario is interested in space which subverts and agitates our expectations of reality yet also provides a socially beneficial construct. He is interested in drawing, rendering, and model photography while remaining conscious of digital processes.</p>
+          
+          <p>Throughout his schooling Mario has been dedicated to his passion for pedagogy and social justice—in particular, he is deeply passionate about first-generation students and their navigation of post-secondary education, as well as actively advocating for the plights of undocumented immigrants.</p>
         </div>
       </div>
 
@@ -292,11 +298,12 @@
 
   </div>
 
-  <!-- Interactive Tab Script -->
+  <!-- Interactive Tab Script with Dynamic Title Dimming -->
   <script>
   (function() {
     const tabs = document.querySelectorAll(".nav-tab");
     const contents = document.querySelectorAll(".tab-content");
+    const siteTitle = document.querySelector(".site-title");
     let timeoutId = null;
 
     function switchTab(tabElement) {
@@ -308,8 +315,16 @@
 
       if (timeoutId) clearTimeout(timeoutId);
 
+      // Handle highlighting the active tab
       tabs.forEach(t => t.classList.remove("active"));
       tabElement.classList.add("active");
+
+      // Dynamic Title Dimming: only full opacity when on "Home" tab
+      if (targetId === "tab-home") {
+        siteTitle.classList.remove("dimmed");
+      } else {
+        siteTitle.classList.add("dimmed");
+      }
 
       if (currentActiveContent) {
         currentActiveContent.classList.remove("visible");
