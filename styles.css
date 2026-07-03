@@ -1,3 +1,6 @@
+/* --- GOOGLE FONTS IMPORT --- */
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=Inter:wght@300;400;500;600&display=swap');
+
 /* --- RESET AND BASE WEB LAYOUT --- */
 html, body {
   background-color: #ffffff;
@@ -11,8 +14,8 @@ html, body {
   overflow-x: hidden;
 }
 
-/* Master Layout Container */
-.mario-portfolio-root {
+/* Master Layout Container (Centered, standard max-width with viewport boundaries) */
+.site-container {
   background-color: #ffffff;
   color: #000000;
   padding: 40px;
@@ -322,7 +325,7 @@ html, body {
 
 /* --- MOBILE RESPONSIVENESS --- */
 @media (max-width: 768px) {
-  .mario-portfolio-root {
+  .site-container {
     padding: 20px;
   }
   
