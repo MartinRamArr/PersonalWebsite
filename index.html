@@ -318,10 +318,10 @@
 
         const wrapper = document.createElement("div");
         wrapper.className = "floating-image-wrapper";
-
+        
         // Generate precise random layout attributes
         const randomLeft = Math.random() * 65; // Safeguard within browser viewport limits
-        const randomRotation = (Math.random() * 16) - 8; // Staggered -8deg to 8deg
+        const rotation = (Math.random() * 16) - 8; // Staggered -8deg to 8deg
         const driftX = (Math.random() * 20) - 10; // Left-to-right drift offsets
         const driftY = (Math.random() * 20) - 10; // Up-and-down drift offsets
         const driftRot = (Math.random() * 4) - 2;
@@ -329,30 +329,30 @@
 
         wrapper.style.left = `${randomLeft}%`;
         wrapper.style.top = `${currentTop}px`;
-        wrapper.style.setProperty('--rot', `${randomRotation}deg`); // Fixed: pointed back to correct variable
+        wrapper.style.setProperty('--rot', `${rotation}deg`); // Correctly references the rotation variable
         wrapper.style.setProperty('--drift-x', `${driftX}px`);
         wrapper.style.setProperty('--drift-y', `${driftY}px`);
         wrapper.style.setProperty('--drift-rot', `${driftRot}deg`);
         wrapper.style.setProperty('--drift-duration', `${driftDuration}s`);
-
+        
         // Stagger visual sizes organically
         const randomWidth = 180 + Math.floor(Math.random() * 100);
         wrapper.style.width = `${randomWidth}px`;
-
+        
         const img = document.createElement("img");
         img.src = imgSrc;
-        img.loading = "lazy";
-
+        img.loading = "lazy"; // Standard load performance optimization
+        
         wrapper.appendChild(img);
         canvas.appendChild(wrapper);
-
+        
         makeDraggable(wrapper);
-
+        
         // Advance down the vertical canvas organically to prevent clusters
         currentTop += (randomWidth * 0.75) + (Math.random() * 60);
       }
-
-      // Automatically adjust container height
+      
+      // Sized correctly so document body scrolls smoothly
       canvas.style.height = `${currentTop + 300}px`;
     }
 
@@ -441,7 +441,7 @@
       }
     }
 
-    // Dynamic Scroll Opacity (Name dims down when scrolling)
+    // Dynamic Scroll Opacity: Background dims to #dddddd on scroll, text stays straight white
     window.addEventListener("scroll", function() {
       if (window.scrollY > 40) {
         siteTitle.classList.add("dimmed");

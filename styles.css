@@ -75,16 +75,16 @@ body, html, p, .about-text, .portfolio-row, .cv-content, .cv-contact-grid, .cv-i
   text-transform: none;
   margin: 0;
   pointer-events: auto; /* Re-enables hover/clicking events on the name itself */
-  transition: color 0.3s ease; /* Transition text color instead of element opacity */
+  transition: background-color 0.3s ease; /* Transition background color on scroll */
 }
 
 /* 
-  Instead of using 'opacity' on the entire element (which would make the black background box 
-  transparent and let text bleed through), we dim ONLY the white text color to light grey (#dddddd).
-  The black background box remains 100% solid and opaque, cleanly blocking out any scrolling text behind it.
+  On scroll, the background transitions to light grey (#dddddd)
+  while the text stays straight white (#ffffff).
 */
 .site-title.dimmed {
-  color: #dddddd !important; /* Light-grey color text transition */
+  background-color: #dddddd !important; /* Dynamic background change to light grey */
+  color: #ffffff !important; /* Keep text straight white */
 }
 
 /* Size 2: Body Size (Uniformly applied to all other text and sections) */
@@ -135,7 +135,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
-.tab-content.active {
+.content-wrapper .tab-content.active {
   display: block;
 }
 
@@ -351,12 +351,13 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   color: #444444;
 }
 
-/* --- IMAGES GRAPHIC PLACEHOLDERS --- */
-.image-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 30px;
+/* --- IMAGES & FLOATING COLLAGE --- */
+.scattered-canvas {
+  position: relative;
   width: 100%;
+  min-height: 80vh;
+  margin-top: 40px;
+  overflow: visible; /* Allows floating bounds to bleed cleanly */
 }
 
 /* 
