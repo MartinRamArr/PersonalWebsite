@@ -1,5 +1,17 @@
-/* --- GOOGLE FONTS IMPORT --- */
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=Inter:wght@300;400;500;600&display=swap');
+/* --- CUSTOM ARCHITECTURAL FONTS --- */
+@font-face {
+  font-family: 'AkzidenzGrotesk';
+  src: url('AkzidenzGroteskProRegular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'ApercuMono';
+  src: url('ApercuMonoProRegular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
 
 /* --- RESET AND BASE WEB LAYOUT --- */
 html, body {
@@ -9,26 +21,61 @@ html, body {
   padding: 0;
   width: 100%;
   min-height: 100%;
-  font-family: 'Nudista', 'Inter', -apple-system, sans-serif; /* Prioritizes Nudista */
-  overflow-y: scroll !important; /* Forces permanent vertical scrollbar to prevent horizontal layout shift on tab changes */
+  overflow-y: scroll !important; /* Force a permanent vertical scrollbar to prevent horizontal layout shift on tab switch */
   overflow-x: hidden;
 }
 
 /* Master Layout Container (Completely full-bleed, stretching 100% horizontally) */
-.site-container {
+.mario-portfolio-root, .site-container {
   background-color: #ffffff;
   color: #000000;
   padding: 40px;
   width: 100%;
-  max-width: 100%; /* Spans full width edge-to-edge with no margins */
-  margin: 0;
+  max-width: 100% !important; /* Spans full width edge-to-edge with no margins */
+  margin: 0 !important;
   box-sizing: border-box;
+}
+
+/* --- TYPOGRAPHY FAMILIES --- */
+/* Header Font Family */
+.site-title, .nav-tab, .section-label, h3, h2, strong {
+  font-family: 'AkzidenzGrotesk', -apple-system, sans-serif;
+}
+
+/* Body Font Family */
+body, html, p, .about-text, .portfolio-row, .cv-content, .cv-contact-grid, .cv-item-desc, .cv-list-item, .cv-awards-grid, .cv-interests, .blog-entry {
+  font-family: 'ApercuMono', monospace;
+}
+
+/* --- ONLY TWO SIZES GLOBALLY --- */
+/* Size 1: Header Size */
+.site-title {
+  font-size: 2.2rem !important; 
+  line-height: 1.1;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  text-transform: none;
+  margin: 0;
+  opacity: 1;
+  transition: opacity 0.3s ease; /* Smooth fade when dimming name */
+}
+
+/* Dimmed name state active when outside of the Home tab */
+.site-title.dimmed {
+  opacity: 0.25;
+}
+
+/* Size 2: Body Size (Uniformly applied to all other text and sections) */
+body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-row, .cv-label, .cv-content, .cv-item-header, .cv-item-date, .cv-list-meta, .cv-awards-grid, .cv-interests, .blog-entry, .entry-date {
+  font-size: 0.95rem !important; 
+  line-height: 1.55;
+  letter-spacing: 0.01em;
 }
 
 /* --- HORIZONTAL NAVIGATION --- */
 .top-nav {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* Spreads navigation horizontally across the full page width */
   border-bottom: 1px solid #000000;
   padding-bottom: 15px;
   margin-bottom: 40px;
@@ -37,43 +84,24 @@ html, body {
 
 .nav-tab {
   text-decoration: none;
-  color: #c7d14f; /* Yellow-green custom color choice */
-  font-family: 'DM Mono', monospace;
-  font-size: 0.85rem;
+  color: #000000; /* Solid Black */
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  opacity: 0.4; /* Muted base opacity */
+  opacity: 0.25; /* Semi-transparent base state */
   transition: opacity 0.3s ease;
 }
 
 .top-nav:hover .nav-tab {
-  opacity: 0.25;
+  opacity: 0.15;
 }
 .top-nav .nav-tab:hover, .top-nav .nav-tab.active {
   opacity: 1 !important;
-  color: #c7d14f !important;
+  color: #000000 !important;
 }
 
-/* --- HEADER & NAME --- */
+/* --- HEADER --- */
 .site-header {
   margin-bottom: 60px;
-}
-
-.site-title {
-  font-family: 'Nudista', 'Inter', sans-serif;
-  font-weight: 500;
-  font-size: 2.8rem;
-  letter-spacing: -0.04em;
-  line-height: 1.1;
-  text-transform: none;
-  margin: 0;
-  opacity: 1;
-  transition: opacity 0.3s ease; /* Smooth transition for dynamic title dimming */
-}
-
-/* Dimmed name state active when outside of the Home tab */
-.site-title.dimmed {
-  opacity: 0.25;
 }
 
 /* --- TAB TRANSITIONS --- */
@@ -101,8 +129,6 @@ html, body {
 
 /* --- LABELS & SECTION STYLING --- */
 .section-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: #888888;
@@ -113,17 +139,13 @@ html, body {
 }
 
 .about-text, .text-block {
-  font-family: 'Nudista', 'Inter', sans-serif;
-  font-size: 1.3rem;
-  line-height: 1.55;
-  letter-spacing: -0.01em;
   max-width: 850px; /* Constrains readable text blocks on broad screens */
   color: #000000;
 }
 
 .about-text p {
   margin-top: 0;
-  margin-bottom: 25px; /* Clean spacing between paragraph fields */
+  margin-bottom: 25px; /* Spacing between biography paragraphs */
 }
 
 .about-text p:last-child {
@@ -131,8 +153,6 @@ html, body {
 }
 
 .editorial-p {
-  font-size: 1.5rem;
-  line-height: 1.6;
   font-weight: 300;
 }
 
@@ -147,7 +167,6 @@ html, body {
   justify-content: space-between;
   border-bottom: 1px solid #eeeeee;
   padding: 12px 0;
-  font-size: 1.1rem;
 }
 
 .portfolio-row:hover {
@@ -155,8 +174,6 @@ html, body {
 }
 
 .proj-date {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.9rem;
   width: 100px;
 }
 
@@ -166,7 +183,6 @@ html, body {
 }
 
 .proj-type {
-  font-size: 0.95rem;
   color: #666666;
   text-align: right;
 }
@@ -179,21 +195,16 @@ html, body {
 }
 
 .blog-entry h3 {
-  font-size: 1.3rem;
   font-weight: 400;
   margin: 5px 0 0 0;
 }
 
 .entry-date {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.85rem;
   color: #888888;
 }
 
 /* --- COMPREHENSIVE CV SPLIT-GRID --- */
 .cv-container {
-  font-family: 'Nudista', 'Inter', sans-serif;
-  color: #000000;
   max-width: 900px;
   margin-top: 20px;
 }
@@ -211,25 +222,14 @@ html, body {
 }
 
 .cv-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
   color: #888888;
   padding-top: 4px;
-}
-
-.cv-content {
-  font-size: 1rem;
-  line-height: 1.5;
 }
 
 .cv-contact-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px 20px;
-  font-family: 'DM Mono', monospace;
-  font-size: 0.9rem;
 }
 
 .cv-item {
@@ -245,7 +245,6 @@ html, body {
   justify-content: space-between;
   align-items: baseline;
   font-weight: 500;
-  font-size: 1.1rem;
 }
 
 .cv-item-title {
@@ -253,22 +252,16 @@ html, body {
 }
 
 .cv-item-meta {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.85rem;
   color: #666666;
   font-weight: 300;
 }
 
 .cv-item-date {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.85rem;
   color: #888888;
   margin: 3px 0 8px 0;
 }
 
 .cv-item-desc {
-  font-size: 0.95rem;
-  line-height: 1.5;
   color: #444444;
   max-width: 680px;
 }
@@ -277,14 +270,12 @@ html, body {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  font-size: 0.95rem;
 }
 
 .cv-list-item {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  font-size: 0.95rem;
   padding: 8px 0;
   border-bottom: 1px dashed #f0f0f0;
 }
@@ -294,8 +285,6 @@ html, body {
 }
 
 .cv-list-meta {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.85rem;
   color: #888888;
   white-space: nowrap;
   margin-left: 20px;
@@ -305,13 +294,10 @@ html, body {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 8px 30px;
-  font-size: 0.9rem;
 }
 
 .cv-interests {
-  font-size: 0.95rem;
   color: #444444;
-  line-height: 1.6;
 }
 
 /* --- IMAGES GRAPHIC PLACEHOLDERS --- */
@@ -330,23 +316,19 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'DM Mono', monospace;
-  font-size: 0.9rem;
   color: #777777;
   margin-bottom: 10px;
 }
 
 .empty-media-placeholder p {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.8rem;
   color: #777777;
   margin: 0;
 }
 
 /* --- MOBILE RESPONSIVENESS --- */
 @media (max-width: 768px) {
-  .site-container {
-    padding: 20px;
+  .site-container, .mario-portfolio-root {
+    padding: 20px !important;
   }
   
   .top-nav {
@@ -356,7 +338,7 @@ html, body {
   }
   
   .site-title {
-    font-size: 1.8rem;
+    font-size: 1.8rem !important;
   }
   
   .portfolio-row {

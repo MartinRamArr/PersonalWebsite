@@ -8,7 +8,7 @@
 </head>
 <body>
 
-  <div class="site-container">
+  <div class="mario-portfolio-root">
     
     <!-- Top Navigation Pane (6 items, equally distributed horizontally) -->
     <nav class="top-nav">
@@ -298,7 +298,7 @@
 
   </div>
 
-  <!-- Interactive Tab Script with Dynamic Title Dimming -->
+  <!-- Interactive Tab Script -->
   <script>
   (function() {
     const tabs = document.querySelectorAll(".nav-tab");
@@ -315,11 +315,11 @@
 
       if (timeoutId) clearTimeout(timeoutId);
 
-      // Handle highlighting the active tab
+      // Handle active menu highlighted links
       tabs.forEach(t => t.classList.remove("active"));
       tabElement.classList.add("active");
 
-      // Dynamic Title Dimming: only full opacity when on "Home" tab
+      // Dynamic Title Dimming (Name dims down when visiting non-Home tabs)
       if (targetId === "tab-home") {
         siteTitle.classList.remove("dimmed");
       } else {
