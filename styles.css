@@ -424,6 +424,28 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   }
 }
 
+.load-more-btn {
+  display: block;
+  width: fit-content;
+  margin: 60px auto 40px auto;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #000000;
+  background-color: #ffffff;
+  text-decoration: none;
+  border: 1px solid #000000;
+  padding: 10px 20px;
+  transition: background-color 0.2s, color 0.2s;
+  cursor: pointer;
+}
+
+.load-more-btn:hover {
+  background-color: #000000;
+  color: #ffffff;
+}
+
 /* --- MOBILE RESPONSIVENESS --- */
 @media (max-width: 768px) {
   .site-container, .mario-portfolio-root {
