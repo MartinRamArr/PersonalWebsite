@@ -8,21 +8,25 @@
 
 @font-face {
   font-family: 'ApercuMono';
-  src: url('ApercuMonoProLight.ttf') format('truetype'); /* Swapped to Apercu Mono Light */
+  src: url('ApercuMonoProLight.ttf') format('truetype'); /* Pointed directly to Apercu Mono Light */
   font-weight: normal;
   font-style: normal;
 }
 
 /* --- RESET AND BASE WEB LAYOUT --- */
-html, body {
+html {
+  overflow-y: scroll !important; /* Force vertical scroll bar to prevent horizontal layout shift on tab switch */
+  overflow-x: hidden;
+}
+
+body {
   background-color: #ffffff;
   color: #000000;
   margin: 0;
   padding: 0;
   width: 100%;
   min-height: 100%;
-  overflow-y: scroll !important; /* Force a permanent vertical scrollbar to prevent horizontal layout shift on tab switch */
-  overflow-x: hidden;
+  font-family: 'ApercuMono', monospace;
 }
 
 /* Master Layout Container (Completely full-bleed, stretching 100% horizontally) */
@@ -34,6 +38,7 @@ html, body {
   max-width: 100% !important; /* Spans full width edge-to-edge with no margins */
   margin: 0 !important;
   box-sizing: border-box;
+  overflow: visible !important; /* Required for child sticky headers to work properly */
 }
 
 /* --- TYPOGRAPHY FAMILIES --- */
@@ -50,17 +55,18 @@ body, html, p, .about-text, .portfolio-row, .cv-content, .cv-contact-grid, .cv-i
 /* --- ONLY TWO SIZES GLOBALLY --- */
 /* Size 1: Header Size */
 .site-header {
-  position: sticky; /* Keeps your name frozen when scrolling */
-  top: 40px; /* Sticks 40px from the viewport top, in line with site container padding */
+  position: -webkit-sticky;
+  position: sticky; /* Keep your name frozen when scrolling */
+  top: 40px; /* Sticks 40px from viewport top, in line with site container padding */
   z-index: 1000; /* Stays securely stacked on top of scrolling CV rows */
   margin-bottom: 60px;
-  pointer-events: none; /* Allows clicks to pass through any empty container space around your name */
+  pointer-events: none; /* Allows clicks to pass through empty container space around your name */
 }
 
 .site-title {
   display: inline-block; /* Black box only encloses the text width */
   background-color: #000000; /* Solid black background */
-  color: #ffffff !important; /* White text */
+  color: #ffffff !important; /* Solid white text */
   padding: 10px 20px; /* Precise padding around your name */
   font-size: 2.2rem !important; 
   line-height: 1.1;
@@ -69,11 +75,11 @@ body, html, p, .about-text, .portfolio-row, .cv-content, .cv-contact-grid, .cv-i
   text-transform: none;
   margin: 0;
   pointer-events: auto; /* Re-enables hover/clicking events on the name itself */
-  transition: color 0.3s ease; /* Transition color opacity instead of element opacity */
+  transition: color 0.3s ease; /* Transition text color instead of element opacity */
 }
 
 /* 
-  Instead of using 'opacity: 0.25' on the entire element (which would make the black background box 
+  Instead of using 'opacity' on the entire element (which would make the black background box 
   transparent and let text bleed through), we dim ONLY the white text color to 25%.
   The black background box remains 100% solid and opaque, cleanly blocking out any scrolling text behind it.
 */

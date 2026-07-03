@@ -298,7 +298,7 @@
 
   </div>
 
-  <!-- Interactive Tab Script -->
+  <!-- Interactive Tab & Dynamic Scroll Opacity Script -->
   <script>
   (function() {
     const tabs = document.querySelectorAll(".nav-tab");
@@ -319,13 +319,6 @@
       tabs.forEach(t => t.classList.remove("active"));
       tabElement.classList.add("active");
 
-      // Dynamic Title Dimming (Name dims down when visiting non-Home tabs)
-      if (targetId === "tab-home") {
-        siteTitle.classList.remove("dimmed");
-      } else {
-        siteTitle.classList.add("dimmed");
-      }
-
       if (currentActiveContent) {
         currentActiveContent.classList.remove("visible");
 
@@ -341,6 +334,15 @@
         targetContent.classList.add("visible");
       }
     }
+
+    // Dynamic Scroll Opacity: Dims name text as you scroll, but keeps background solid
+    window.addEventListener("scroll", function() {
+      if (window.scrollY > 40) {
+        siteTitle.classList.add("dimmed");
+      } else {
+        siteTitle.classList.remove("dimmed");
+      }
+    });
 
     tabs.forEach(tab => {
       tab.addEventListener("mouseenter", function() {
