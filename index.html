@@ -41,43 +41,22 @@
         </div>
       </div>
 
-      <!-- 2. Portfolio Section (Interactive PDF Integration) -->
+      <!-- 2. Portfolio Section -->
       <div id="tab-portfolio" class="tab-content">
-        <div class="text-block">
+        <div class="text-block" style="max-width: 100%;">
           <p class="section-label">Selected Works</p>
           
-          <!-- Download & View Action Button -->
+          <!-- View / Download PDF Action Button -->
           <div class="portfolio-action-container">
             <a href="MarioPortfolio.pdf" target="_blank" class="portfolio-pdf-btn">
               [ View Portfolio PDF ]
             </a>
           </div>
 
-          <!-- Interactive Full-Bleed PDF Viewer Embed -->
+          <!-- Scaled Up Immersive PDF Viewer -->
           <div class="pdf-viewer-container">
             <iframe src="MarioPortfolio.pdf#toolbar=0" class="pdf-iframe" title="Mario Martin Ramirez-Arrazola Portfolio"></iframe>
           </div>
-
-          <!-- Staggered Index List -->
-          <div class="portfolio-list">
-            <p class="section-label">Project Index</p>
-            <div class="portfolio-row">
-              <span class="proj-date">2026</span>
-              <span class="proj-title">Project Alpha: Speculative Urbanism</span>
-              <span class="proj-type">Research & Mapping</span>
-            </div>
-            <div class="portfolio-row">
-              <span class="proj-date">2025</span>
-              <span class="proj-title">Project Beta: Temporary Pavilion</span>
-              <span class="proj-type">Physical Installation</span>
-            </div>
-            <div class="portfolio-row">
-              <span class="proj-date">2024</span>
-              <span class="proj-title">Project Gamma: Spatial Geometries</span>
-              <span class="proj-type">Residential Study</span>
-            </div>
-          </div>
-
         </div>
       </div>
 
@@ -310,8 +289,16 @@
     const totalJpgs = 357;
     const totalPngs = 85;
     const imagePool = [];
-    for (let i = 1; i <= totalJpgs; i++) imagePool.push(`${i}.jpg`);
-    for (let i = 1; i <= totalPngs; i++) imagePool.push(`${i}.png`);
+    
+    // Safely skip deleted files 157 and 158 across the pool
+    for (let i = 1; i <= totalJpgs; i++) {
+      if (i === 157 || i === 158) continue;
+      imagePool.push(`${i}.jpg`);
+    }
+    for (let i = 1; i <= totalPngs; i++) {
+      if (i === 157 || i === 158) continue;
+      imagePool.push(`${i}.png`);
+    }
 
     // Shuffle array utility
     function shuffleArray(array) {
@@ -345,7 +332,7 @@
 
         wrapper.style.left = `${randomLeft}%`;
         wrapper.style.top = `${currentTop}px`;
-        wrapper.style.setProperty('--rot', `${rotation}deg`); // Correctly references the rotation variable
+        wrapper.style.setProperty('--rot', `${rotation}deg`); // References the corrected rotation variable
         wrapper.style.setProperty('--drift-x', `${driftX}px`);
         wrapper.style.setProperty('--drift-y', `${driftY}px`);
         wrapper.style.setProperty('--drift-rot', `${driftRot}deg`);
