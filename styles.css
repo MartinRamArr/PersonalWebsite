@@ -10,18 +10,18 @@ html, body {
   width: 100%;
   min-height: 100%;
   font-family: 'Inter', -apple-system, sans-serif;
-  overflow-y: auto;
+  overflow-y: scroll !important; /* Force a permanent vertical scrollbar to prevent layout jump on tab switch */
   overflow-x: hidden;
 }
 
-/* Master Layout Container (Centered, standard max-width with viewport boundaries) */
+/* Master Layout Container (Completely full-bleed, stretching 100% horizontally) */
 .site-container {
   background-color: #ffffff;
   color: #000000;
   padding: 40px;
   width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
+  max-width: 100%; /* No more max-width limitations or empty white sidebars */
+  margin: 0;
   box-sizing: border-box;
 }
 
@@ -32,6 +32,7 @@ html, body {
   border-bottom: 1px solid #000000;
   padding-bottom: 15px;
   margin-bottom: 40px;
+  width: 100%;
 }
 
 .nav-tab {
@@ -71,6 +72,7 @@ html, body {
 .content-wrapper {
   position: relative;
   min-height: 500px;
+  width: 100%;
 }
 
 .tab-content {
@@ -107,7 +109,7 @@ html, body {
   font-size: 1.4rem;
   line-height: 1.5;
   letter-spacing: -0.02em;
-  max-width: 800px;
+  max-width: 800px; /* Keep text content at readable widths even on massive screens */
   color: #000000;
 }
 
@@ -300,6 +302,7 @@ html, body {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 30px;
+  width: 100%;
 }
 
 .empty-media-placeholder .media-box {
