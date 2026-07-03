@@ -8,7 +8,7 @@
 
 @font-face {
   font-family: 'ApercuMono';
-  src: url('ApercuMonoProRegular.ttf') format('truetype');
+  src: url('ApercuMonoProLight.ttf') format('truetype'); /* Swapped to Apercu Mono Light */
   font-weight: normal;
   font-style: normal;
 }
@@ -50,6 +50,10 @@ body, html, p, .about-text, .portfolio-row, .cv-content, .cv-contact-grid, .cv-i
 /* --- ONLY TWO SIZES GLOBALLY --- */
 /* Size 1: Header Size */
 .site-title {
+  display: inline-block; /* Wraps the black box tightly around the text */
+  background-color: #000000; /* Black background */
+  color: #ffffff !important; /* White text */
+  padding: 10px 20px; /* Precise framing padding */
   font-size: 2.2rem !important; 
   line-height: 1.1;
   font-weight: 500;
@@ -57,10 +61,10 @@ body, html, p, .about-text, .portfolio-row, .cv-content, .cv-contact-grid, .cv-i
   text-transform: none;
   margin: 0;
   opacity: 1;
-  transition: opacity 0.3s ease; /* Smooth fade when dimming name */
+  transition: opacity 0.3s ease; /* Smooth fade when dimming name block */
 }
 
-/* Dimmed name state active when outside of the Home tab */
+/* Dimmed name block state active when outside of the Home tab */
 .site-title.dimmed {
   opacity: 0.25;
 }
@@ -144,6 +148,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 }
 
 .about-text p {
+  text-align: justify; /* Aligns left and right margins to straight, singular lines */
   margin-top: 0;
   margin-bottom: 25px; /* Spacing between biography paragraphs */
 }
@@ -154,6 +159,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 
 .editorial-p {
   font-weight: 300;
+  text-align: justify;
 }
 
 /* --- PORTFOLIO ROWS --- */
@@ -167,6 +173,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   justify-content: space-between;
   border-bottom: 1px solid #eeeeee;
   padding: 12px 0;
+  font-size: 1.1rem;
 }
 
 .portfolio-row:hover {
@@ -174,6 +181,8 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 }
 
 .proj-date {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.9rem;
   width: 100px;
 }
 
@@ -183,6 +192,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 }
 
 .proj-type {
+  font-size: 0.95rem;
   color: #666666;
   text-align: right;
 }
@@ -195,16 +205,21 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 }
 
 .blog-entry h3 {
+  font-size: 1.3rem;
   font-weight: 400;
   margin: 5px 0 0 0;
 }
 
 .entry-date {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.85rem;
   color: #888888;
 }
 
 /* --- COMPREHENSIVE CV SPLIT-GRID --- */
 .cv-container {
+  font-family: 'ApercuMono', monospace; /* Restricting all CV to the uniform mono space font */
+  color: #000000;
   max-width: 900px;
   margin-top: 20px;
 }
@@ -222,14 +237,25 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 }
 
 .cv-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   color: #888888;
   padding-top: 4px;
+}
+
+.cv-content {
+  font-size: 1rem;
+  line-height: 1.5;
 }
 
 .cv-contact-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px 20px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.9rem;
 }
 
 .cv-item {
@@ -245,6 +271,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   justify-content: space-between;
   align-items: baseline;
   font-weight: 500;
+  font-size: 1.1rem;
 }
 
 .cv-item-title {
@@ -252,16 +279,22 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 }
 
 .cv-item-meta {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.85rem;
   color: #666666;
   font-weight: 300;
 }
 
 .cv-item-date {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.85rem;
   color: #888888;
   margin: 3px 0 8px 0;
 }
 
 .cv-item-desc {
+  font-size: 0.95rem;
+  line-height: 1.5;
   color: #444444;
   max-width: 680px;
 }
@@ -270,12 +303,14 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   display: flex;
   flex-direction: column;
   gap: 8px;
+  font-size: 0.95rem;
 }
 
 .cv-list-item {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
+  font-size: 0.95rem;
   padding: 8px 0;
   border-bottom: 1px dashed #f0f0f0;
 }
@@ -285,6 +320,8 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 }
 
 .cv-list-meta {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.85rem;
   color: #888888;
   white-space: nowrap;
   margin-left: 20px;
@@ -294,6 +331,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 8px 30px;
+  font-size: 0.9rem;
 }
 
 .cv-interests {
