@@ -251,24 +251,10 @@
       <!-- 4. Images Section -->
       <div id="tab-images" class="tab-content">
         <p class="section-label">Visual Archive</p>
-        <div class="image-grid">
-          <div class="grid-item empty-media-placeholder">
-            <div class="media-box">Image 01</div>
-            <p>Mockup Frame One</p>
-          </div>
-          <div class="grid-item empty-media-placeholder">
-            <div class="media-box">Image 02</div>
-            <p>Mockup Frame Two</p>
-          </div>
-          <div class="grid-item empty-media-placeholder">
-            <div class="media-box">Image 03</div>
-            <p>Mockup Frame Three</p>
-          </div>
-          <div class="grid-item empty-media-placeholder">
-            <div class="media-box">Image 04</div>
-            <p>Mockup Frame Four</p>
-          </div>
+        <div class="scattered-canvas" id="images-canvas">
+          <!-- Images (1.jpg - 357.jpg & 1.png - 85.png) are dynamically scattered and animated here -->
         </div>
+        <button class="load-more-btn" id="load-more-btn">Load More Archive</button>
       </div>
 
       <!-- 5. Research Section -->
@@ -306,6 +292,133 @@
     const siteTitle = document.querySelector(".site-title");
     let timeoutId = null;
 
+    // --- DYNAMIC SCATTERED ARCHIVE SYSTEM ---
+    const totalJpgs = 357;
+    const totalPngs = 85;
+    const imagePool = [];
+    
+    // Build references to your sequential files
+    for (let i = 1; i <= totalJpgs; i++) imagePool.push(`${i}.jpg`);
+    for (let i = 1; i <= totalPngs; i++) imagePool.push(`${i}.png`);
+    
+    // Shuffle the reference array to intermix JPGs and PNGs randomly
+    for (let i = imagePool.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [imagePool[i], imagePool[j]] = [imagePool[j], imagePool[i]];
+    }
+
+    let currentTop = 50;
+    const canvas = document.getElementById("images-canvas");
+    const loadMoreBtn = document.getElementById("load-more-btn");
+    let isCanvasInitialized = false;
+
+    // Renders random batches of images staggered vertically with structural offsets
+    function renderBatch(batchSize = 20) {
+      if (!canvas) return;
+      
+      for (let i = 0; i < batchSize; i++) {
+        if (imagePool.length === 0) {
+          if (loadMoreBtn) loadMoreBtn.style.display = "none";
+          return;
+        }
+        const imgSrc = imagePool.pop();
+        
+        const wrapper = document.createElement("div");
+        wrapper.className = "floating-image-wrapper";
+        
+        // Random positioning properties
+        const leftPercent = Math.random() * 65; // Keeps images safe from breaking horizontal margins
+        const rotation = (Math.random() * 16) - 8; // Staggered initial rotation (-8deg to 8deg)
+        const driftX = (Math.random() * 20) - 10; // Slow hover animation drifts
+        const driftY = (Math.random() * 20) - 10;
+        const driftRot = (Math.random() * 4) - 2;
+        const driftDuration = 5 + (Math.random() * 5); // 5s to 10s animation durations
+        
+        wrapper.style.left = `${leftPercent}%`;
+        wrapper.style.top = `${currentTop}px`;
+        wrapper.style.setProperty('--rot', `${rotation}deg`);
+        wrapper.style.setProperty('--drift-x', `${driftX}px`);
+        wrapper.style.setProperty('--drift-y', `${driftY}px`);
+        wrapper.style.setProperty('--drift-rot', `${driftRot}deg`);
+        wrapper.style.setProperty('--drift-duration', `${driftDuration}s`);
+        
+        // Stagger widths between 180px and 280px for a raw editorial collage look
+        const randomWidth = 180 + Math.floor(Math.random() * 100);
+        wrapper.style.width = `${randomWidth}px`;
+        
+        const img = document.createElement("img");
+        img.src = imgSrc;
+        img.loading = "lazy"; // Standard load performance optimization
+        
+        wrapper.appendChild(img);
+        canvas.appendChild(wrapper);
+        
+        makeDraggable(wrapper);
+        
+        // Advance down the vertical canvas
+        currentTop += (randomWidth * 0.75) + (Math.random() * 60);
+      }
+      
+      // Keep canvas container sized correctly so document body scrolls smoothly
+      canvas.style.height = `${currentTop + 200}px`;
+    }
+
+    // Hand-engineered Drag and Drop logic with Touchscreen support
+    function makeDraggable(element) {
+      let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+      
+      element.onmousedown = dragMouseDown;
+      element.ontouchstart = dragMouseDown;
+
+      function dragMouseDown(e) {
+        e = e || window.event;
+        if (e.type !== 'touchstart') {
+          e.preventDefault();
+        }
+        
+        pos3 = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+        pos4 = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+        
+        document.onmouseup = closeDragElement;
+        document.ontouchend = closeDragElement;
+        document.onmousemove = elementDrag;
+        document.ontouchmove = elementDrag;
+        
+        // Bring active photo frame to the front layer
+        document.querySelectorAll('.floating-image-wrapper').forEach(el => el.style.zIndex = "10");
+        element.style.zIndex = "9999";
+        element.style.animationPlayState = "paused"; // Pause floating drift when dragging
+      }
+
+      function elementDrag(e) {
+        e = e || window.event;
+        const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+        const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+        
+        pos1 = pos3 - clientX;
+        pos2 = pos4 - clientY;
+        pos3 = clientX;
+        pos4 = clientY;
+        
+        element.style.top = (element.offsetTop - pos2) + "px";
+        element.style.left = (element.offsetLeft - pos1) + "px";
+      }
+
+      function closeDragElement() {
+        document.onmouseup = null;
+        document.ontouchend = null;
+        document.onmousemove = null;
+        document.ontouchmove = null;
+        element.style.animationPlayState = "running"; // Resume drift when let go
+      }
+    }
+
+    if (loadMoreBtn) {
+      loadMoreBtn.addEventListener("click", function() {
+        renderBatch(15);
+      });
+    }
+
     function switchTab(tabElement) {
       const targetId = "tab-" + tabElement.getAttribute("data-tab");
       const currentActiveContent = document.querySelector(".tab-content.active");
@@ -318,6 +431,12 @@
       // Handle active menu highlighted links
       tabs.forEach(t => t.classList.remove("active"));
       tabElement.classList.add("active");
+
+      // Lazy load first batch of images only when visitors visit the tab to protect initial page load speeds
+      if (targetId === "tab-images" && !isCanvasInitialized) {
+        renderBatch(20);
+        isCanvasInitialized = true;
+      }
 
       if (currentActiveContent) {
         currentActiveContent.classList.remove("visible");
@@ -335,7 +454,7 @@
       }
     }
 
-    // Dynamic Scroll Opacity: Dims name text as you scroll, but keeps background solid
+    // Dynamic Scroll Opacity: Dims white text as you scroll, but keeps background solid black
     window.addEventListener("scroll", function() {
       if (window.scrollY > 40) {
         siteTitle.classList.add("dimmed");

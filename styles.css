@@ -8,7 +8,7 @@
 
 @font-face {
   font-family: 'ApercuMono';
-  src: url('ApercuMonoProLight.ttf') format('truetype'); /* Pointed directly to Apercu Mono Light */
+  src: url('ApercuMonoProLight.ttf') format('truetype'); /* Swapped directly to Apercu Mono Light weight */
   font-weight: normal;
   font-style: normal;
 }
@@ -60,7 +60,7 @@ body, html, p, .about-text, .portfolio-row, .cv-content, .cv-contact-grid, .cv-i
   top: 40px; /* Sticks 40px from viewport top, in line with site container padding */
   z-index: 1000; /* Stays securely stacked on top of scrolling CV rows */
   margin-bottom: 60px;
-  pointer-events: none; /* Allows clicks to pass through empty container space around your name */
+  pointer-events: none; /* Allows clicks to pass through any empty container space around your name */
 }
 
 .site-title {
@@ -351,29 +351,73 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   color: #444444;
 }
 
-/* --- IMAGES GRAPHIC PLACEHOLDERS --- */
-.image-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 30px;
+/* --- IMAGES & FLOATING COLLAGE --- */
+.scattered-canvas {
+  position: relative;
   width: 100%;
+  min-height: 80vh;
+  margin-top: 40px;
+  overflow: visible; /* Allows floating bounds to bleed cleanly */
 }
 
-.empty-media-placeholder .media-box {
-  background-color: #f7f7f7;
+.floating-image-wrapper {
+  position: absolute;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+  transition: box-shadow 0.3s ease;
+  animation: slow-drift var(--drift-duration) ease-in-out infinite alternate;
+  cursor: grab;
+  user-select: none;
+  background-color: #ffffff; /* Polaroid border background frame */
+  padding: 6px;
+  border: 1px solid #eeeeee;
+}
+
+.floating-image-wrapper:active {
+  cursor: grabbing;
+}
+
+.floating-image-wrapper:hover {
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+  animation-play-state: paused; /* Hover pauses the drift animation */
+}
+
+.floating-image-wrapper img {
+  width: 100%;
+  height: auto;
+  display: block;
+  pointer-events: none; /* Disables native browser ghost dragging on images */
+}
+
+/* Slow structural drift animation */
+@keyframes slow-drift {
+  0% {
+    transform: translate(0, 0) rotate(var(--rot));
+  }
+  100% {
+    transform: translate(var(--drift-x), var(--drift-y)) rotate(calc(var(--rot) + var(--drift-rot)));
+  }
+}
+
+.load-more-btn {
+  display: block;
+  width: fit-content;
+  margin: 60px auto 40px auto;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #000000;
+  background-color: #ffffff;
+  text-decoration: none;
   border: 1px solid #000000;
-  width: 100%;
-  aspect-ratio: 16 / 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #777777;
-  margin-bottom: 10px;
+  padding: 10px 20px;
+  transition: background-color 0.2s, color 0.2s;
+  cursor: pointer;
 }
 
-.empty-media-placeholder p {
-  color: #777777;
-  margin: 0;
+.load-more-btn:hover {
+  background-color: #000000;
+  color: #ffffff;
 }
 
 /* --- MOBILE RESPONSIVENESS --- */
