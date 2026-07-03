@@ -250,11 +250,9 @@
 
       <!-- 4. Images Section -->
       <div id="tab-images" class="tab-content">
-        <p class="section-label">Visual Archive</p>
         <div class="scattered-canvas" id="images-canvas">
-          <!-- Images (1.jpg - 357.jpg & 1.png - 85.png) are dynamically scattered and animated here -->
+          <!-- All 442 images (1.jpg - 357.jpg & 1.png - 85.png) are dynamically scattered and animated here -->
         </div>
-        <button class="load-more-btn" id="load-more-btn">Load More Archive</button>
       </div>
 
       <!-- 5. Research Section -->
@@ -284,7 +282,7 @@
 
   </div>
 
-  <!-- Interactive Tab & Dynamic Scroll Opacity Script -->
+  <!-- Interactive Tab Script -->
   <script>
   (function() {
     const tabs = document.querySelectorAll(".nav-tab");
@@ -309,33 +307,30 @@
 
     let currentTop = 50;
     const canvas = document.getElementById("images-canvas");
-    const loadMoreBtn = document.getElementById("load-more-btn");
     let isCanvasInitialized = false;
 
-    // Renders random batches of images staggered vertically with structural offsets
-    function renderBatch(batchSize = 20) {
+    // Renders the entire randomized image pool vertically down the canvas
+    function renderAllImages() {
       if (!canvas) return;
       
-      for (let i = 0; i < batchSize; i++) {
-        if (imagePool.length === 0) {
-          if (loadMoreBtn) loadMoreBtn.style.display = "none";
-          return;
-        }
+      const totalImages = imagePool.length;
+      for (let i = 0; i < totalImages; i++) {
         const imgSrc = imagePool.pop();
         
         const wrapper = document.createElement("div");
+        class_str = "floating-image-wrapper";
         wrapper.className = "floating-image-wrapper";
         
-        // Random positioning properties
-        const leftPercent = Math.random() * 65; // Keeps images safe from breaking horizontal margins
-        const rotation = (Math.random() * 16) - 8; // Staggered initial rotation (-8deg to 8deg)
-        const driftX = (Math.random() * 20) - 10; // Slow hover animation drifts
-        const driftY = (Math.random() * 20) - 10;
-        const driftRot = (Math.random() * 4) - 2;
-        const driftDuration = 5 + (Math.random() * 5); // 5s to 10s animation durations
-        
-        wrapper.style.left = `${leftPercent}%`;
-        wrapper.style.top = `${currentTop}px`;
+        // Stagger positions randomly left-to-right
+        const randomLeft = Math.random() * 65; // Keeping safe distance from scrollbar boundary
+        const randomRotation = (Math.random() * 10) - 5; // Staggered -5 to 5 degrees rotation
+        const driftX = (Math.random() * 15) - 7.5; // Stagger horizontal drift offset
+        const driftY = (Math.random() * 15) - 7.5; // Stagger vertical drift offset
+        const driftRot = (Math.random() * 4) - 2; // Stagger rotation drift
+        const driftDuration = 4 + (Math.random() * 4); // Slow drifting speeds
+
+        wrapper.style.left = `${randomLeft}%`;
+        wrapper.style.top = `${50 + (i * 280)}px`; /* Staggered offsets prevents overlaps */
         wrapper.style.setProperty('--rot', `${rotation}deg`);
         wrapper.style.setProperty('--drift-x', `${driftX}px`);
         wrapper.style.setProperty('--drift-y', `${driftY}px`);
@@ -359,7 +354,7 @@
         currentTop += (randomWidth * 0.75) + (Math.random() * 60);
       }
       
-      // Keep canvas container sized correctly so document body scrolls smoothly
+      // Sized correctly so document body scrolls smoothly
       canvas.style.height = `${currentTop + 200}px`;
     }
 
@@ -413,12 +408,6 @@
       }
     }
 
-    if (loadMoreBtn) {
-      loadMoreBtn.addEventListener("click", function() {
-        renderBatch(15);
-      });
-    }
-
     function switchTab(tabElement) {
       const targetId = "tab-" + tabElement.getAttribute("data-tab");
       const currentActiveContent = document.querySelector(".tab-content.active");
@@ -434,7 +423,7 @@
 
       // Lazy load first batch of images only when visitors visit the tab to protect initial page load speeds
       if (targetId === "tab-images" && !isCanvasInitialized) {
-        renderBatch(20);
+        renderAllImages();
         isCanvasInitialized = true;
       }
 
@@ -454,7 +443,7 @@
       }
     }
 
-    // Dynamic Scroll Opacity: Dims white text as you scroll, but keeps background solid black
+    // Dynamic Scroll Opacity: Dims white text to #dddddd as you scroll, but keeps background solid black
     window.addEventListener("scroll", function() {
       if (window.scrollY > 40) {
         siteTitle.classList.add("dimmed");

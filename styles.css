@@ -15,7 +15,7 @@
 
 /* --- RESET AND BASE WEB LAYOUT --- */
 html {
-  overflow-y: scroll !important; /* Force vertical scroll bar to prevent horizontal layout shift on tab switch */
+  overflow-y: scroll !important; /* Force a permanent vertical scroll bar to prevent horizontal layout shift on tab changes */
   overflow-x: hidden;
 }
 
@@ -80,11 +80,11 @@ body, html, p, .about-text, .portfolio-row, .cv-content, .cv-contact-grid, .cv-i
 
 /* 
   Instead of using 'opacity' on the entire element (which would make the black background box 
-  transparent and let text bleed through), we dim ONLY the white text color to 25%.
+  transparent and let text bleed through), we dim ONLY the white text color to light grey (#dddddd).
   The black background box remains 100% solid and opaque, cleanly blocking out any scrolling text behind it.
 */
 .site-title.dimmed {
-  color: rgba(255, 255, 255, 0.25) !important;
+  color: #dddddd !important; /* Light-grey color text transition */
 }
 
 /* Size 2: Body Size (Uniformly applied to all other text and sections) */
@@ -360,6 +360,10 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   overflow: visible; /* Allows floating bounds to bleed cleanly */
 }
 
+/* 
+  Removed padding: 6px, border: 1px solid #eeeeee, and background-color: #ffffff
+  to display the raw transparent-background images with their shadows.
+*/
 .floating-image-wrapper {
   position: absolute;
   box-shadow: 0 4px 15px rgba(0,0,0,0.06);
@@ -367,9 +371,6 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   animation: slow-drift var(--drift-duration) ease-in-out infinite alternate;
   cursor: grab;
   user-select: none;
-  background-color: #ffffff; /* Polaroid border background frame */
-  padding: 6px;
-  border: 1px solid #eeeeee;
 }
 
 .floating-image-wrapper:active {
@@ -396,28 +397,6 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   100% {
     transform: translate(var(--drift-x), var(--drift-y)) rotate(calc(var(--rot) + var(--drift-rot)));
   }
-}
-
-.load-more-btn {
-  display: block;
-  width: fit-content;
-  margin: 60px auto 40px auto;
-  font-family: 'DM Mono', monospace;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #000000;
-  background-color: #ffffff;
-  text-decoration: none;
-  border: 1px solid #000000;
-  padding: 10px 20px;
-  transition: background-color 0.2s, color 0.2s;
-  cursor: pointer;
-}
-
-.load-more-btn:hover {
-  background-color: #000000;
-  color: #ffffff;
 }
 
 /* --- MOBILE RESPONSIVENESS --- */
