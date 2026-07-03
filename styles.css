@@ -351,13 +351,12 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   color: #444444;
 }
 
-/* --- IMAGES & FLOATING COLLAGE --- */
-.scattered-canvas {
-  position: relative;
+/* --- IMAGES GRAPHIC PLACEHOLDERS --- */
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
   width: 100%;
-  min-height: 80vh;
-  margin-top: 40px;
-  overflow: visible; /* Allows floating bounds to bleed cleanly */
 }
 
 /* 

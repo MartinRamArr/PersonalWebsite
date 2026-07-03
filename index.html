@@ -290,72 +290,70 @@
     const siteTitle = document.querySelector(".site-title");
     let timeoutId = null;
 
-    // --- DYNAMIC SCATTERED ARCHIVE SYSTEM ---
+    // Define resources pools
     const totalJpgs = 357;
     const totalPngs = 85;
     const imagePool = [];
-    
-    // Build references to your sequential files
     for (let i = 1; i <= totalJpgs; i++) imagePool.push(`${i}.jpg`);
     for (let i = 1; i <= totalPngs; i++) imagePool.push(`${i}.png`);
-    
-    // Shuffle the reference array to intermix JPGs and PNGs randomly
-    for (let i = imagePool.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [imagePool[i], imagePool[j]] = [imagePool[j], imagePool[i]];
+
+    // Shuffle array utility
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
     }
+    shuffleArray(imagePool);
 
-    let currentTop = 50;
-    const canvas = document.getElementById("images-canvas");
-    let isCanvasInitialized = false;
-
-    // Renders the entire randomized image pool vertically down the canvas
     function renderAllImages() {
+      const canvas = document.getElementById("images-canvas");
       if (!canvas) return;
-      
+
+      let currentTop = 50;
       const totalImages = imagePool.length;
+
       for (let i = 0; i < totalImages; i++) {
-        const imgSrc = imagePool.pop();
-        
+        const imgSrc = imagePool[i];
+
         const wrapper = document.createElement("div");
-        class_str = "floating-image-wrapper";
         wrapper.className = "floating-image-wrapper";
-        
-        // Stagger positions randomly left-to-right
-        const randomLeft = Math.random() * 65; // Keeping safe distance from scrollbar boundary
-        const randomRotation = (Math.random() * 10) - 5; // Staggered -5 to 5 degrees rotation
-        const driftX = (Math.random() * 15) - 7.5; // Stagger horizontal drift offset
-        const driftY = (Math.random() * 15) - 7.5; // Stagger vertical drift offset
-        const driftRot = (Math.random() * 4) - 2; // Stagger rotation drift
-        const driftDuration = 4 + (Math.random() * 4); // Slow drifting speeds
+
+        // Generate precise random layout attributes
+        const randomLeft = Math.random() * 65; // Safeguard within browser viewport limits
+        const randomRotation = (Math.random() * 16) - 8; // Staggered -8deg to 8deg
+        const driftX = (Math.random() * 20) - 10; // Left-to-right drift offsets
+        const driftY = (Math.random() * 20) - 10; // Up-and-down drift offsets
+        const driftRot = (Math.random() * 4) - 2;
+        const driftDuration = 5 + (Math.random() * 5); // Fluid drifting speed
 
         wrapper.style.left = `${randomLeft}%`;
-        wrapper.style.top = `${50 + (i * 280)}px`; /* Staggered offsets prevents overlaps */
-        wrapper.style.setProperty('--rot', `${rotation}deg`);
+        wrapper.style.top = `${currentTop}px`;
+        wrapper.style.setProperty('--rot', `${randomRotation}deg`); // Fixed: pointed back to correct variable
         wrapper.style.setProperty('--drift-x', `${driftX}px`);
         wrapper.style.setProperty('--drift-y', `${driftY}px`);
         wrapper.style.setProperty('--drift-rot', `${driftRot}deg`);
         wrapper.style.setProperty('--drift-duration', `${driftDuration}s`);
-        
-        // Stagger widths between 180px and 280px for a raw editorial collage look
+
+        // Stagger visual sizes organically
         const randomWidth = 180 + Math.floor(Math.random() * 100);
         wrapper.style.width = `${randomWidth}px`;
-        
+
         const img = document.createElement("img");
         img.src = imgSrc;
-        img.loading = "lazy"; // Standard load performance optimization
-        
+        img.loading = "lazy";
+
         wrapper.appendChild(img);
         canvas.appendChild(wrapper);
-        
+
         makeDraggable(wrapper);
-        
-        // Advance down the vertical canvas
+
+        // Advance down the vertical canvas organically to prevent clusters
         currentTop += (randomWidth * 0.75) + (Math.random() * 60);
       }
-      
-      // Sized correctly so document body scrolls smoothly
-      canvas.style.height = `${currentTop + 200}px`;
+
+      // Automatically adjust container height
+      canvas.style.height = `${currentTop + 300}px`;
     }
 
     // Hand-engineered Drag and Drop logic with Touchscreen support
@@ -443,7 +441,7 @@
       }
     }
 
-    // Dynamic Scroll Opacity: Dims white text to #dddddd as you scroll, but keeps background solid black
+    // Dynamic Scroll Opacity (Name dims down when scrolling)
     window.addEventListener("scroll", function() {
       if (window.scrollY > 40) {
         siteTitle.classList.add("dimmed");
