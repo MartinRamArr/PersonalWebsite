@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mario Martin Ramirez Arrazola</title>
+  <title>Mario Martin Ramirez-Arrazola</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -22,7 +22,7 @@
 
     <!-- Name placed below navigation bar -->
     <header class="site-header">
-      <h1 class="site-title">Mario Martin Ramirez Arrazola</h1>
+      <h1 class="site-title">Mario Martin Ramirez-Arrazola</h1>
     </header>
 
     <!-- Interactive Content Wrapper -->
@@ -253,6 +253,7 @@
         <div class="scattered-canvas" id="images-canvas">
           <!-- All 442 images (1.jpg - 357.jpg & 1.png - 85.png) are dynamically scattered and animated here -->
         </div>
+        <button class="load-more-btn" id="load-more-btn">Load More Archive</button>
       </div>
 
       <!-- 5. Research Section -->
@@ -306,21 +307,27 @@
     }
     shuffleArray(imagePool);
 
-    function renderAllImages() {
-      const canvas = document.getElementById("images-canvas");
+    let currentTop = 50;
+    const canvas = document.getElementById("images-canvas");
+    const loadMoreBtn = document.getElementById("load-more-btn");
+    let isCanvasInitialized = false;
+
+    // Renders images in stable batches of 20 to protect browser memory performance
+    function renderBatch(batchSize = 20) {
       if (!canvas) return;
 
-      let currentTop = 50;
-      const totalImages = imagePool.length;
-
-      for (let i = 0; i < totalImages; i++) {
-        const imgSrc = imagePool[i];
+      for (let i = 0; i < batchSize; i++) {
+        if (imagePool.length === 0) {
+          if (loadMoreBtn) loadMoreBtn.style.display = "none";
+          return;
+        }
+        const imgSrc = imagePool.pop(); // Safely pop elements
 
         const wrapper = document.createElement("div");
         wrapper.className = "floating-image-wrapper";
-        
+
         // Generate precise random layout attributes
-        const randomLeft = Math.random() * 65; // Safeguard within browser viewport limits
+        const randomLeft = Math.random() * 65; 
         const rotation = (Math.random() * 16) - 8; // Staggered -8deg to 8deg
         const driftX = (Math.random() * 20) - 10; // Left-to-right drift offsets
         const driftY = (Math.random() * 20) - 10; // Up-and-down drift offsets
@@ -329,30 +336,30 @@
 
         wrapper.style.left = `${randomLeft}%`;
         wrapper.style.top = `${currentTop}px`;
-        wrapper.style.setProperty('--rot', `${rotation}deg`); // Correctly references the rotation variable
+        wrapper.style.setProperty('--rot', `${rotation}deg`); // References the corrected rotation variable
         wrapper.style.setProperty('--drift-x', `${driftX}px`);
         wrapper.style.setProperty('--drift-y', `${driftY}px`);
         wrapper.style.setProperty('--drift-rot', `${driftRot}deg`);
         wrapper.style.setProperty('--drift-duration', `${driftDuration}s`);
-        
+
         // Stagger visual sizes organically
         const randomWidth = 180 + Math.floor(Math.random() * 100);
         wrapper.style.width = `${randomWidth}px`;
-        
+
         const img = document.createElement("img");
         img.src = imgSrc;
-        img.loading = "lazy"; // Standard load performance optimization
-        
+        img.loading = "lazy";
+
         wrapper.appendChild(img);
         canvas.appendChild(wrapper);
-        
+
         makeDraggable(wrapper);
-        
+
         // Advance down the vertical canvas organically to prevent clusters
         currentTop += (randomWidth * 0.75) + (Math.random() * 60);
       }
-      
-      // Sized correctly so document body scrolls smoothly
+
+      // Automatically adjust container height
       canvas.style.height = `${currentTop + 300}px`;
     }
 
@@ -406,6 +413,12 @@
       }
     }
 
+    if (loadMoreBtn) {
+      loadMoreBtn.addEventListener("click", function() {
+        renderBatch(15);
+      });
+    }
+
     function switchTab(tabElement) {
       const targetId = "tab-" + tabElement.getAttribute("data-tab");
       const currentActiveContent = document.querySelector(".tab-content.active");
@@ -421,7 +434,7 @@
 
       // Lazy load first batch of images only when visitors visit the tab to protect initial page load speeds
       if (targetId === "tab-images" && !isCanvasInitialized) {
-        renderAllImages();
+        renderBatch(20);
         isCanvasInitialized = true;
       }
 
