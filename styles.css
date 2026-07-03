@@ -49,24 +49,36 @@ body, html, p, .about-text, .portfolio-row, .cv-content, .cv-contact-grid, .cv-i
 
 /* --- ONLY TWO SIZES GLOBALLY --- */
 /* Size 1: Header Size */
+.site-header {
+  position: sticky; /* Keeps your name frozen when scrolling */
+  top: 40px; /* Sticks 40px from the viewport top, in line with site container padding */
+  z-index: 1000; /* Stays securely stacked on top of scrolling CV rows */
+  margin-bottom: 60px;
+  pointer-events: none; /* Allows clicks to pass through any empty container space around your name */
+}
+
 .site-title {
-  display: inline-block; /* Wraps the black box tightly around the text */
-  background-color: #000000; /* Black background */
+  display: inline-block; /* Black box only encloses the text width */
+  background-color: #000000; /* Solid black background */
   color: #ffffff !important; /* White text */
-  padding: 10px 20px; /* Precise framing padding */
+  padding: 10px 20px; /* Precise padding around your name */
   font-size: 2.2rem !important; 
   line-height: 1.1;
   font-weight: 500;
   letter-spacing: -0.04em;
   text-transform: none;
   margin: 0;
-  opacity: 1;
-  transition: opacity 0.3s ease; /* Smooth fade when dimming name block */
+  pointer-events: auto; /* Re-enables hover/clicking events on the name itself */
+  transition: color 0.3s ease; /* Transition color opacity instead of element opacity */
 }
 
-/* Dimmed name block state active when outside of the Home tab */
+/* 
+  Instead of using 'opacity: 0.25' on the entire element (which would make the black background box 
+  transparent and let text bleed through), we dim ONLY the white text color to 25%.
+  The black background box remains 100% solid and opaque, cleanly blocking out any scrolling text behind it.
+*/
 .site-title.dimmed {
-  opacity: 0.25;
+  color: rgba(255, 255, 255, 0.25) !important;
 }
 
 /* Size 2: Body Size (Uniformly applied to all other text and sections) */
@@ -101,11 +113,6 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 .top-nav .nav-tab:hover, .top-nav .nav-tab.active {
   opacity: 1 !important;
   color: #000000 !important;
-}
-
-/* --- HEADER --- */
-.site-header {
-  margin-bottom: 60px;
 }
 
 /* --- TAB TRANSITIONS --- */
