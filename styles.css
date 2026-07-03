@@ -175,30 +175,11 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 }
 
 /* --- PORTFOLIO & IMMERSIVE PDF VIEWER --- */
-.portfolio-action-container {
-  margin-bottom: 30px;
-}
-
-.portfolio-pdf-btn {
-  display: inline-block;
-  font-family: 'DM Mono', monospace;
-  font-size: 0.95rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #000000;
-  text-decoration: none;
-  border: 1px solid #000000;
-  padding: 12px 24px;
-  transition: background-color 0.2s, color 0.2s;
-  cursor: pointer;
-}
-
-.portfolio-pdf-btn:hover {
-  background-color: #000000;
-  color: #ffffff;
-}
-
-/* High-fidelity full scale responsive frame mapping */
+/* 
+  Removed margin-top constraints, the selected works labels, and download actions.
+  The container now mounts directly at the top of the tab wrapper, letting the 
+  sticky name header float beautifully over the PDF on scroll.
+*/
 .pdf-viewer-container {
   width: 100%;
   height: 105vh; /* Immersive landscape ratio mapping */
@@ -206,7 +187,10 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   border: 1px solid #000000;
   background-color: #f7f7f7;
   box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  margin-top: 0px !important;
   margin-bottom: 40px;
+  position: relative;
+  z-index: 1; /* Sits underneath sticky name block (z-index 1000) */
 }
 
 .pdf-iframe {
