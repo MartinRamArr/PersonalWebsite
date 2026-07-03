@@ -1,0 +1,378 @@
+/* --- RESET AND BASE WEB LAYOUT --- */
+html, body {
+  background-color: #ffffff;
+  color: #000000;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+  font-family: 'Inter', -apple-system, sans-serif;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Master Layout Container */
+.mario-portfolio-root {
+  background-color: #ffffff;
+  color: #000000;
+  padding: 40px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* --- HORIZONTAL NAVIGATION --- */
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #000000;
+  padding-bottom: 15px;
+  margin-bottom: 40px;
+}
+
+.nav-tab {
+  text-decoration: none;
+  color: #000000;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.25;
+  transition: opacity 0.3s ease;
+}
+
+.top-nav:hover .nav-tab {
+  opacity: 0.15;
+}
+.top-nav .nav-tab:hover, .top-nav .nav-tab.active {
+  opacity: 1 !important;
+}
+
+/* --- HEADER --- */
+.site-header {
+  margin-bottom: 60px;
+}
+
+.site-title {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 2.8rem;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  text-transform: none;
+  margin: 0;
+}
+
+/* --- TAB TRANSITIONS --- */
+.content-wrapper {
+  position: relative;
+  min-height: 500px;
+}
+
+.tab-content {
+  display: none;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.tab-content.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --- LABELS & SECTION STYLING --- */
+.section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #888888;
+  margin-bottom: 30px;
+  border-bottom: 1px dashed #dddddd;
+  padding-bottom: 5px;
+  display: inline-block;
+}
+
+.about-text, .text-block {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.4rem;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+  max-width: 800px;
+  color: #000000;
+}
+
+.editorial-p {
+  font-size: 1.5rem;
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+/* --- PORTFOLIO ROWS --- */
+.portfolio-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.portfolio-row {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #eeeeee;
+  padding: 12px 0;
+  font-size: 1.1rem;
+}
+
+.portfolio-row:hover {
+  background-color: #fcfcfc;
+}
+
+.proj-date {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.9rem;
+  width: 100px;
+}
+
+.proj-title {
+  flex-grow: 1;
+  font-weight: 500;
+}
+
+.proj-type {
+  font-size: 0.95rem;
+  color: #666666;
+  text-align: right;
+}
+
+/* --- BLOG ENTRIES --- */
+.blog-entry {
+  margin-bottom: 30px;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 20px;
+}
+
+.blog-entry h3 {
+  font-size: 1.3rem;
+  font-weight: 400;
+  margin: 5px 0 0 0;
+}
+
+.entry-date {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.85rem;
+  color: #888888;
+}
+
+/* --- COMPREHENSIVE CV SPLIT-GRID --- */
+.cv-container {
+  font-family: 'Inter', sans-serif;
+  color: #000000;
+  max-width: 900px;
+  margin-top: 20px;
+}
+
+.cv-row {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 40px;
+  border-bottom: 1px solid #eeeeee;
+  padding: 30px 0;
+}
+
+.cv-row:last-child {
+  border-bottom: none;
+}
+
+.cv-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #888888;
+  padding-top: 4px;
+}
+
+.cv-content {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.cv-contact-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px 20px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.9rem;
+}
+
+.cv-item {
+  margin-bottom: 28px;
+}
+
+.cv-item:last-child {
+  margin-bottom: 0;
+}
+
+.cv-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+
+.cv-item-title {
+  color: #000000;
+}
+
+.cv-item-meta {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.85rem;
+  color: #666666;
+  font-weight: 300;
+}
+
+.cv-item-date {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.85rem;
+  color: #888888;
+  margin: 3px 0 8px 0;
+}
+
+.cv-item-desc {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #444444;
+  max-width: 680px;
+}
+
+.cv-skills-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.95rem;
+}
+
+.cv-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.95rem;
+  padding: 8px 0;
+  border-bottom: 1px dashed #f0f0f0;
+}
+
+.cv-list-item:last-child {
+  border-bottom: none;
+}
+
+.cv-list-meta {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.85rem;
+  color: #888888;
+  white-space: nowrap;
+  margin-left: 20px;
+}
+
+.cv-awards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px 30px;
+  font-size: 0.9rem;
+}
+
+.cv-interests {
+  font-size: 0.95rem;
+  color: #444444;
+  line-height: 1.6;
+}
+
+/* --- IMAGES GRAPHIC PLACEHOLDERS --- */
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+}
+
+.empty-media-placeholder .media-box {
+  background-color: #f7f7f7;
+  border: 1px solid #000000;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.9rem;
+  color: #777777;
+  margin-bottom: 10px;
+}
+
+.empty-media-placeholder p {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.8rem;
+  color: #777777;
+  margin: 0;
+}
+
+/* --- MOBILE RESPONSIVENESS --- */
+@media (max-width: 768px) {
+  .mario-portfolio-root {
+    padding: 20px;
+  }
+  
+  .top-nav {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  
+  .site-title {
+    font-size: 1.8rem;
+  }
+  
+  .portfolio-row {
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .proj-type {
+    text-align: left;
+  }
+  
+  .cv-row {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 20px 0;
+  }
+  
+  .cv-contact-grid, .cv-awards-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  
+  .cv-item-header {
+    flex-direction: column;
+    gap: 2px;
+  }
+  
+  .cv-list-item {
+    flex-direction: column;
+    gap: 4px;
+    padding: 10px 0;
+  }
+  
+  .cv-list-meta {
+    margin-left: 0;
+  }
+  
+  .image-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
