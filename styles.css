@@ -33,7 +33,7 @@ body {
 .mario-portfolio-root, .site-container {
   background-color: #ffffff;
   color: #000000;
-  padding: 3vh 40px 30px 120px; 
+  padding: 3vh 40px 40px 120px; 
   width: 100%;
   max-width: 100% !important; /* Spans full width edge-to-edge with no margins */
   margin: 0 !important;
@@ -149,7 +149,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 /* --- TAB TRANSITIONS --- */
 .content-wrapper {
   position: relative;
-  min-height: auto; /* Removed fixed height limits to keep the canvas light and scroll-free */
+  min-height: 500px;
   width: 100%;
 }
 
@@ -185,9 +185,6 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   with clean 25px paragraph spacing, but keeping horizontal max-width alignment).
   We add a solid black background and white text inside, formatted with generous
   padding to form a brutalist text layout.
-  Stricter horizontal boundaries have been configured. The .about-text (black biography box)
-  is restricted to max-width: 26.5% on desktop monitors. This aligns the right edge of your
-  biography block with the right edge of the PORTFOLIO navigation tab at the top of the viewport.
 */
 .about-text {
   display: block !important;
@@ -223,7 +220,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 #tab-home {
   position: relative;
   width: 100%;
-  height: auto; /* Reverted to auto so it wraps the biography content cleanly */
+  height: auto; /* Removed fixed height limits to keep the canvas light and scroll-free */
   box-sizing: border-box;
 }
 
@@ -493,7 +490,6 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 /* 
   Removed padding: 6px, border: 1px solid #eeeeee, and background-color: #ffffff
   to display the raw transparent-background images with their shadows.
-  Added explicit border/outline resets to guarantee absolute borderless images.
 */
 .floating-image-wrapper {
   position: absolute;
@@ -522,16 +518,6 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   pointer-events: none; /* Disables native browser ghost dragging on images */
   border: none !important; /* Safeguards raw images from browser outline borders */
   outline: none !important;
-}
-
-/* Slow structural drift animation */
-@keyframes slow-drift {
-  0% {
-    transform: translate(0, 0) rotate(var(--rot));
-  }
-  100% {
-    transform: translate(var(--drift-x), var(--drift-y)) rotate(calc(var(--rot) + var(--drift-rot)));
-  }
 }
 
 .load-more-btn {

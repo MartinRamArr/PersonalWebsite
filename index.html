@@ -222,7 +222,7 @@
                 <div>Robberson Travel Grant (2021)</div>
                 <div>Segal AmeriCorps Education Award (2021)</div>
                 <div>Undergraduate Research Scholar Designation (2021)</div>
-                <div>2021 CSBS Student Research Day Choice Award (2021)</div>
+                <div>CSBS Student Research Day Choice Award (2021)</div>
                 <div>Stephen and Lynda Jacobsen Scholarship (2021)</div>
                 <div>Economics Department Scholar (2020)</div>
                 <div>Kem C. Gardner Policy Institute Scholar (2020)</div>
@@ -252,7 +252,7 @@
       <!-- 4. Images Section -->
       <div id="tab-images" class="tab-content">
         <div class="scattered-canvas" id="images-canvas">
-          <!-- All 438 images (1.jpg - 353.jpg & 1.png - 85.png) are dynamically scattered and animated here in stable batches -->
+          <!-- All 438 images (1.jpg - 353.jpg & 1.png - 85.png) are dynamically scattered and animated here in batches -->
         </div>
         <button class="load-more-btn" id="load-more-btn">Load More Archive</button>
       </div>
@@ -419,11 +419,34 @@
       }
     }
 
-    if (loadMoreBtn) {
-      loadMoreBtn.addEventListener("click", function() {
-        renderBatch(15);
-      });
+    // Randomly selects an image and applies a risograph, photocopy, grain, or halftone filter on page load
+    function initializeHomepageArtwork() {
+      const artImg = document.getElementById("dynamic-artwork");
+      const artFrame = document.querySelector(".artwork-frame");
+      if (!artImg || !artFrame) return;
+
+      // 1. Pick JPG (75% probability) or PNG (25% probability)
+      const useJpg = Math.random() > 0.25;
+      let selectedFile = "";
+      if (useJpg) {
+        const randomJpgId = Math.floor(Math.random() * totalJpgs) + 1;
+        selectedFile = `${randomJpgId}.jpg`;
+      } else {
+        const randomPngId = Math.floor(Math.random() * totalPngs) + 1;
+        selectedFile = `${randomPngId}.png`;
+      }
+
+      // 2. Set the image source
+      artImg.src = selectedFile;
+
+      // 3. Pick and apply a random post-modern graphic filter class
+      const effects = ["effect-photocopy", "effect-risograph", "effect-grain", "effect-halftone"];
+      const chosenEffect = effects[Math.floor(Math.random() * effects.length)];
+      artFrame.classList.add(chosenEffect);
     }
+
+    // Run the dynamic artwork compiler on page load
+    initializeHomepageArtwork();
 
     function switchTab(tabElement) {
       const targetId = "tab-" + tabElement.getAttribute("data-tab");
@@ -440,7 +463,7 @@
 
       // Lazy load first batch of images only when visitors visit the tab to protect initial page load speeds
       if (targetId === "tab-images" && !isCanvasInitialized) {
-        renderBatch(20); // CORRECTED DISCREPANCY: Properly calls the active renderBatch function to load images correctly
+        renderBatch(20); // FIXED: Correctly matched the function name to 'renderBatch' to fully restore image page operation
         isCanvasInitialized = true;
       }
 
