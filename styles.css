@@ -8,7 +8,7 @@
 
 @font-face {
   font-family: 'NudistaLight';
-  src: url('NudistaLight.otf') format('truetype'); /* Swapped directly to Open Sans Light weight */
+  src: url('NudistaLight.otf') format('opentype'); /* Loaded Nudista Light OTF as requested */
   font-weight: 300;
   font-style: normal;
 }
@@ -29,10 +29,7 @@ body {
   font-family: 'NudistaLight', sans-serif;
 }
 
-/* 
-  Master Layout Container (Completely full-bleed, stretching 100% horizontally)
-  Padding-left is offset by 120px to leave plenty of breathing room for the vertical bar.
-*/
+/* Master Layout Container (Completely full-bleed, stretching 100% horizontally) */
 .mario-portfolio-root, .site-container {
   background-color: #ffffff;
   color: #000000;
@@ -52,17 +49,15 @@ body {
 
 /* Body Font Family */
 body, html, p, .about-text, .portfolio-row, .cv-content, .cv-contact-grid, .cv-item-desc, .cv-list-item, .cv-awards-grid, .cv-interests, .blog-entry {
-  font-family: 'NudistaLight', sans-serif;
+  font-family: 'NudistaLight', sans-serif; /* Applied Nudista Light across all body copy elements */
 }
 
 /* --- ONLY TWO SIZES GLOBALLY --- */
 /* Size 1: Header Size */
-/* 
-  Fixed Vertical Sidebar (Stays fixed on the left on all pages)
-  Spans the full page height and transitions background color to #dddddd on scroll.
-*/
 .site-header {
-  position: fixed;
+  position: -webkit-sticky;
+  position: sticky; 
+  position: fixed; /* Keep your name sidebar frozen when scrolling */
   top: 0;
   left: 0;
   width: 70px;
@@ -81,7 +76,7 @@ body, html, p, .about-text, .portfolio-row, .cv-content, .cv-contact-grid, .cv-i
 }
 
 .site-title {
-  font-family: 'AkzidenzGrotesk', -apple-system, sans-serif;
+  display: inline-block;
   color: #ffffff !important; /* Keep text straight white */
   font-size: 1.8rem !important; 
   line-height: 1.1;
@@ -90,15 +85,13 @@ body, html, p, .about-text, .portfolio-row, .cv-content, .cv-contact-grid, .cv-i
   text-transform: uppercase; /* ALL CAPS */
   margin: 0;
   padding: 0;
-  background: none !important; /* Background handled by parent site-header */
+  text-decoration: none; /* Removes links underlines */
+  pointer-events: auto; /* Re-enables hover/clicking events on the name itself */
   
-  /* Native CSS Vertical Text Justified vertically to stretch and span across the screen height */
+  /* Native CSS Vertical Text */
   writing-mode: vertical-rl; /* Vertical text flow from top to bottom */
   text-orientation: mixed;
   transform: rotate(180deg); /* Rotates so it reads bottom-to-top elegantly */
-  text-align: justify; /* Aligns both vertical edges */
-  text-justify: inter-character; /* Evenly spaces characters across the height */
-  height: 85vh; /* Stretches the text to span 85% of the viewport height */
   white-space: nowrap;
 }
 
@@ -170,7 +163,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 }
 
 .about-text, .text-block {
-  max-width: 850px; /* Constrains readable text blocks on broad screens */
+  max-width: 40% !important; /* Constrains text blocks horizontally to end where the Resume tab begins on desktop */
   color: #000000;
 }
 
@@ -205,7 +198,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   margin-top: 0px !important;
   margin-bottom: 40px;
   position: relative;
-  z-index: 1; /* Sits underneath sticky name block (z-index 1000) */
+  z-index: 1; /* Sits underneath sticky name block (z-index 2000) */
 }
 
 .pdf-iframe {
@@ -234,7 +227,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 }
 
 .proj-date {
-  font-family: 'NudistaLight', monospace;
+  font-family: 'DM Mono', monospace;
   font-size: 0.9rem;
   width: 100px;
 }
@@ -264,7 +257,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 }
 
 .entry-date {
-  font-family: 'NudistaLight', monospace;
+  font-family: 'DM Mono', monospace;
   font-size: 0.85rem;
   color: #888888;
 }
@@ -290,7 +283,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 }
 
 .cv-label {
-  font-family: 'NudistaLight', monospace;
+  font-family: 'NudistaLight', sans-serif;
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -307,8 +300,6 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px 20px;
-  font-family: 'NudistaLight', monospace;
-  font-size: 0.9rem;
 }
 
 .cv-item {
@@ -332,15 +323,10 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 }
 
 .cv-item-meta {
-  font-family: 'NudistaLight', monospace;
-  font-size: 0.85rem;
-  color: #666666;
   font-weight: 300;
 }
 
 .cv-item-date {
-  font-family: 'NudistaLight', monospace;
-  font-size: 0.85rem;
   color: #888888;
   margin: 3px 0 8px 0;
 }
@@ -356,7 +342,6 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   display: flex;
   flex-direction: column;
   gap: 8px;
-  font-size: 0.95rem;
 }
 
 .cv-list-item {
@@ -373,8 +358,6 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 }
 
 .cv-list-meta {
-  font-family: 'NudistaLight', monospace;
-  font-size: 0.85rem;
   color: #888888;
   white-space: nowrap;
   margin-left: 20px;
@@ -384,7 +367,6 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 8px 30px;
-  font-size: 0.9rem;
 }
 
 .cv-interests {
@@ -443,7 +425,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   display: block;
   width: fit-content;
   margin: 60px auto 40px auto;
-  font-family: 'NudistaLight', monospace;
+  font-family: 'NudistaLight', sans-serif;
   font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -471,6 +453,10 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 12px;
+  }
+  
+  .about-text, .text-block {
+    max-width: 100% !important; /* Scale content to span full width on mobile viewports */
   }
   
   .site-header {

@@ -20,9 +20,9 @@
       <a href="#" class="nav-tab" data-tab="blog">Blog</a>
     </nav>
 
-    <!-- Vertical Name Sidebar (Stays fixed on the left on all pages) -->
+    <!-- Vertical Name Sidebar with Mailto prompt -->
     <header class="site-header">
-      <h1 class="site-title">MARIO MARTIN RAMIREZ-ARRAZOLA</h1>
+      <a href="mailto:marioramirezarrazola@gmail.com" class="site-title">MARIO MARTIN RAMIREZ-ARRAZOLA</a>
     </header>
 
     <!-- Interactive Content Wrapper -->
@@ -258,7 +258,7 @@
 
   </div>
 
-  <!-- Interactive Tab & Dynamic Scroll Opacity Script -->
+  <!-- Interactive Tab Script -->
   <script>
   (function() {
     const tabs = document.querySelectorAll(".nav-tab");
@@ -388,12 +388,6 @@
       }
     }
 
-    if (loadMoreBtn) {
-      loadMoreBtn.addEventListener("click", function() {
-        renderBatch(15);
-      });
-    }
-
     function switchTab(tabElement) {
       const targetId = "tab-" + tabElement.getAttribute("data-tab");
       const currentActiveContent = document.querySelector(".tab-content.active");
@@ -409,7 +403,7 @@
 
       // Lazy load first batch of images only when visitors visit the tab to protect initial page load speeds
       if (targetId === "tab-images" && !isCanvasInitialized) {
-        renderBatch(20); // FIXED: Swapped back to 'renderBatch' function to restore the stable loader
+        renderBatch(20); // FIXED: Restored to 'renderBatch' function to run the stable lazy loader
         isCanvasInitialized = true;
       }
 
@@ -429,7 +423,7 @@
       }
     }
 
-    // Dynamic Scroll Opacity: Background dims to #dddddd on scroll
+    // Dynamic Scroll Opacity: Background of the sidebar dims to #dddddd on scroll
     window.addEventListener("scroll", function() {
       if (window.scrollY > 40) {
         siteHeader.classList.add("dimmed");
