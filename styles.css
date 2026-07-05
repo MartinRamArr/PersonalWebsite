@@ -54,10 +54,12 @@ body, html, p, .about-text, .portfolio-row, .cv-content, .cv-contact-grid, .cv-i
 
 /* --- ONLY TWO SIZES GLOBALLY --- */
 /* Size 1: Header Size */
+/* 
+  Fixed Vertical Sidebar (Stays fixed on the left on all pages)
+  Spans the full page height and transitions background color to #dddddd on scroll.
+*/
 .site-header {
-  position: -webkit-sticky;
-  position: sticky; 
-  position: fixed; /* Keep your name sidebar frozen when scrolling */
+  position: fixed;
   top: 0;
   left: 0;
   width: 70px;
@@ -65,8 +67,8 @@ body, html, p, .about-text, .portfolio-row, .cv-content, .cv-contact-grid, .cv-i
   background-color: #000000;
   z-index: 2000; /* Stays securely stacked on top of scrolling CV rows */
   display: flex;
-  align-items: center; /* Centers the vertical text */
-  justify-content: center;
+  align-items: center; /* Centers the vertical text block horizontally */
+  justify-content: center; /* Centers the vertical text block vertically */
   box-sizing: border-box;
   transition: background-color 0.3s ease; /* Transition background color on scroll */
 }
@@ -76,23 +78,28 @@ body, html, p, .about-text, .portfolio-row, .cv-content, .cv-contact-grid, .cv-i
 }
 
 .site-title {
-  display: inline-block;
+  display: flex !important;
+  flex-direction: column !important; /* Stacks characters vertically */
+  justify-content: space-between !important; /* Distributes characters evenly down the column */
+  align-items: center;
   color: #ffffff !important; /* Keep text straight white */
   font-size: 1.8rem !important; 
-  line-height: 1.1;
+  line-height: 1;
   font-weight: 500;
   letter-spacing: -0.04em;
   text-transform: uppercase; /* ALL CAPS */
   margin: 0;
   padding: 0;
+  background: none !important; /* Background handled by parent site-header */
   text-decoration: none; /* Removes links underlines */
+  height: 94vh; /* Spans 94% of the viewport height */
   pointer-events: auto; /* Re-enables hover/clicking events on the name itself */
-  
-  /* Native CSS Vertical Text */
-  writing-mode: vertical-rl; /* Vertical text flow from top to bottom */
-  text-orientation: mixed;
-  transform: rotate(180deg); /* Rotates so it reads bottom-to-top elegantly */
-  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+.site-title span {
+  display: inline-block;
+  line-height: 1;
 }
 
 /* Size 2: Body Size (Uniformly applied to all other text and sections) */
@@ -162,19 +169,28 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   display: inline-block;
 }
 
-.about-text, .text-block {
-  max-width: 40% !important; /* Constrains text blocks horizontally to end where the Resume tab begins on desktop */
+/* 
+  Biography text is double-justified (horizontally and vertically) on desktop viewports.
+  Spans exactly 85% of the viewport height, ending horizontally precisely where 
+  the Resume navigation tab begins.
+*/
+.about-text {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  height: 85vh !important; /* Spans 85% of the viewport height vertically */
+  max-width: 40% !important; /* Constrains text horizontally to end where the Resume tab begins */
+}
+
+.text-block {
+  max-width: 40% !important; /* Keeps other text blocks aligned with Resume tab */
   color: #000000;
 }
 
 .about-text p {
-  text-align: justify; /* Aligns left and right margins to straight, singular lines */
+  text-align: justify; /* Aligns left and right margins horizontally to straight lines */
   margin-top: 0;
-  margin-bottom: 25px; /* Spacing between biography paragraphs */
-}
-
-.about-text p:last-child {
-  margin-bottom: 0;
+  margin-bottom: 0; /* Vertical spacing is handled dynamically by flex justification */
 }
 
 .editorial-p {
@@ -390,7 +406,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   position: absolute;
   box-shadow: 0 4px 15px rgba(0,0,0,0.06);
   transition: box-shadow 0.3s ease;
-  animation: slow-drift var(--drift-duration) ease-in-out infinite alternate;
+  transform: rotate(var(--rot)); /* Statically retain randomized initial rotations safely without animation overheads */
   cursor: grab;
   user-select: none;
 }
@@ -401,7 +417,6 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 
 .floating-image-wrapper:hover {
   box-shadow: 0 10px 25px rgba(0,0,0,0.12);
-  animation-play-state: paused; /* Hover pauses the drift animation */
 }
 
 .floating-image-wrapper img {
@@ -409,38 +424,6 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   height: auto;
   display: block;
   pointer-events: none; /* Disables native browser ghost dragging on images */
-}
-
-/* Slow structural drift animation */
-@keyframes slow-drift {
-  0% {
-    transform: translate(0, 0) rotate(var(--rot));
-  }
-  100% {
-    transform: translate(var(--drift-x), var(--drift-y)) rotate(calc(var(--rot) + var(--drift-rot)));
-  }
-}
-
-.load-more-btn {
-  display: block;
-  width: fit-content;
-  margin: 60px auto 40px auto;
-  font-family: 'NudistaLight', sans-serif;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #000000;
-  background-color: #ffffff;
-  text-decoration: none;
-  border: 1px solid #000000;
-  padding: 10px 20px;
-  transition: background-color 0.2s, color 0.2s;
-  cursor: pointer;
-}
-
-.load-more-btn:hover {
-  background-color: #000000;
-  color: #ffffff;
 }
 
 /* --- MOBILE RESPONSIVENESS --- */
@@ -456,6 +439,8 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   }
   
   .about-text, .text-block {
+    display: block !important;
+    height: auto !important;
     max-width: 100% !important; /* Scale content to span full width on mobile viewports */
   }
   
@@ -465,6 +450,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   
   .site-title {
     font-size: 1.3rem !important;
+    height: 90vh; /* Adjust height slightly on mobile screen heights */
   }
   
   .portfolio-row {
