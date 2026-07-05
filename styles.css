@@ -87,15 +87,18 @@ body, html, p, .about-text, .portfolio-row, .cv-content, .cv-contact-grid, .cv-i
   line-height: 1.1;
   font-weight: 500;
   letter-spacing: -0.04em;
-  text-transform: none;
+  text-transform: uppercase; /* ALL CAPS */
   margin: 0;
   padding: 0;
   background: none !important; /* Background handled by parent site-header */
   
-  /* Native CSS Vertical Text */
-  writing-mode: vertical-lr; /* Vertical text flow from top to bottom */
+  /* Native CSS Vertical Text Justified vertically to stretch and span across the screen height */
+  writing-mode: vertical-rl; /* Vertical text flow from top to bottom */
   text-orientation: mixed;
   transform: rotate(180deg); /* Rotates so it reads bottom-to-top elegantly */
+  text-align: justify; /* Aligns both vertical edges */
+  text-justify: inter-character; /* Evenly spaces characters across the height */
+  height: 85vh; /* Stretches the text to span 85% of the viewport height */
   white-space: nowrap;
 }
 
@@ -434,6 +437,28 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   100% {
     transform: translate(var(--drift-x), var(--drift-y)) rotate(calc(var(--rot) + var(--drift-rot)));
   }
+}
+
+.load-more-btn {
+  display: block;
+  width: fit-content;
+  margin: 60px auto 40px auto;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #000000;
+  background-color: #ffffff;
+  text-decoration: none;
+  border: 1px solid #000000;
+  padding: 10px 20px;
+  transition: background-color 0.2s, color 0.2s;
+  cursor: pointer;
+}
+
+.load-more-btn:hover {
+  background-color: #000000;
+  color: #ffffff;
 }
 
 /* --- MOBILE RESPONSIVENESS --- */
