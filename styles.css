@@ -124,15 +124,24 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   text-transform: uppercase;
   letter-spacing: 0.05em;
   opacity: 0.25; /* Semi-transparent base state */
-  transition: opacity 0.3s ease;
+  padding: 6px 12px; /* Adds padding so it forms a nice clean block */
+  transition: all 0.3s ease;
+  display: inline-block;
 }
 
 .top-nav:hover .nav-tab {
   opacity: 0.15;
 }
-.top-nav .nav-tab:hover, .top-nav .nav-tab.active {
+
+/* Active navigation tab: white text on a black background block */
+.top-nav .nav-tab.active {
+  background-color: #000000 !important;
+  color: #ffffff !important;
   opacity: 1 !important;
-  color: #000000 !important;
+}
+
+.top-nav .nav-tab:hover {
+  opacity: 1;
 }
 
 /* --- TAB TRANSITIONS --- */
