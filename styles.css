@@ -183,11 +183,16 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 /* 
   Biography text block (Reverted back to standard auto-height vertical flow 
   with clean 25px paragraph spacing, but keeping horizontal max-width alignment).
+  We add a solid black background and white text inside, formatted with generous
+  padding to form a brutalist text layout.
 */
 .about-text {
   display: block !important;
   height: auto !important; /* Reverted to natural vertical flow heights */
   max-width: 40% !important; /* Constrains text horizontally to end where the Resume tab begins */
+  background-color: #000000; /* Solid black box background */
+  padding: 30px; /* Generous framing padding inside the black box */
+  box-sizing: border-box;
 }
 
 .text-block {
@@ -197,6 +202,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 
 .about-text p {
   text-align: justify; /* Aligns left and right margins horizontally to straight lines */
+  color: #ffffff !important; /* White text on top of the black background */
   margin-top: 0;
   margin-bottom: 25px !important; /* Standard spacing separating paragraphs */
 }
@@ -214,12 +220,13 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 #tab-home {
   position: relative;
   width: 100%;
-  min-height: 80vh; /* Ensures layout context spans vertically for the artwork placement */
+  min-height: 94vh; /* Matches the exact vertical height of your sidebar to align elements harmoniously */
+  box-sizing: border-box;
 }
 
 .homepage-artwork-container {
   position: absolute;
-  bottom: 0px;
+  bottom: 3vh; /* Aligns the bottom of your artwork box precisely with the last letter "A" of your sidebar */
   right: 40px;
   width: 350px;
   height: 350px;
@@ -483,17 +490,17 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 /* 
   Removed padding: 6px, border: 1px solid #eeeeee, and background-color: #ffffff
   to display the raw transparent-background images with their shadows.
+  Added explicit border/outline resets to guarantee absolute borderless images.
 */
 .floating-image-wrapper {
   position: absolute;
   box-shadow: 0 4px 15px rgba(0,0,0,0.06);
   transition: box-shadow 0.3s ease;
-  transform: rotate(var(--rot)); /* Statically retain randomized initial rotations safely without animation overheads */
+  animation: slow-drift var(--drift-duration) ease-in-out infinite alternate;
   cursor: grab;
   user-select: none;
-  border: none !important; /* Explicitly guarantees no borders/outlines on archive images */
+  border: none !important;
   outline: none !important;
-  background-color: transparent !important;
 }
 
 .floating-image-wrapper:active {
@@ -508,9 +515,41 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   width: 100%;
   height: auto;
   display: block;
-  pointer-events: none; /* Disables native browser ghost dragging on images */
-  border: none !important; /* Safeguards raw images from browser outline borders */
+  border: none !important;
   outline: none !important;
+  pointer-events: none; /* Disables native browser ghost dragging on images */
+}
+
+/* Slow structural drift animation */
+@keyframes slow-drift {
+  0% {
+    transform: translate(0, 0) rotate(var(--rot));
+  }
+  100% {
+    transform: translate(var(--drift-x), var(--drift-y)) rotate(calc(var(--rot) + var(--drift-rot)));
+  }
+}
+
+.load-more-btn {
+  display: block;
+  width: fit-content;
+  margin: 60px auto 40px auto;
+  font-family: 'NudistaLight', sans-serif;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #000000;
+  background-color: #ffffff;
+  text-decoration: none;
+  border: 1px solid #000000;
+  padding: 10px 20px;
+  transition: background-color 0.2s, color 0.2s;
+  cursor: pointer;
+}
+
+.load-more-btn:hover {
+  background-color: #000000;
+  color: #ffffff;
 }
 
 /* --- MOBILE RESPONSIVENESS --- */
