@@ -220,7 +220,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 #tab-home {
   position: relative;
   width: 100%;
-  height: auto; /* Removed fixed height limits to keep the canvas light and scroll-free */
+  height: auto; /* Reverted to auto so it wraps the biography content cleanly */
   box-sizing: border-box;
 }
 
