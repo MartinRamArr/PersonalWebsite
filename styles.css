@@ -7,9 +7,9 @@
 }
 
 @font-face {
-  font-family: 'ApercuMono';
-  src: url('ApercuMonoProLight.ttf') format('truetype'); /* Swapped directly to Apercu Mono Light weight */
-  font-weight: normal;
+  font-family: 'OpenSans';
+  src: url('OpenSansLight.ttf') format('truetype'); /* Swapped directly to Open Sans Light weight */
+  font-weight: 300;
   font-style: normal;
 }
 
@@ -26,14 +26,17 @@ body {
   padding: 0;
   width: 100%;
   min-height: 100%;
-  font-family: 'ApercuMono', monospace;
+  font-family: 'OpenSans', sans-serif;
 }
 
-/* Master Layout Container (Completely full-bleed, stretching 100% horizontally) */
+/* 
+  Master Layout Container (Completely full-bleed, stretching 100% horizontally)
+  Padding-left is offset by 120px to leave plenty of breathing room for the vertical bar.
+*/
 .mario-portfolio-root, .site-container {
   background-color: #ffffff;
   color: #000000;
-  padding: 40px;
+  padding: 40px 40px 40px 120px; 
   width: 100%;
   max-width: 100% !important; /* Spans full width edge-to-edge with no margins */
   margin: 0 !important;
@@ -49,42 +52,51 @@ body {
 
 /* Body Font Family */
 body, html, p, .about-text, .portfolio-row, .cv-content, .cv-contact-grid, .cv-item-desc, .cv-list-item, .cv-awards-grid, .cv-interests, .blog-entry {
-  font-family: 'ApercuMono', monospace;
+  font-family: 'OpenSans', sans-serif;
 }
 
 /* --- ONLY TWO SIZES GLOBALLY --- */
 /* Size 1: Header Size */
+/* 
+  Fixed Vertical Sidebar (Stays fixed on the left on all pages)
+  Spans the full page height and transitions background color to #dddddd on scroll.
+*/
 .site-header {
-  position: -webkit-sticky;
-  position: sticky; /* Keep your name frozen when scrolling */
-  top: 40px; /* Sticks 40px from viewport top, in line with site container padding */
-  z-index: 1000; /* Stays securely stacked on top of scrolling CV rows */
-  margin-bottom: 60px;
-  pointer-events: none; /* Allows clicks to pass through any empty container space around your name */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 70px;
+  height: 100vh;
+  background-color: #000000;
+  z-index: 2000; /* Stays securely stacked on top of scrolling CV rows */
+  display: flex;
+  align-items: center; /* Centers the vertical text */
+  justify-content: center;
+  box-sizing: border-box;
+  transition: background-color 0.3s ease; /* Transition background color on scroll */
+}
+
+.site-header.dimmed {
+  background-color: #dddddd !important; /* Dynamic background change to light grey */
 }
 
 .site-title {
-  display: inline-block; /* Black box only encloses the text width */
-  background-color: #000000; /* Solid black background */
-  color: #ffffff !important; /* Solid white text */
-  padding: 10px 20px; /* Precise padding around your name */
-  font-size: 2.2rem !important; 
+  font-family: 'AkzidenzGrotesk', -apple-system, sans-serif;
+  color: #ffffff !important; /* Keep text straight white */
+  font-size: 1.8rem !important; 
   line-height: 1.1;
   font-weight: 500;
   letter-spacing: -0.04em;
   text-transform: none;
   margin: 0;
-  pointer-events: auto; /* Re-enables hover/clicking events on the name itself */
-  transition: background-color 0.3s ease; /* Transition background color on scroll */
-}
-
-/* 
-  On scroll, the background transitions to light grey (#dddddd)
-  while the text stays straight white (#ffffff).
-*/
-.site-title.dimmed {
-  background-color: #dddddd !important; /* Dynamic background change to light grey */
-  color: #ffffff !important; /* Keep text straight white */
+  padding: 0;
+  background: none !important; /* Background handled by parent site-header */
+  
+  /* Native CSS Vertical Text */
+  writing-mode: vertical-lr; /* Vertical text flow from top to bottom */
+  text-orientation: mixed;
+  transform: rotate(180deg); /* Rotates so it reads bottom-to-top elegantly */
+  white-space: nowrap;
 }
 
 /* Size 2: Body Size (Uniformly applied to all other text and sections) */
@@ -256,7 +268,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 
 /* --- COMPREHENSIVE CV SPLIT-GRID --- */
 .cv-container {
-  font-family: 'ApercuMono', monospace; /* Restricting all CV to the uniform mono space font */
+  font-family: 'OpenSans', sans-serif; /* Restricting all CV to the uniform Open Sans Light font */
   color: #000000;
   max-width: 900px;
   margin-top: 20px;
@@ -424,32 +436,10 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   }
 }
 
-.load-more-btn {
-  display: block;
-  width: fit-content;
-  margin: 60px auto 40px auto;
-  font-family: 'DM Mono', monospace;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #000000;
-  background-color: #ffffff;
-  text-decoration: none;
-  border: 1px solid #000000;
-  padding: 10px 20px;
-  transition: background-color 0.2s, color 0.2s;
-  cursor: pointer;
-}
-
-.load-more-btn:hover {
-  background-color: #000000;
-  color: #ffffff;
-}
-
 /* --- MOBILE RESPONSIVENESS --- */
 @media (max-width: 768px) {
   .site-container, .mario-portfolio-root {
-    padding: 20px !important;
+    padding: 20px 20px 20px 90px !important; /* Scale down gutter on mobile viewport */
   }
   
   .top-nav {
@@ -458,8 +448,12 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
     gap: 12px;
   }
   
+  .site-header {
+    width: 50px;
+  }
+  
   .site-title {
-    font-size: 1.8rem !important;
+    font-size: 1.3rem !important;
   }
   
   .portfolio-row {
