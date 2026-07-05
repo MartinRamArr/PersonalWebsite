@@ -29,11 +29,15 @@ body {
   font-family: 'NudistaLight', sans-serif;
 }
 
-/* Master Layout Container (Completely full-bleed, stretching 100% horizontally) */
+/* 
+  Master Layout Container (Completely full-bleed, stretching 100% horizontally)
+  Padding-left is offset by 120px to leave plenty of breathing room for the vertical bar.
+  We set top padding to 3vh so the horizontal navigation links begin at the exact starting top height of the letter "M" inside your vertical name sidebar.
+*/
 .mario-portfolio-root, .site-container {
   background-color: #ffffff;
   color: #000000;
-  padding: 40px 40px 40px 120px; 
+  padding: 3vh 40px 40px 120px; 
   width: 100%;
   max-width: 100% !important; /* Spans full width edge-to-edge with no margins */
   margin: 0 !important;
@@ -113,6 +117,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 .top-nav {
   display: flex;
   justify-content: space-between; /* Spreads navigation horizontally across the full page width */
+  margin-top: 0px !important; /* Zeroed to match the starting height of the letter "M" inside your vertical name sidebar */
   padding-bottom: 15px;
   margin-bottom: 40px;
   width: 100%;
@@ -124,9 +129,10 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   text-transform: uppercase;
   letter-spacing: 0.05em;
   opacity: 0.25; /* Semi-transparent base state */
-  padding: 6px 12px; /* Adds padding so it forms a nice clean block */
+  padding: 8px 12px; /* Uniform padding so the background box has a crisp, solid block form */
   transition: all 0.3s ease;
   display: inline-block;
+  line-height: 1; /* Aligns the text vertically centered within its background box */
 }
 
 .top-nav:hover .nav-tab {
@@ -416,7 +422,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   position: absolute;
   box-shadow: 0 4px 15px rgba(0,0,0,0.06);
   transition: box-shadow 0.3s ease;
-  transform: rotate(var(--rot)); /* Statically retain randomized initial rotations safely without animation overheads */
+  animation: slow-drift var(--drift-duration) ease-in-out infinite alternate;
   cursor: grab;
   user-select: none;
 }
@@ -427,6 +433,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 
 .floating-image-wrapper:hover {
   box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+  animation-play-state: paused; /* Hover pauses the drift animation */
 }
 
 .floating-image-wrapper img {
@@ -434,6 +441,38 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   height: auto;
   display: block;
   pointer-events: none; /* Disables native browser ghost dragging on images */
+}
+
+/* Slow structural drift animation */
+@keyframes slow-drift {
+  0% {
+    transform: translate(0, 0) rotate(var(--rot));
+  }
+  100% {
+    transform: translate(var(--drift-x), var(--drift-y)) rotate(calc(var(--rot) + var(--drift-rot)));
+  }
+}
+
+.load-more-btn {
+  display: block;
+  width: fit-content;
+  margin: 60px auto 40px auto;
+  font-family: 'NudistaLight', sans-serif;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #000000;
+  background-color: #ffffff;
+  text-decoration: none;
+  border: 1px solid #000000;
+  padding: 10px 20px;
+  transition: background-color 0.2s, color 0.2s;
+  cursor: pointer;
+}
+
+.load-more-btn:hover {
+  background-color: #000000;
+  color: #ffffff;
 }
 
 /* --- MOBILE RESPONSIVENESS --- */
