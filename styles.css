@@ -226,7 +226,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 
 .homepage-artwork-container {
   position: absolute;
-  top: calc(94vh - 350px); /* Mathematically aligns the bottom of your artwork box exactly with the bottom letter 'A' of your sidebar */
+  bottom: 0px; /* Aligns the bottom of your artwork box exactly with the bottom of the black biography block */
   right: 40px;
   width: 350px;
   height: 350px;
@@ -518,16 +518,6 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   pointer-events: none; /* Disables native browser ghost dragging on images */
   border: none !important; /* Safeguards raw images from browser outline borders */
   outline: none !important;
-}
-
-/* Slow structural drift animation */
-@keyframes slow-drift {
-  0% {
-    transform: translate(0, 0) rotate(var(--rot));
-  }
-  100% {
-    transform: translate(var(--drift-x), var(--drift-y)) rotate(calc(var(--rot) + var(--drift-rot)));
-  }
 }
 
 .load-more-btn {

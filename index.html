@@ -252,7 +252,7 @@
       <!-- 4. Images Section -->
       <div id="tab-images" class="tab-content">
         <div class="scattered-canvas" id="images-canvas">
-          <!-- All 438 images (1.jpg - 353.jpg & 1.png - 85.png) are dynamically scattered and animated here -->
+          <!-- All 438 images (1.jpg - 353.jpg & 1.png - 85.png) are dynamically scattered and animated here in batches -->
         </div>
         <button class="load-more-btn" id="load-more-btn">Load More Archive</button>
       </div>
@@ -463,7 +463,7 @@
 
       // Lazy load first batch of images only when visitors visit the tab to protect initial page load speeds
       if (targetId === "tab-images" && !isCanvasInitialized) {
-        renderBatch(20); // FIXED: Restored to 'renderBatch' function to run the stable loader
+        renderBatch(20); // FIXED: Correctly matched the function name to 'renderBatch' to fully restore image page operation
         isCanvasInitialized = true;
       }
 
