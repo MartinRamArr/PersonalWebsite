@@ -232,8 +232,8 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   height: 100%;
   position: relative;
   overflow: hidden;
-  border: 1px solid #000000; /* Minimal border matching the architectural theme */
-  background-color: #f7f7f7;
+  border: none !important; /* REMOVED black outline borders completely */
+  background-color: transparent !important;
 }
 
 .artwork-frame img {
@@ -241,6 +241,8 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   height: 100%;
   object-fit: cover;
   display: block;
+  border: none !important; /* Explicitly guarantees no borders on images */
+  outline: none !important;
 }
 
 /* Graphic Filters Programmatic Configs */
@@ -489,6 +491,9 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   transform: rotate(var(--rot)); /* Statically retain randomized initial rotations safely without animation overheads */
   cursor: grab;
   user-select: none;
+  border: none !important; /* Explicitly guarantees no borders/outlines on archive images */
+  outline: none !important;
+  background-color: transparent !important;
 }
 
 .floating-image-wrapper:active {
@@ -504,28 +509,8 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   height: auto;
   display: block;
   pointer-events: none; /* Disables native browser ghost dragging on images */
-}
-
-.load-more-btn {
-  display: block;
-  width: fit-content;
-  margin: 60px auto 40px auto;
-  font-family: 'NudistaLight', sans-serif;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #000000;
-  background-color: #ffffff;
-  text-decoration: none;
-  border: 1px solid #000000;
-  padding: 10px 20px;
-  transition: background-color 0.2s, color 0.2s;
-  cursor: pointer;
-}
-
-.load-more-btn:hover {
-  background-color: #000000;
-  color: #ffffff;
+  border: none !important; /* Safeguards raw images from browser outline borders */
+  outline: none !important;
 }
 
 /* --- MOBILE RESPONSIVENESS --- */

@@ -448,7 +448,7 @@
 
       // Lazy load first batch of images only when visitors visit the tab to protect initial page load speeds
       if (targetId === "tab-images" && !isCanvasInitialized) {
-        renderAllImages(); 
+        renderAllImages(); // FIXED: Restored to 'renderAllImages' function to run the stable loader
         isCanvasInitialized = true;
       }
 
