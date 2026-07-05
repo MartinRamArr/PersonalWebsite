@@ -7,8 +7,8 @@
 }
 
 @font-face {
-  font-family: 'OpenSans';
-  src: url('OpenSansLight.ttf') format('truetype'); /* Swapped directly to Open Sans Light weight */
+  font-family: 'NudistaLight';
+  src: url('NudistaLight.otf') format('truetype'); /* Swapped directly to Open Sans Light weight */
   font-weight: 300;
   font-style: normal;
 }
@@ -26,7 +26,7 @@ body {
   padding: 0;
   width: 100%;
   min-height: 100%;
-  font-family: 'OpenSans', sans-serif;
+  font-family: 'NudistaLight', sans-serif;
 }
 
 /* 
@@ -52,7 +52,7 @@ body {
 
 /* Body Font Family */
 body, html, p, .about-text, .portfolio-row, .cv-content, .cv-contact-grid, .cv-item-desc, .cv-list-item, .cv-awards-grid, .cv-interests, .blog-entry {
-  font-family: 'OpenSans', sans-serif;
+  font-family: 'NudistaLight', sans-serif;
 }
 
 /* --- ONLY TWO SIZES GLOBALLY --- */
@@ -271,7 +271,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 
 /* --- COMPREHENSIVE CV SPLIT-GRID --- */
 .cv-container {
-  font-family: 'OpenSans', sans-serif; /* Restricting all CV to the uniform Open Sans Light font */
+  font-family: 'NudistaLight', sans-serif; /* Restricting all CV to the uniform Open Sans Light font */
   color: #000000;
   max-width: 900px;
   margin-top: 20px;
