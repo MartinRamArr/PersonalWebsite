@@ -234,7 +234,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 }
 
 .proj-date {
-  font-family: 'DM Mono', monospace;
+  font-family: 'NudistaLight', monospace;
   font-size: 0.9rem;
   width: 100px;
 }
@@ -264,7 +264,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 }
 
 .entry-date {
-  font-family: 'DM Mono', monospace;
+  font-family: 'NudistaLight', monospace;
   font-size: 0.85rem;
   color: #888888;
 }
@@ -290,7 +290,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 }
 
 .cv-label {
-  font-family: 'DM Mono', monospace;
+  font-family: 'NudistaLight', monospace;
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -307,7 +307,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px 20px;
-  font-family: 'DM Mono', monospace;
+  font-family: 'NudistaLight', monospace;
   font-size: 0.9rem;
 }
 
@@ -332,14 +332,14 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 }
 
 .cv-item-meta {
-  font-family: 'DM Mono', monospace;
+  font-family: 'NudistaLight', monospace;
   font-size: 0.85rem;
   color: #666666;
   font-weight: 300;
 }
 
 .cv-item-date {
-  font-family: 'DM Mono', monospace;
+  font-family: 'NudistaLight', monospace;
   font-size: 0.85rem;
   color: #888888;
   margin: 3px 0 8px 0;
@@ -373,7 +373,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 }
 
 .cv-list-meta {
-  font-family: 'DM Mono', monospace;
+  font-family: 'NudistaLight', monospace;
   font-size: 0.85rem;
   color: #888888;
   white-space: nowrap;
@@ -443,7 +443,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   display: block;
   width: fit-content;
   margin: 60px auto 40px auto;
-  font-family: 'DM Mono', monospace;
+  font-family: 'NudistaLight', monospace;
   font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
