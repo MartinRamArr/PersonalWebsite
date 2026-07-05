@@ -220,13 +220,13 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 #tab-home {
   position: relative;
   width: 100%;
-  min-height: 94vh; /* Matches the exact vertical height of your sidebar to align elements harmoniously */
+  height: auto; /* Removed fixed height limits to keep the canvas light and scroll-free */
   box-sizing: border-box;
 }
 
 .homepage-artwork-container {
   position: absolute;
-  bottom: 3vh; /* Aligns the bottom of your artwork box precisely with the last letter "A" of your sidebar */
+  top: calc(94vh - 350px); /* Mathematically aligns the bottom of your artwork box exactly with the bottom letter 'A' of your sidebar */
   right: 40px;
   width: 350px;
   height: 350px;
@@ -490,7 +490,6 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 /* 
   Removed padding: 6px, border: 1px solid #eeeeee, and background-color: #ffffff
   to display the raw transparent-background images with their shadows.
-  Added explicit border/outline resets to guarantee absolute borderless images.
 */
 .floating-image-wrapper {
   position: absolute;
@@ -499,8 +498,9 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   animation: slow-drift var(--drift-duration) ease-in-out infinite alternate;
   cursor: grab;
   user-select: none;
-  border: none !important;
+  border: none !important; /* Explicitly guarantees no borders/outlines on archive images */
   outline: none !important;
+  background-color: transparent !important;
 }
 
 .floating-image-wrapper:active {
@@ -515,19 +515,9 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   width: 100%;
   height: auto;
   display: block;
-  border: none !important;
-  outline: none !important;
   pointer-events: none; /* Disables native browser ghost dragging on images */
-}
-
-/* Slow structural drift animation */
-@keyframes slow-drift {
-  0% {
-    transform: translate(0, 0) rotate(var(--rot));
-  }
-  100% {
-    transform: translate(var(--drift-x), var(--drift-y)) rotate(calc(var(--rot) + var(--drift-rot)));
-  }
+  border: none !important; /* Safeguards raw images from browser outline borders */
+  outline: none !important;
 }
 
 .load-more-btn {
