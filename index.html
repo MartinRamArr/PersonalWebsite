@@ -252,7 +252,7 @@
       <!-- 4. Images Section -->
       <div id="tab-images" class="tab-content">
         <div class="scattered-canvas" id="images-canvas">
-          <!-- All 438 images (1.jpg - 353.jpg & 1.png - 85.png) are dynamically scattered and animated here in batches -->
+          <!-- All 438 images (1.jpg - 353.jpg & 1.png - 85.png) are dynamically scattered and animated here -->
         </div>
         <button class="load-more-btn" id="load-more-btn">Load More Archive</button>
       </div>
@@ -315,21 +315,15 @@
     }
     shuffleArray(imagePool);
 
-    let currentTop = 50;
-    const canvas = document.getElementById("images-canvas");
-    const loadMoreBtn = document.getElementById("load-more-btn");
-    let isCanvasInitialized = false;
-
-    // Renders images in stable batches of 20 to protect browser memory performance
-    function renderBatch(batchSize = 20) {
+    function renderAllImages() {
+      const canvas = document.getElementById("images-canvas");
       if (!canvas) return;
 
-      for (let i = 0; i < batchSize; i++) {
-        if (imagePool.length === 0) {
-          if (loadMoreBtn) loadMoreBtn.style.display = "none";
-          return;
-        }
-        const imgSrc = imagePool.pop(); // Safely pop elements from the randomized pool
+      let currentTop = 50;
+      const totalImages = imagePool.length;
+
+      for (let i = 0; i < totalImages; i++) {
+        const imgSrc = imagePool[i];
 
         const wrapper = document.createElement("div");
         wrapper.className = "floating-image-wrapper";
