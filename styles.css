@@ -189,14 +189,14 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 .about-text {
   display: block !important;
   height: auto !important; /* Reverted to natural vertical flow heights */
-  max-width: 40% !important; /* Constrains text horizontally to end where the Resume tab begins */
+  max-width: 26.5% !important; /* Constrains text horizontally to end where the Portfolio tab ends */
   background-color: #000000; /* Solid black box background */
   padding: 30px; /* Generous framing padding inside the black box */
   box-sizing: border-box;
 }
 
 .text-block {
-  max-width: 40% !important; /* Keeps other text blocks aligned with Resume tab */
+  max-width: 26.5% !important; /* Keeps other text blocks aligned with Portfolio tab */
   color: #000000;
 }
 
@@ -518,6 +518,16 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   pointer-events: none; /* Disables native browser ghost dragging on images */
   border: none !important; /* Safeguards raw images from browser outline borders */
   outline: none !important;
+}
+
+/* Slow structural drift animation */
+@keyframes slow-drift {
+  0% {
+    transform: translate(0, 0) rotate(var(--rot));
+  }
+  100% {
+    transform: translate(var(--drift-x), var(--drift-y)) rotate(calc(var(--rot) + var(--drift-rot)));
+  }
 }
 
 .load-more-btn {

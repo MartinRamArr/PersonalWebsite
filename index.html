@@ -50,7 +50,7 @@
           <p>Throughout his schooling Mario has been dedicated to his passion for pedagogy and social justice—in particular, he is deeply passionate about first-generation students and their navigation of post-secondary education, as well as actively advocating for the plights of undocumented immigrants.</p>
         </div>
 
-        <!-- Dynamic Graphic Art Frame positioned in the bottom-right red block coordinates -->
+        <!-- Dynamic Graphic Art Frame positioned in the bottom-right coordinates -->
         <div class="homepage-artwork-container">
           <div class="artwork-frame">
             <img id="dynamic-artwork" src="" alt="Random Graphic Slide" />
@@ -252,7 +252,7 @@
       <!-- 4. Images Section -->
       <div id="tab-images" class="tab-content">
         <div class="scattered-canvas" id="images-canvas">
-          <!-- All 438 images (1.jpg - 353.jpg & 1.png - 85.png) are dynamically scattered and animated here in stable batches -->
+          <!-- All 438 images (1.jpg - 353.jpg & 1.png - 85.png) are dynamically scattered and animated here -->
         </div>
         <button class="load-more-btn" id="load-more-btn">Load More Archive</button>
       </div>
@@ -463,7 +463,7 @@
 
       // Lazy load first batch of images only when visitors visit the tab to protect initial page load speeds
       if (targetId === "tab-images" && !isCanvasInitialized) {
-        renderBatch(20); // CORRECTED DISCREPANCY: Properly calls the active renderBatch function to load images correctly
+        renderBatch(20); // FIXED: Restored to 'renderBatch' function to run the stable loader
         isCanvasInitialized = true;
       }
 
