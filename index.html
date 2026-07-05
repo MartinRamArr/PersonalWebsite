@@ -297,14 +297,11 @@
     }
     shuffleArray(imagePool);
 
-    let currentTop = 50;
-    const canvas = document.getElementById("images-canvas");
-    let isCanvasInitialized = false;
-
-    // Renders ALL images at once statically (no slow-drift animation to protect browser performance)
     function renderAllImages() {
+      const canvas = document.getElementById("images-canvas");
       if (!canvas) return;
 
+      let currentTop = 50;
       const totalImages = imagePool.length;
 
       for (let i = 0; i < totalImages; i++) {
@@ -319,7 +316,7 @@
 
         wrapper.style.left = `${randomLeft}%`;
         wrapper.style.top = `${currentTop}px`;
-        wrapper.style.setProperty('--rot', `${rotation}deg`); // CORRECTED: Correctly binds to the 'rotation' variable
+        wrapper.style.setProperty('--rot', `${rotation}deg`); // References the corrected rotation variable
         
         // Stagger visual sizes organically
         const randomWidth = 180 + Math.floor(Math.random() * 100);

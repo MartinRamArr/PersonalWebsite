@@ -179,15 +179,12 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 }
 
 /* 
-  Biography text is double-justified (horizontally and vertically) on desktop viewports.
-  Spans exactly 85% of the viewport height, ending horizontally precisely where 
-  the Resume navigation tab begins.
+  Biography text block (Reverted back to standard auto-height vertical flow 
+  with clean 25px paragraph spacing, but keeping horizontal max-width alignment).
 */
 .about-text {
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: space-between !important;
-  height: 85vh !important; /* Spans 85% of the viewport height vertically */
+  display: block !important;
+  height: auto !important; /* Reverted to natural vertical flow heights */
   max-width: 40% !important; /* Constrains text horizontally to end where the Resume tab begins */
 }
 
@@ -199,7 +196,11 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 .about-text p {
   text-align: justify; /* Aligns left and right margins horizontally to straight lines */
   margin-top: 0;
-  margin-bottom: 0; /* Vertical spacing is handled dynamically by flex justification */
+  margin-bottom: 25px !important; /* Standard spacing separating paragraphs */
+}
+
+.about-text p:last-child {
+  margin-bottom: 0 !important;
 }
 
 .editorial-p {
