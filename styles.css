@@ -29,11 +29,7 @@ body {
   font-family: 'NudistaLight', sans-serif;
 }
 
-/* 
-  Master Layout Container (Completely full-bleed, stretching 100% horizontally)
-  Padding-left is offset by 120px to leave plenty of breathing room for the vertical bar.
-  We set top padding to 3vh so the horizontal navigation links begin at the exact starting top height of the letter "M" inside your vertical name sidebar.
-*/
+/* Master Layout Container (Completely full-bleed, stretching 100% horizontally) */
 .mario-portfolio-root, .site-container {
   background-color: #ffffff;
   color: #000000;
@@ -129,7 +125,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   text-transform: uppercase;
   letter-spacing: 0.05em;
   opacity: 0.25; /* Semi-transparent base state */
-  padding: 8px 12px; /* Uniform padding so the background box has a crisp, solid block form */
+  padding: 6px 12px; /* Adds padding so it forms a nice clean block */
   transition: all 0.3s ease;
   display: inline-block;
   line-height: 1; /* Aligns the text vertically centered within its background box */
@@ -212,6 +208,74 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 .editorial-p {
   font-weight: 300;
   text-align: justify;
+}
+
+/* --- DYNAMIC HOMEPAGE ARTWORK MODULE --- */
+#tab-home {
+  position: relative;
+  width: 100%;
+  min-height: 80vh; /* Ensures layout context spans vertically for the artwork placement */
+}
+
+.homepage-artwork-container {
+  position: absolute;
+  bottom: 0px;
+  right: 40px;
+  width: 350px;
+  height: 350px;
+  box-sizing: border-box;
+  z-index: 1;
+}
+
+.artwork-frame {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #000000; /* Minimal border matching the architectural theme */
+  background-color: #f7f7f7;
+}
+
+.artwork-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Graphic Filters Programmatic Configs */
+/* Option 1: B&W Stark photocopy exposure */
+.artwork-frame.effect-photocopy img {
+  filter: grayscale(1) contrast(3.5) brightness(1);
+}
+
+/* Option 2: Monochromatic Risograph Red Map */
+.artwork-frame.effect-risograph img {
+  filter: grayscale(1) contrast(1.8) sepia(1) hue-rotate(-45deg) saturate(3.5);
+}
+
+/* Option 3: Silver-Halide organic noise pattern via SVG filter */
+.artwork-frame.effect-grain img {
+  filter: url('#svg-noise-filter') contrast(1.1);
+}
+
+/* Option 4: Technical Halftone Screen Dot Overlay */
+.artwork-frame.effect-halftone {
+  filter: contrast(2.5) grayscale(1);
+}
+
+.artwork-frame.effect-halftone::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(circle, #000000 1.2px, transparent 1.5px);
+  background-size: 4px 4px;
+  mix-blend-mode: multiply;
+  opacity: 0.75;
+  pointer-events: none;
 }
 
 /* --- PORTFOLIO & IMMERSIVE PDF VIEWER --- */
@@ -422,7 +486,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   position: absolute;
   box-shadow: 0 4px 15px rgba(0,0,0,0.06);
   transition: box-shadow 0.3s ease;
-  animation: slow-drift var(--drift-duration) ease-in-out infinite alternate;
+  transform: rotate(var(--rot)); /* Statically retain randomized initial rotations safely without animation overheads */
   cursor: grab;
   user-select: none;
 }
@@ -433,7 +497,6 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 
 .floating-image-wrapper:hover {
   box-shadow: 0 10px 25px rgba(0,0,0,0.12);
-  animation-play-state: paused; /* Hover pauses the drift animation */
 }
 
 .floating-image-wrapper img {
@@ -441,16 +504,6 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   height: auto;
   display: block;
   pointer-events: none; /* Disables native browser ghost dragging on images */
-}
-
-/* Slow structural drift animation */
-@keyframes slow-drift {
-  0% {
-    transform: translate(0, 0) rotate(var(--rot));
-  }
-  100% {
-    transform: translate(var(--drift-x), var(--drift-y)) rotate(calc(var(--rot) + var(--drift-rot)));
-  }
 }
 
 .load-more-btn {
@@ -491,6 +544,15 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
     display: block !important;
     height: auto !important;
     max-width: 100% !important; /* Scale content to span full width on mobile viewports */
+  }
+
+  .homepage-artwork-container {
+    position: relative !important;
+    bottom: 0px !important;
+    right: 0px !important;
+    width: 100% !important;
+    height: 300px !important;
+    margin-top: 40px;
   }
   
   .site-header {

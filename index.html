@@ -8,6 +8,16 @@
 </head>
 <body>
 
+  <!-- Inline SVG Filter used to generate real, non-repeating noise/grain for Option 3 -->
+  <svg style="display: none;">
+    <filter id="svg-noise-filter">
+      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" result="noise" />
+      <feColorMatrix type="matrix" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.18 0" />
+      <feComposite operator="in" in2="SourceGraphic" result="monoNoise" />
+      <feBlend mode="multiply" in="SourceGraphic" in2="monoNoise" />
+    </filter>
+  </svg>
+
   <div class="site-container">
     
     <!-- Top Navigation Pane (6 items, equally distributed horizontally) -->
@@ -38,6 +48,13 @@
           <p>For Mario, every design project must be stringent in its analysis of culture, history, theory, and representation. Mario is interested in space which subverts and agitates our expectations of reality yet also provides a socially beneficial construct. He is interested in drawing, rendering, and model photography while remaining conscious of digital processes.</p>
           
           <p>Throughout his schooling Mario has been dedicated to his passion for pedagogy and social justice—in particular, he is deeply passionate about first-generation students and their navigation of post-secondary education, as well as actively advocating for the plights of undocumented immigrants.</p>
+        </div>
+
+        <!-- Dynamic Graphic Art Frame positioned in the bottom-right red block coordinates -->
+        <div class="homepage-artwork-container">
+          <div class="artwork-frame">
+            <img id="dynamic-artwork" src="" alt="Random Graphic Slide" />
+          </div>
         </div>
       </div>
 
@@ -235,9 +252,8 @@
       <!-- 4. Images Section -->
       <div id="tab-images" class="tab-content">
         <div class="scattered-canvas" id="images-canvas">
-          <!-- Images are dynamically scattered and animated here in batches -->
+          <!-- All 438 images (1.jpg - 353.jpg & 1.png - 85.png) are dynamically scattered and animated here -->
         </div>
-        <button class="load-more-btn" id="load-more-btn">Load More Archive</button>
       </div>
 
       <!-- 5. Research Section -->
@@ -267,6 +283,21 @@
     const siteTitle = document.querySelector(".site-title");
     let timeoutId = null;
 
+    // Dynamically split your name into individual letters for Flexbox vertical justified spacing
+    if (siteTitle) {
+      const nameText = siteTitle.textContent.trim();
+      siteTitle.innerHTML = ""; // Clear raw text
+      for (let char of nameText) {
+        const span = document.createElement("span");
+        if (char === " ") {
+          span.innerHTML = "&nbsp;"; // Retain structured spaces
+        } else {
+          span.textContent = char;
+        }
+        siteTitle.appendChild(span);
+      }
+    }
+
     // Define resources pools to match folder contents exactly (353 JPGs and 85 PNGs)
     const totalJpgs = 353;
     const totalPngs = 85;
@@ -283,21 +314,15 @@
     }
     shuffleArray(imagePool);
 
-    let currentTop = 50;
-    const canvas = document.getElementById("images-canvas");
-    const loadMoreBtn = document.getElementById("load-more-btn");
-    let isCanvasInitialized = false;
-
-    // Renders images in stable batches of 20 to protect browser memory performance
-    function renderBatch(batchSize = 20) {
+    function renderAllImages() {
+      const canvas = document.getElementById("images-canvas");
       if (!canvas) return;
 
-      for (let i = 0; i < batchSize; i++) {
-        if (imagePool.length === 0) {
-          if (loadMoreBtn) loadMoreBtn.style.display = "none";
-          return;
-        }
-        const imgSrc = imagePool.pop(); // Safely pop elements from the randomized pool
+      let currentTop = 50;
+      const totalImages = imagePool.length;
+
+      for (let i = 0; i < totalImages; i++) {
+        const imgSrc = imagePool[i];
 
         const wrapper = document.createElement("div");
         wrapper.className = "floating-image-wrapper";
@@ -305,18 +330,10 @@
         // Generate precise random layout attributes
         const randomLeft = Math.random() * 65; // Safeguard within browser viewport limits
         const rotation = (Math.random() * 16) - 8; // Staggered -8deg to 8deg
-        const driftX = (Math.random() * 20) - 10; // Left-to-right drift offsets
-        const driftY = (Math.random() * 20) - 10; // Up-and-down drift offsets
-        const driftRot = (Math.random() * 4) - 2;
-        const driftDuration = 5 + (Math.random() * 5); // Fluid drifting speed
 
         wrapper.style.left = `${randomLeft}%`;
         wrapper.style.top = `${currentTop}px`;
         wrapper.style.setProperty('--rot', `${rotation}deg`); // References the corrected rotation variable
-        wrapper.style.setProperty('--drift-x', `${driftX}px`);
-        wrapper.style.setProperty('--drift-y', `${driftY}px`);
-        wrapper.style.setProperty('--drift-rot', `${driftRot}deg`);
-        wrapper.style.setProperty('--drift-duration', `${driftDuration}s`);
         
         // Stagger visual sizes organically
         const randomWidth = 180 + Math.floor(Math.random() * 100);
@@ -330,7 +347,7 @@
         canvas.appendChild(wrapper);
         
         makeDraggable(wrapper);
-
+        
         // Advance down the vertical canvas organically to prevent clusters
         currentTop += (randomWidth * 0.75) + (Math.random() * 60);
       }
@@ -363,7 +380,6 @@
         // Bring active photo frame to the front layer
         document.querySelectorAll('.floating-image-wrapper').forEach(el => el.style.zIndex = "10");
         element.style.zIndex = "9999";
-        element.style.animationPlayState = "paused"; // Pause floating drift when dragging
       }
 
       function elementDrag(e) {
@@ -385,30 +401,37 @@
         document.ontouchend = null;
         document.onmousemove = null;
         document.ontouchmove = null;
-        element.style.animationPlayState = "running"; // Resume drift when let go
       }
     }
 
-    // Dynamically split your name into individual letters for Flexbox vertical justified spacing
-    if (siteTitle) {
-      const nameText = siteTitle.textContent.trim();
-      siteTitle.innerHTML = ""; // Clear raw text
-      for (let char of nameText) {
-        const span = document.createElement("span");
-        if (char === " ") {
-          span.innerHTML = "&nbsp;"; // Retain structured spaces
-        } else {
-          span.textContent = char;
-        }
-        siteTitle.appendChild(span);
+    // Randomly selects an image and applies a risograph, photocopy, grain, or halftone filter on page load
+    function initializeHomepageArtwork() {
+      const artImg = document.getElementById("dynamic-artwork");
+      const artFrame = document.querySelector(".artwork-frame");
+      if (!artImg || !artFrame) return;
+
+      // 1. Pick JPG (75% probability) or PNG (25% probability)
+      const useJpg = Math.random() > 0.25;
+      let selectedFile = "";
+      if (useJpg) {
+        const randomJpgId = Math.floor(Math.random() * totalJpgs) + 1;
+        selectedFile = `${randomJpgId}.jpg`;
+      } else {
+        const randomPngId = Math.floor(Math.random() * totalPngs) + 1;
+        selectedFile = `${randomPngId}.png`;
       }
+
+      // 2. Set the image source
+      artImg.src = selectedFile;
+
+      // 3. Pick and apply a random post-modern graphic filter class
+      const effects = ["effect-photocopy", "effect-risograph", "effect-grain", "effect-halftone"];
+      const chosenEffect = effects[Math.floor(Math.random() * effects.length)];
+      artFrame.classList.add(chosenEffect);
     }
 
-    if (loadMoreBtn) {
-      loadMoreBtn.addEventListener("click", function() {
-        renderBatch(15);
-      });
-    }
+    // Run the dynamic artwork compiler on page load
+    initializeHomepageArtwork();
 
     function switchTab(tabElement) {
       const targetId = "tab-" + tabElement.getAttribute("data-tab");
@@ -425,7 +448,7 @@
 
       // Lazy load first batch of images only when visitors visit the tab to protect initial page load speeds
       if (targetId === "tab-images" && !isCanvasInitialized) {
-        renderBatch(20); // RESTORED: Uses the stable renderBatch loader to completely fix the images tab
+        renderAllImages(); 
         isCanvasInitialized = true;
       }
 
