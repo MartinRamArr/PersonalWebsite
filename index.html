@@ -222,7 +222,6 @@
                 <div>Robberson Travel Grant (2021)</div>
                 <div>Segal AmeriCorps Education Award (2021)</div>
                 <div>Undergraduate Research Scholar Designation (2021)</div>
-                <!-- FIXED DISCREPANCY: Realigned the exact 2021 CSBS award date -->
                 <div>2021 CSBS Student Research Day Choice Award (2021)</div>
                 <div>Stephen and Lynda Jacobsen Scholarship (2021)</div>
                 <div>Economics Department Scholar (2020)</div>
@@ -420,34 +419,11 @@
       }
     }
 
-    // Randomly selects an image and applies a risograph, photocopy, grain, or halftone filter on page load
-    function initializeHomepageArtwork() {
-      const artImg = document.getElementById("dynamic-artwork");
-      const artFrame = document.querySelector(".artwork-frame");
-      if (!artImg || !artFrame) return;
-
-      // 1. Pick JPG (75% probability) or PNG (25% probability)
-      const useJpg = Math.random() > 0.25;
-      let selectedFile = "";
-      if (useJpg) {
-        const randomJpgId = Math.floor(Math.random() * totalJpgs) + 1;
-        selectedFile = `${randomJpgId}.jpg`;
-      } else {
-        const randomPngId = Math.floor(Math.random() * totalPngs) + 1;
-        selectedFile = `${randomPngId}.png`;
-      }
-
-      // 2. Set the image source
-      artImg.src = selectedFile;
-
-      // 3. Pick and apply a random post-modern graphic filter class
-      const effects = ["effect-photocopy", "effect-risograph", "effect-grain", "effect-halftone"];
-      const chosenEffect = effects[Math.floor(Math.random() * effects.length)];
-      artFrame.classList.add(chosenEffect);
+    if (loadMoreBtn) {
+      loadMoreBtn.addEventListener("click", function() {
+        renderBatch(15);
+      });
     }
-
-    // Run the dynamic artwork compiler on page load
-    initializeHomepageArtwork();
 
     function switchTab(tabElement) {
       const targetId = "tab-" + tabElement.getAttribute("data-tab");

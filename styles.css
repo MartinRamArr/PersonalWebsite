@@ -115,7 +115,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   justify-content: space-between; /* Spreads navigation horizontally across the full page width */
   margin-top: 0px !important; /* Zeroed to match the starting height of the letter "M" inside your vertical name sidebar */
   padding-bottom: 15px;
-  margin-bottom: 30px; /* Reduced margin slightly to prevent page vertical overflow */
+  margin-bottom: 40px;
   width: 100%;
 }
 
@@ -149,7 +149,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 /* --- TAB TRANSITIONS --- */
 .content-wrapper {
   position: relative;
-  min-height: auto; /* Removed fixed 500px height limits to keep the canvas light and scroll-free */
+  min-height: auto; /* Removed fixed height limits to keep the canvas light and scroll-free */
   width: 100%;
 }
 
@@ -185,13 +185,16 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   with clean 25px paragraph spacing, but keeping horizontal max-width alignment).
   We add a solid black background and white text inside, formatted with generous
   padding to form a brutalist text layout.
+  Stricter horizontal boundaries have been configured. The .about-text (black biography box)
+  is restricted to max-width: 26.5% on desktop monitors. This aligns the right edge of your
+  biography block with the right edge of the PORTFOLIO navigation tab at the top of the viewport.
 */
 .about-text {
   display: block !important;
   height: auto !important; /* Reverted to natural vertical flow heights */
   max-width: 26.5% !important; /* Constrains text horizontally to end where the Portfolio tab ends */
   background-color: #000000; /* Solid black box background */
-  padding: 24px; /* Slightly compacted padding inside the black box to optimize vertical space */
+  padding: 30px; /* Generous framing padding inside the black box */
   box-sizing: border-box;
 }
 
@@ -203,10 +206,8 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 .about-text p {
   text-align: justify; /* Aligns left and right margins horizontally to straight lines */
   color: #ffffff !important; /* White text on top of the black background */
-  font-size: 1.1rem !important; /* Slightly compacted font size to fit smaller viewports beautifully */
-  line-height: 1.55;
   margin-top: 0;
-  margin-bottom: 20px !important; /* Slightly compacted spacing separating paragraphs to prevent overflow */
+  margin-bottom: 25px !important; /* Standard spacing separating paragraphs */
 }
 
 .about-text p:last-child {
@@ -492,6 +493,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 /* 
   Removed padding: 6px, border: 1px solid #eeeeee, and background-color: #ffffff
   to display the raw transparent-background images with their shadows.
+  Added explicit border/outline resets to guarantee absolute borderless images.
 */
 .floating-image-wrapper {
   position: absolute;
@@ -520,6 +522,16 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   pointer-events: none; /* Disables native browser ghost dragging on images */
   border: none !important; /* Safeguards raw images from browser outline borders */
   outline: none !important;
+}
+
+/* Slow structural drift animation */
+@keyframes slow-drift {
+  0% {
+    transform: translate(0, 0) rotate(var(--rot));
+  }
+  100% {
+    transform: translate(var(--drift-x), var(--drift-y)) rotate(calc(var(--rot) + var(--drift-rot)));
+  }
 }
 
 .load-more-btn {
