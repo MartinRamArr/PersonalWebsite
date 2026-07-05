@@ -33,7 +33,7 @@ body {
 .mario-portfolio-root, .site-container {
   background-color: #ffffff;
   color: #000000;
-  padding: 3vh 40px 30px 120px; /* Reduced bottom padding to 30px to prevent any potential overflow on smaller viewports */
+  padding: 3vh 40px 30px 120px; 
   width: 100%;
   max-width: 100% !important; /* Spans full width edge-to-edge with no margins */
   margin: 0 !important;
@@ -520,16 +520,6 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   pointer-events: none; /* Disables native browser ghost dragging on images */
   border: none !important; /* Safeguards raw images from browser outline borders */
   outline: none !important;
-}
-
-/* Slow structural drift animation */
-@keyframes slow-drift {
-  0% {
-    transform: translate(0, 0) rotate(var(--rot));
-  }
-  100% {
-    transform: translate(var(--drift-x), var(--drift-y)) rotate(calc(var(--rot) + var(--drift-rot)));
-  }
 }
 
 .load-more-btn {
