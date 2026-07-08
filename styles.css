@@ -33,7 +33,7 @@ body {
 .mario-portfolio-root, .site-container {
   background-color: #ffffff;
   color: #000000;
-  padding: 3vh 40px 40px 120px; 
+  padding: 3vh 40px 30px 120px; 
   width: 100%;
   max-width: 100% !important; /* Spans full width edge-to-edge with no margins */
   margin: 0 !important;
@@ -83,7 +83,7 @@ body, html, p, .about-text, .portfolio-row, .cv-content, .cv-contact-grid, .cv-i
   justify-content: space-between !important; /* Distributes characters evenly down the column */
   align-items: center;
   color: #ffffff !important; /* Keep text straight white */
-  font-size: 1.8rem !important; 
+  font-size: 2.1vh !important; /* MODIFIED: Set in vh units to automatically scale down on Mac viewports to prevent cutoff */
   line-height: 1;
   font-weight: 500;
   letter-spacing: -0.04em;
@@ -92,7 +92,7 @@ body, html, p, .about-text, .portfolio-row, .cv-content, .cv-contact-grid, .cv-i
   padding: 0;
   background: none !important; /* Background handled by parent site-header */
   text-decoration: none; /* Removes links underlines */
-  height: 94vh; /* Spans 94% of the viewport height */
+  height: 92vh; /* Spans 92% of the viewport height (leaves 4vh breathing room on top and bottom) */
   pointer-events: auto; /* Re-enables hover/clicking events on the name itself */
   box-sizing: border-box;
 }
@@ -115,7 +115,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   justify-content: space-between; /* Spreads navigation horizontally across the full page width */
   margin-top: 0px !important; /* Zeroed to match the starting height of the letter "M" inside your vertical name sidebar */
   padding-bottom: 15px;
-  margin-bottom: 40px;
+  margin-bottom: 30px; /* Reduced margin slightly to prevent page vertical overflow */
   width: 100%;
 }
 
@@ -149,7 +149,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 /* --- TAB TRANSITIONS --- */
 .content-wrapper {
   position: relative;
-  min-height: 500px;
+  min-height: auto; /* Removed fixed 500px height limits to keep the canvas light and scroll-free */
   width: 100%;
 }
 
@@ -185,26 +185,31 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   with clean 25px paragraph spacing, but keeping horizontal max-width alignment).
   We add a solid black background and white text inside, formatted with generous
   padding to form a brutalist text layout.
+  Stricter horizontal boundaries have been configured. The .about-text (black biography box)
+  is restricted to max-width: 40% on desktop monitors. This aligns the right edge of your
+  biography block with the right edge of the RESUME navigation tab at the top of the viewport.
 */
 .about-text {
   display: block !important;
   height: auto !important; /* Reverted to natural vertical flow heights */
-  max-width: 26.5% !important; /* Constrains text horizontally to end where the Portfolio tab ends */
+  max-width: 40% !important; /* MODIFIED: Spreads horizontally to align with the Resume tab, making the box significantly shorter to prevent vertical page scroll */
   background-color: #000000; /* Solid black box background */
-  padding: 30px; /* Generous framing padding inside the black box */
+  padding: 24px; /* Slightly compacted padding inside the black box to optimize vertical space */
   box-sizing: border-box;
 }
 
 .text-block {
-  max-width: 26.5% !important; /* Keeps other text blocks aligned with Portfolio tab */
+  max-width: 40% !important; /* Keeps other text blocks aligned with Resume tab */
   color: #000000;
 }
 
 .about-text p {
   text-align: justify; /* Aligns left and right margins horizontally to straight lines */
   color: #ffffff !important; /* White text on top of the black background */
+  font-size: 0.95rem !important; /* MODIFIED: Uniform body size prevents unnecessary height expansion and scrolling */
+  line-height: 1.55;
   margin-top: 0;
-  margin-bottom: 25px !important; /* Standard spacing separating paragraphs */
+  margin-bottom: 20px !important; /* Slightly compacted spacing separating paragraphs to prevent overflow */
 }
 
 .about-text p:last-child {
@@ -220,7 +225,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 #tab-home {
   position: relative;
   width: 100%;
-  height: auto; /* Removed fixed height limits to keep the canvas light and scroll-free */
+  height: auto; /* Reverted to auto so it wraps the biography content cleanly */
   box-sizing: border-box;
 }
 
@@ -228,8 +233,8 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   position: absolute;
   bottom: 0px; /* Aligns the bottom of your artwork box exactly with the bottom of the black biography block */
   right: 40px;
-  width: 350px;
-  height: 350px;
+  width: 280px; /* MODIFIED: Reduced from 350px to fit beautifully on laptop screens without scrolling */
+  height: 280px; /* MODIFIED: Reduced from 350px to fit beautifully on laptop screens without scrolling */
   box-sizing: border-box;
   z-index: 1;
 }
@@ -369,9 +374,10 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 
 /* --- COMPREHENSIVE CV SPLIT-GRID --- */
 .cv-container {
-  font-family: 'NudistaLight', sans-serif; /* Restricting all CV to the uniform Open Sans Light font */
+  font-family: 'NudistaLight', sans-serif; 
   color: #000000;
-  max-width: 900px;
+  width: 100% !important; /* MODIFIED: Stretches fully horizontally to end-align with the Blog tab */
+  max-width: 100% !important; /* MODIFIED: Stretches fully horizontally to end-align with the Blog tab */
   margin-top: 20px;
 }
 
@@ -381,6 +387,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   gap: 40px;
   border-bottom: 1px solid #eeeeee;
   padding: 30px 0;
+  width: 100% !important; /* Stretches columns to match horizontal screen boundaries */
 }
 
 .cv-row:last-child {
@@ -490,6 +497,8 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 /* 
   Removed padding: 6px, border: 1px solid #eeeeee, and background-color: #ffffff
   to display the raw transparent-background images with their shadows.
+  Added a subtle light placeholder background and explicit fallback min-height
+  so browser renders instant containers while Netlify assets download, preventing 404 collapses.
 */
 .floating-image-wrapper {
   position: absolute;
@@ -500,7 +509,8 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   user-select: none;
   border: none !important; /* Explicitly guarantees no borders/outlines on archive images */
   outline: none !important;
-  background-color: transparent !important;
+  background-color: #fcfcfc !important; /* Fallback frame container prevents rendering drops */
+  min-height: 150px !important; /* Prevent collapses on slower connections */
 }
 
 .floating-image-wrapper:active {
@@ -518,6 +528,16 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   pointer-events: none; /* Disables native browser ghost dragging on images */
   border: none !important; /* Safeguards raw images from browser outline borders */
   outline: none !important;
+}
+
+/* Slow structural drift animation */
+@keyframes slow-drift {
+  0 {
+    transform: translate(0, 0) rotate(var(--rot));
+  }
+  100% {
+    transform: translate(var(--drift-x), var(--drift-y)) rotate(calc(var(--rot) + var(--drift-rot)));
+  }
 }
 
 .load-more-btn {
