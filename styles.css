@@ -83,7 +83,7 @@ body, html, p, .about-text, .portfolio-row, .cv-content, .cv-contact-grid, .cv-i
   justify-content: space-between !important; /* Distributes characters evenly down the column */
   align-items: center;
   color: #ffffff !important; /* Keep text straight white */
-  font-size: 2.1vh !important; /* MODIFIED: Set in vh units to automatically scale down on Mac viewports to prevent cutoff */
+  font-size: 2.1vh !important; /* Set in vh units to automatically scale down on Mac viewports to prevent cutoff */
   line-height: 1;
   font-weight: 500;
   letter-spacing: -0.04em;
@@ -92,7 +92,7 @@ body, html, p, .about-text, .portfolio-row, .cv-content, .cv-contact-grid, .cv-i
   padding: 0;
   background: none !important; /* Background handled by parent site-header */
   text-decoration: none; /* Removes links underlines */
-  height: 92vh; /* Spans 92% of the viewport height (leaves 4vh breathing room on top and bottom) */
+  height: 94vh; /* Spans 94% of the viewport height (leaves 4vh breathing room on top and bottom) */
   pointer-events: auto; /* Re-enables hover/clicking events on the name itself */
   box-sizing: border-box;
 }
@@ -149,7 +149,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 /* --- TAB TRANSITIONS --- */
 .content-wrapper {
   position: relative;
-  min-height: auto; /* Removed fixed 500px height limits to keep the canvas light and scroll-free */
+  min-height: auto; /* Removed fixed height limits to keep the canvas light and scroll-free */
   width: 100%;
 }
 
@@ -192,7 +192,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 .about-text {
   display: block !important;
   height: auto !important; /* Reverted to natural vertical flow heights */
-  max-width: 40% !important; /* MODIFIED: Spreads horizontally to align with the Resume tab, making the box significantly shorter to prevent vertical page scroll */
+  max-width: 40% !important; /* Spreads horizontally to align with the Resume tab, making the box significantly shorter to prevent vertical page scroll */
   background-color: #000000; /* Solid black box background */
   padding: 24px; /* Slightly compacted padding inside the black box to optimize vertical space */
   box-sizing: border-box;
@@ -206,10 +206,10 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 .about-text p {
   text-align: justify; /* Aligns left and right margins horizontally to straight lines */
   color: #ffffff !important; /* White text on top of the black background */
-  font-size: 0.95rem !important; /* MODIFIED: Uniform body size prevents unnecessary height expansion and scrolling */
+  font-size: 0.95rem !important; /* Uniform body size prevents unnecessary height expansion and scrolling */
   line-height: 1.55;
   margin-top: 0;
-  margin-bottom: 20px !important; /* Slightly compacted spacing separating paragraphs to prevent overflow */
+  margin-bottom: 25px !important; /* Standard spacing separating paragraphs */
 }
 
 .about-text p:last-child {
@@ -233,8 +233,8 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   position: absolute;
   bottom: 0px; /* Aligns the bottom of your artwork box exactly with the bottom of the black biography block */
   right: 40px;
-  width: 280px; /* MODIFIED: Reduced from 350px to fit beautifully on laptop screens without scrolling */
-  height: 280px; /* MODIFIED: Reduced from 350px to fit beautifully on laptop screens without scrolling */
+  width: 280px; /* Reduced from 350px to fit beautifully on laptop screens without scrolling */
+  height: 280px; /* Reduced from 350px to fit beautifully on laptop screens without scrolling */
   box-sizing: border-box;
   z-index: 1;
 }
@@ -497,8 +497,6 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
 /* 
   Removed padding: 6px, border: 1px solid #eeeeee, and background-color: #ffffff
   to display the raw transparent-background images with their shadows.
-  Added a subtle light placeholder background and explicit fallback min-height
-  so browser renders instant containers while Netlify assets download, preventing 404 collapses.
 */
 .floating-image-wrapper {
   position: absolute;
@@ -509,8 +507,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   user-select: none;
   border: none !important; /* Explicitly guarantees no borders/outlines on archive images */
   outline: none !important;
-  background-color: #fcfcfc !important; /* Fallback frame container prevents rendering drops */
-  min-height: 150px !important; /* Prevent collapses on slower connections */
+  background-color: transparent !important;
 }
 
 .floating-image-wrapper:active {
@@ -528,38 +525,6 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   pointer-events: none; /* Disables native browser ghost dragging on images */
   border: none !important; /* Safeguards raw images from browser outline borders */
   outline: none !important;
-}
-
-/* Slow structural drift animation */
-@keyframes slow-drift {
-  0 {
-    transform: translate(0, 0) rotate(var(--rot));
-  }
-  100% {
-    transform: translate(var(--drift-x), var(--drift-y)) rotate(calc(var(--rot) + var(--drift-rot)));
-  }
-}
-
-.load-more-btn {
-  display: block;
-  width: fit-content;
-  margin: 60px auto 40px auto;
-  font-family: 'NudistaLight', sans-serif;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #000000;
-  background-color: #ffffff;
-  text-decoration: none;
-  border: 1px solid #000000;
-  padding: 10px 20px;
-  transition: background-color 0.2s, color 0.2s;
-  cursor: pointer;
-}
-
-.load-more-btn:hover {
-  background-color: #000000;
-  color: #ffffff;
 }
 
 /* --- MOBILE RESPONSIVENESS --- */
