@@ -186,20 +186,20 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   We add a solid black background and white text inside, formatted with generous
   padding to form a brutalist text layout.
   Stricter horizontal boundaries have been configured. The .about-text (black biography box)
-  is restricted to max-width: 40% on desktop monitors. This aligns the right edge of your
-  biography block with the right edge of the RESUME navigation tab at the top of the viewport.
+  is restricted to max-width: 26.5% on desktop monitors. This aligns the right edge of your
+  biography block with the right edge of the PORTFOLIO navigation tab at the top of the viewport.
 */
 .about-text {
   display: block !important;
   height: auto !important; /* Reverted to natural vertical flow heights */
-  max-width: 40% !important; /* Spreads horizontally to align with the Resume tab, making the box significantly shorter to prevent vertical page scroll */
+  max-width: 26.5% !important; /* Constrains text horizontally to end where the Portfolio tab ends */
   background-color: #000000; /* Solid black box background */
   padding: 24px; /* Slightly compacted padding inside the black box to optimize vertical space */
   box-sizing: border-box;
 }
 
 .text-block {
-  max-width: 40% !important; /* Keeps other text blocks aligned with Resume tab */
+  max-width: 26.5% !important; /* Keeps other text blocks aligned with Portfolio tab */
   color: #000000;
 }
 
@@ -209,7 +209,7 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   font-size: 0.95rem !important; /* Uniform body size prevents unnecessary height expansion and scrolling */
   line-height: 1.55;
   margin-top: 0;
-  margin-bottom: 25px !important; /* Standard spacing separating paragraphs */
+  margin-bottom: 20px !important; /* Slightly compacted spacing separating paragraphs to prevent overflow */
 }
 
 .about-text p:last-child {
@@ -525,6 +525,38 @@ body, html, p, .nav-tab, .section-label, .about-text, .text-block, .portfolio-ro
   pointer-events: none; /* Disables native browser ghost dragging on images */
   border: none !important; /* Safeguards raw images from browser outline borders */
   outline: none !important;
+}
+
+/* Slow structural drift animation */
+@keyframes slow-drift {
+  0% {
+    transform: translate(0, 0) rotate(var(--rot));
+  }
+  100% {
+    transform: translate(var(--drift-x), var(--drift-y)) rotate(calc(var(--rot) + var(--drift-rot)));
+  }
+}
+
+.load-more-btn {
+  display: block;
+  width: fit-content;
+  margin: 60px auto 40px auto;
+  font-family: 'NudistaLight', sans-serif;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #000000;
+  background-color: #ffffff;
+  text-decoration: none;
+  border: 1px solid #000000;
+  padding: 10px 20px;
+  transition: background-color 0.2s, color 0.2s;
+  cursor: pointer;
+}
+
+.load-more-btn:hover {
+  background-color: #000000;
+  color: #ffffff;
 }
 
 /* --- MOBILE RESPONSIVENESS --- */
