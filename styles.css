@@ -50,7 +50,9 @@ main {
   padding: 48px 30px 30px;
 }
 
-section {
+/* Biography and marra text */
+
+.bio {
   max-width: 680px;
 }
 
@@ -62,6 +64,37 @@ section {
 .bio p + p {
   margin-top: 24px;
 }
+
+/* Three upright photographs with varied sizes and spacing */
+
+.random-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
+  column-gap: clamp(24px, 5vw, 100px);
+  padding-top: 24px;
+  padding-bottom: 64px;
+}
+
+.gallery-frame {
+  width: var(--image-width, 100%);
+  margin: var(--offset, 0px) 0 0;
+  justify-self: var(--alignment, start);
+}
+
+.gallery-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Space between the marra description and its photographs */
+
+.marra-gallery {
+  margin-top: 64px;
+}
+
+/* Mobile layout */
 
 @media (max-width: 600px) {
   body {
@@ -82,5 +115,20 @@ section {
 
   main {
     padding: 32px 20px 20px;
+  }
+
+  .random-gallery {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 48px;
+    padding-top: 16px;
+    padding-bottom: 32px;
+  }
+
+  .gallery-frame {
+    margin-top: 0;
+  }
+
+  .marra-gallery {
+    margin-top: 48px;
   }
 }
