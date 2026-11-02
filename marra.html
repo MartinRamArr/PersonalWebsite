@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>marra — mario ramirez-arrazola</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="gallery.js" defer></script>
 </head>
 <body>
   <header class="site-header">
@@ -19,7 +20,7 @@
     </nav>
   </header>
 
-  <main>
+  <main class="split-layout">
     <section class="bio" aria-label="About marra">
       <p>
         marra (Marra Roofing LLC, doing business as marra
@@ -55,53 +56,14 @@
     </section>
 
     <div
-      class="random-gallery marra-gallery"
-      id="marra-gallery"
-      aria-label="Selected marra project images"
+      class="photo-gallery side-gallery"
+      data-gallery
+      data-total="14"
+      data-prefix="marra"
+      data-extension="jpg"
+      aria-label="Selected marra projects"
+      aria-busy="true"
     ></div>
   </main>
-
-  <script>
-    const gallery = document.getElementById("marra-gallery");
-
-    const numbers = Array.from({ length: 14 }, (_, i) => i + 1);
-
-    for (let i = numbers.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
-    }
-
-    const positions = ["start", "center", "end"];
-
-    numbers.slice(0, 3).forEach(number => {
-      const frame = document.createElement("figure");
-      frame.className = "gallery-frame";
-
-      frame.style.setProperty(
-        "--offset",
-        `${Math.floor(Math.random() * 180)}px`
-      );
-
-      frame.style.setProperty(
-        "--image-width",
-        `${72 + Math.floor(Math.random() * 29)}%`
-      );
-
-      frame.style.setProperty(
-        "--alignment",
-        positions[Math.floor(Math.random() * positions.length)]
-      );
-
-      const image = document.createElement("img");
-      image.src = `marra${number}.jpg`;
-      image.alt = `Marra project photograph ${number}`;
-      image.decoding = "async";
-
-      image.addEventListener("error", () => frame.remove());
-
-      frame.appendChild(image);
-      gallery.appendChild(frame);
-    });
-  </script>
 </body>
 </html>

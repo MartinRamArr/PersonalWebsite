@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>info — mario ramirez-arrazola</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="gallery.js" defer></script>
 </head>
 <body>
   <header class="site-header">
@@ -19,19 +20,31 @@
     </nav>
   </header>
 
-  <main>
+  <main class="split-layout">
     <section class="bio" aria-label="About Mario">
       <p>
-        Mario Ramirez-Arrazola is a designer from
-        Salt Lake City, Utah. A graduate of
-        Columbia University GSAPP, the University of Oklahoma, and the University of Utah,
-        he freelances and creates domestic objects. He co-founded Marra
-        Roofing (DBA: marra) with his father. His background in economics,
-        the history of technology, and teaching informs a practice
-        spanning architecture, objects, and construction, with an
-        interest in how materials and images shape everyday life.
+        Mario Ramirez-Arrazola is a designer from Salt Lake
+        City, Utah. A graduate of Columbia University GSAPP,
+        the University of Oklahoma, and the University of
+        Utah, he freelances and creates domestic objects.
+        He co-founded Marra Roofing (DBA: marra) with his
+        father. His background in economics, the history
+        of technology, and teaching informs a practice
+        spanning architecture, objects, and construction,
+        with an interest in how materials and images
+        shape everyday life.
       </p>
     </section>
+
+    <div
+      class="photo-gallery side-gallery"
+      data-gallery
+      data-total="353"
+      data-prefix=""
+      data-extension="png"
+      aria-label="Selected work"
+      aria-busy="true"
+    ></div>
   </main>
 </body>
 </html>

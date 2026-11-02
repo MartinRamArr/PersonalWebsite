@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>mario ramirez-arrazola</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="gallery.js" defer></script>
 </head>
 <body>
   <header class="site-header">
@@ -19,58 +20,16 @@
     </nav>
   </header>
 
-  <main>
+  <main class="home-main">
     <div
-      class="random-gallery"
-      id="home-gallery"
-      aria-label="Selected images"
+      class="photo-gallery home-gallery"
+      data-gallery
+      data-total="353"
+      data-prefix=""
+      data-extension="png"
+      aria-label="Selected work"
+      aria-busy="true"
     ></div>
   </main>
-
-  <script>
-    const gallery = document.getElementById("home-gallery");
-
-    // Shuffle all image numbers so the three selections are different.
-    const numbers = Array.from({ length: 353 }, (_, i) => i + 1);
-
-    for (let i = numbers.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
-    }
-
-    const positions = ["start", "center", "end"];
-
-    numbers.slice(0, 3).forEach((number, index) => {
-      const frame = document.createElement("figure");
-      frame.className = "gallery-frame";
-
-      // Vary the composition without rotating or overlapping images.
-      frame.style.setProperty(
-        "--offset",
-        `${Math.floor(Math.random() * 180)}px`
-      );
-
-      frame.style.setProperty(
-        "--image-width",
-        `${72 + Math.floor(Math.random() * 29)}%`
-      );
-
-      frame.style.setProperty(
-        "--alignment",
-        positions[Math.floor(Math.random() * positions.length)]
-      );
-
-      const image = document.createElement("img");
-      image.src = `${number}.png`;
-      image.alt = `Selected work, image ${number}`;
-      image.decoding = "async";
-
-      // Hide a missing image rather than displaying a broken image icon.
-      image.addEventListener("error", () => frame.remove());
-
-      frame.appendChild(image);
-      gallery.appendChild(frame);
-    });
-  </script>
 </body>
 </html>
