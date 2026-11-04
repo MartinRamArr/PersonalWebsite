@@ -20,21 +20,17 @@
 
 
 /* ========================================
-   DARK BACKGROUND
+   SOLID BLACK BACKGROUND
 ======================================== */
 
 body.section-theme {
   --section-gutter: clamp(20px, 3vw, 55px);
-  --section-name-height: clamp(80px, 8vw, 180px);
-
-  position: relative;
-  isolation: isolate;
 
   min-height: 100vh;
   margin: 0;
 
   color: #ffffff;
-  background: #242424;
+  background: #000000;
 
   font-family: "NudistaMedium", Arial, sans-serif;
   font-weight: 500;
@@ -42,51 +38,19 @@ body.section-theme {
   overflow-x: clip;
 }
 
-.section-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-
-  background:
-    radial-gradient(
-      ellipse at 75% 30%,
-      #484848 0%,
-      #252525 48%,
-      #151515 100%
-    );
-
-  pointer-events: none;
-}
-
-.section-backdrop::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Cpath fill='%23fff' filter='url(%23n)' d='M0 0h180v180H0z'/%3E%3C/svg%3E");
-
-  opacity: 0.22;
-  mix-blend-mode: soft-light;
-}
-
-
-/* ========================================
-   PAGE LAYOUT
-======================================== */
-
 .section-theme .site-container {
-  position: relative;
-
   min-height: 100vh;
+
+  margin: 0;
 
   padding:
     clamp(20px, 3vh, 35px)
     var(--section-gutter)
-    calc(var(--section-name-height) * 0.5 + 40px)
+    35px
     !important;
 
   color: #ffffff;
-  background: transparent;
+  background: #000000;
 }
 
 .section-theme,
@@ -96,12 +60,24 @@ body.section-theme {
 
 .section-theme .content-wrapper {
   position: relative;
-  z-index: 2;
+  width: 100%;
+  min-width: 0;
 }
 
 
 /* ========================================
-   NAVIGATION
+   REMOVE PREVIOUS DECORATIVE ELEMENTS
+======================================== */
+
+.section-theme .site-header,
+.section-theme .section-backdrop,
+.section-theme .section-shapes {
+  display: none !important;
+}
+
+
+/* ========================================
+   NAVIGATION — MATCH HOME AND MARRA
 ======================================== */
 
 .section-theme .top-nav {
@@ -119,7 +95,8 @@ body.section-theme {
 }
 
 .section-theme .top-nav .nav-tab,
-.section-theme .top-nav .nav-tab:hover {
+.section-theme .top-nav .nav-tab:hover,
+.section-theme .top-nav:hover .nav-tab {
   margin: 0;
   padding: 0;
 
@@ -129,98 +106,29 @@ body.section-theme {
 
   font-family: "ApercuMono", monospace;
   font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0;
+
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
 }
 
 .section-theme .top-nav .nav-tab.active,
 .section-theme .top-nav .nav-tab[aria-current="page"] {
   color: #ffffff;
   background: transparent;
+  opacity: 1;
 
   text-decoration: underline;
   text-underline-offset: 7px;
   text-decoration-thickness: 1px;
 }
 
-
-/* ========================================
-   CROPPED NAME AT BOTTOM
-======================================== */
-
-.section-theme .site-container > .site-header,
-.section-theme .site-container > .site-header.dimmed {
-  position: fixed !important;
-  inset: auto 0 0 0 !important;
-  z-index: 30;
-
-  display: block !important;
-
-  width: 100% !important;
-  height: calc(var(--section-name-height) * 0.5) !important;
-  min-height: 0;
-
-  margin: 0 !important;
-  padding: 0 !important;
-
-  overflow: hidden;
-  background: transparent !important;
-}
-
-.section-theme .site-header a.site-title {
-  position: absolute;
-  inset: 0 auto auto 0;
-
-  display: block !important;
-
-  width: 100% !important;
-  max-width: none !important;
-  height: var(--section-name-height) !important;
-
-  margin: 0;
-  padding: 0 !important;
-
-  color: #ffffff !important;
-  background: transparent !important;
-
-  transform: none !important;
-}
-
-.section-name-svg {
-  display: block;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-
-.section-name-svg text {
-  fill: #ffffff;
-
-  font-family: "ApercuMono", monospace;
-  font-size: 110px;
-  font-weight: 400;
-}
-
-
-/* ========================================
-   SHAPES
-======================================== */
-
-.section-shapes {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.section-mark {
-  position: absolute;
-  display: block;
-
-  background: #ffffff;
-  border: 0;
-  box-shadow: none;
-  pointer-events: none;
+.section-theme .nav-tab:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 4px;
 }
 
 
@@ -228,34 +136,38 @@ body.section-theme {
    RESUME
 ======================================== */
 
-.section-theme .cv-container,
-.section-theme .cv-content,
-.section-theme .cv-item-desc,
-.section-theme .cv-interests,
-.section-theme .cv-item-title {
-  color: #ffffff;
-}
+.section-theme .cv-container {
+  width: 100%;
+  margin-top: 0;
 
-.section-theme .cv-container,
-.section-theme .cv-content,
-.section-theme .cv-item-desc {
+  color: #ffffff;
   font-family: "NudistaMedium", Arial, sans-serif;
   font-weight: 500;
 }
 
-.section-theme .cv-container {
-  margin-top: 0;
+.section-theme .cv-content,
+.section-theme .cv-item-desc,
+.section-theme .cv-interests {
+  color: #ffffff;
+
+  font-family: "NudistaMedium", Arial, sans-serif;
+  font-weight: 500;
+}
+
+.section-theme .cv-label,
+.section-theme .cv-item-title {
+  font-family: "ApercuMono", monospace;
+  font-weight: 400;
+}
+
+.section-theme .cv-item-title {
+  color: #ffffff;
 }
 
 .section-theme .cv-label,
 .section-theme .cv-item-date,
 .section-theme .cv-list-meta {
   color: #bcbcbc;
-}
-
-.section-theme .cv-label,
-.section-theme .cv-item-title {
-  font-family: "ApercuMono", monospace;
 }
 
 .section-theme .cv-row {
@@ -272,6 +184,7 @@ body.section-theme {
 ======================================== */
 
 .section-theme .pdf-viewer-container {
+  width: 100%;
   height: 78vh;
   height: 78dvh;
   min-height: 420px;
@@ -279,7 +192,15 @@ body.section-theme {
   margin: 0 0 30px;
 
   border: 0;
+  background: #000000;
   box-shadow: none;
+}
+
+.section-theme .pdf-iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
 }
 
 
@@ -293,6 +214,7 @@ body.section-theme {
 
 .section-theme .floating-image-wrapper,
 .section-theme .floating-image-wrapper:hover {
+  background: transparent;
   box-shadow: none;
 }
 
@@ -302,6 +224,7 @@ body.section-theme {
   border-color: #ffffff;
 
   font-family: "ApercuMono", monospace;
+  font-weight: 400;
 }
 
 .section-theme .load-more-btn:hover {
@@ -324,6 +247,7 @@ body.section-theme {
     flex-wrap: wrap;
     justify-content: flex-start;
     gap: 12px 20px;
+
     margin-bottom: 24px;
   }
 
