@@ -2,34 +2,520 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>mario ramirez-arrazola</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MARIO MARTIN RAMIREZ-ARRAZOLA</title>
   <link rel="stylesheet" href="styles.css">
-  <script src="gallery.js" defer></script>
 </head>
 <body>
-  <header class="site-header">
-    <h1>
-      <a href="index.html">mario ramirez-arrazola</a>
-    </h1>
 
-    <nav aria-label="Main navigation">
-      <a href="info.html">info</a>
-      <a href="marra.html">marra</a>
-      <a href="morris.html">morris</a>
+  <!-- Inline SVG Filter used to generate real, non-repeating noise/grain for Option 3 -->
+  <svg style="display: none;">
+    <filter id="svg-noise-filter">
+      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" result="noise" />
+      <feColorMatrix type="matrix" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.18 0" />
+      <feComposite operator="in" in2="SourceGraphic" result="monoNoise" />
+      <feBlend mode="multiply" in="SourceGraphic" in2="monoNoise" />
+    </filter>
+  </svg>
+
+  <div class="site-container">
+    
+    <!-- Top Navigation Pane (6 items, equally distributed horizontally) -->
+    <nav class="top-nav">
+      <a href="#" class="nav-tab active" data-tab="home">Home</a>
+      <a href="#" class="nav-tab" data-tab="portfolio">Portfolio</a>
+      <a href="#" class="nav-tab" data-tab="resume">Resume</a>
+      <a href="#" class="nav-tab" data-tab="images">Images</a>
+      <a href="#" class="nav-tab" data-tab="research">Research</a>
+      <a href="#" class="nav-tab" data-tab="blog">Blog</a>
     </nav>
-  </header>
 
-  <main class="home-main">
-    <div
-      class="photo-gallery home-gallery"
-      data-gallery
-      data-total="353"
-      data-prefix=""
-      data-extension="png"
-      aria-label="Selected work"
-      aria-busy="true"
-    ></div>
-  </main>
+    <!-- Vertical Name Sidebar with Mailto prompt -->
+    <header class="site-header">
+      <a href="mailto:marioramirezarrazola@gmail.com" class="site-title">MARIO MARTIN RAMIREZ-ARRAZOLA</a>
+    </header>
+
+    <!-- Interactive Content Wrapper -->
+    <main class="content-wrapper">
+      
+      <!-- 1. Home Section -->
+      <div id="tab-home" class="tab-content active visible">
+        <div class="about-text">
+          <p>Mario Ramirez-Arrazola recently graduated with an M.Arch from Columbia University GSAPP and is currently a Technical Designer at Gensler, Los Angeles. Previously, Mario was an adjunct faculty member in history at Montclair State University and an intern at WaCa Design and Office DFK. Further, he is a co-founding member of Marra Roofing LLC along with his father, a roofing-construction company based in the Salt Lake Valley. He also holds a B.S. in Economics from the University of Utah (2021) and an M.A. in the History of Technology from the University of Oklahoma (2023). He is 25 years old, Mexican-American (first-generation student), and grew up in Salt Lake City, Utah. He is fluent in English and Spanish.</p>
+          
+          <p>As an undergraduate student Mario focused mainly on urban economic research and community service. In terms of his current academic endeavors, Mario is interested in late modern and contemporary art history, modern architectural history, and critical theory. His master's thesis involved primary-source research on Allan Sekula, a postwar American photographer.</p>
+          
+          <p>For Mario, every design project must be stringent in its analysis of culture, history, theory, and representation. Mario is interested in space which subverts and agitates our expectations of reality yet also provides a socially beneficial construct. He is interested in drawing, rendering, and model photography while remaining conscious of digital processes. Most currently, Mario is interested in how contemporary materials processes, research, and engineering produce newfound forms of social subjectivity within an urban scale.</p>
+          
+          <p>Throughout his schooling and practice Mario has remained dedicated to his passion for pedagogy and social justice—in particular, he is deeply passionate about first-generation students and their navigation of post-secondary education, as well as actively advocating for the plights of undocumented immigrants.</p>
+        </div>
+
+        <!-- Dynamic Graphic Art Frame positioned in the bottom-right coordinates -->
+        <div class="homepage-artwork-container">
+          <div class="artwork-frame">
+            <img id="dynamic-artwork" src="" alt="Random Graphic Slide" />
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Portfolio Section -->
+      <div id="tab-portfolio" class="tab-content">
+        <!-- PDF Portfolio pulled directly to the top with no button or text above it -->
+        <div class="pdf-viewer-container">
+          <iframe src="MarioPortfolio.pdf#toolbar=0" class="pdf-iframe" title="Mario Martin Ramirez-Arrazola Portfolio"></iframe>
+        </div>
+      </div>
+
+      <!-- 3. Resume Section (Comprehensive CV) -->
+      <div id="tab-resume" class="tab-content">
+        <div class="cv-container">
+          
+          <!-- Contact Information -->
+          <div class="cv-row">
+            <div class="cv-label">Contact</div>
+            <div class="cv-content">
+              <div class="cv-contact-grid">
+                <div>marioramirezarrazola.com</div>
+                <div>marioramirezarrazola@gmail.com</div>
+                <div>+1 801 - 833 - 2752</div>
+                <div>Los Angeles, CA</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Education -->
+          <div class="cv-row">
+            <div class="cv-label">Education</div>
+            <div class="cv-content">
+              <div class="cv-item">
+                <div class="cv-item-header">
+                  <span class="cv-item-title">Columbia University GSAPP</span>
+                  <span class="cv-item-meta">M.Arch</span>
+                </div>
+                <div class="cv-item-date">2023 — 2026</div>
+              </div>
+              <div class="cv-item">
+                <div class="cv-item-header">
+                  <span class="cv-item-title">University of Oklahoma</span>
+                  <span class="cv-item-meta">M.A. History of Technology</span>
+                </div>
+                <div class="cv-item-date">2021 — 2023</div>
+              </div>
+              <div class="cv-item">
+                <div class="cv-item-header">
+                  <span class="cv-item-title">University of Utah</span>
+                  <span class="cv-item-meta">B.S. Economics</span>
+                </div>
+                <div class="cv-item-date">2018 — 2021</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Relevant Experience -->
+          <div class="cv-row">
+            <div class="cv-label">Experience</div>
+            <div class="cv-content">
+              <!-- Gensler -->
+              <div class="cv-item">
+                <div class="cv-item-header">
+                  <span class="cv-item-title">Gensler</span>
+                  <span class="cv-item-meta">Technical Designer</span>
+                </div>
+                <div class="cv-item-date">July 2026 — Present</div>
+              </div>
+              <!-- WaCa Design -->
+              <div class="cv-item">
+                <div class="cv-item-header">
+                  <span class="cv-item-title">WaCa Design</span>
+                  <span class="cv-item-meta">Architectural Intern</span>
+                </div>
+                <div class="cv-item-date">January 2026 — July 2026</div>
+                <div class="cv-item-desc">Assisted principal Walter Cain in the design and renovation of a historic estate located in Palisades, New York through the production of exterior and interior renderings for the client, 3D digital and physical modeling, and concept iteration.</div>
+              </div>
+              <!-- Montclair State University -->
+              <div class="cv-item">
+                <div class="cv-item-header">
+                  <span class="cv-item-title">Montclair State University</span>
+                  <span class="cv-item-meta">Adjunct Instructor in History</span>
+                </div>
+                <div class="cv-item-date">2023 — 2026</div>
+                <div class="cv-item-desc">Adjunct for the History Department, primarily teaching courses in Introduction to American Studies, Colonial American History, and Modern American History. Developed course materials, delivered lectures, and facilitated classroom discussions focused on critical analysis of historical events and their broader social contexts. I made it an effort to train my students in methods of historical analysis beyond writing through exercises in collaging, graphic design, photography, and digital fabrication.</div>
+              </div>
+              <!-- Office DFK -->
+              <div class="cv-item">
+                <div class="cv-item-header">
+                  <span class="cv-item-title">Office DFK</span>
+                  <span class="cv-item-meta">Architectural Intern</span>
+                </div>
+                <div class="cv-item-date">Summer 2024</div>
+                <div class="cv-item-desc">As an intern at Office DFK I worked on developing architectural drawings in the form of highly detailed plans, sections, and elevations, rendered and developed 3D models for design competitions, and finished a 1/4” = 1’ physical design model.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Skills -->
+          <div class="cv-row">
+            <div class="cv-label">Skills</div>
+            <div class="cv-content">
+              <div class="cv-skills-grid">
+                <div><strong>Design & Tech:</strong> Rhino 8, Revit, AutoCad, Grasshopper, VRay, Blender, Twinmotion, Adobe Suite (Illustrator, Photoshop, InDesign, Premiere), AI-Integrated Workflows</div>
+                <div><strong>Fabrication:</strong> Laser cutting, CNC milling, 3D printing, physical modeling</div>
+                <div><strong>Methods:</strong> Concept ideation, sketching, writing, researching, collaging, vibe coding</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Extracurricular Activities -->
+          <div class="cv-row">
+            <div class="cv-label">Leadership</div>
+            <div class="cv-content">
+              <div class="cv-list-item"><span>Founder, Non-Background at GSAPP</span> <span class="cv-list-meta">Fall 2025 — Spring 2026</span></div>
+              <div class="cv-list-item"><span>Student Council President, Columbia University GSAPP</span> <span class="cv-list-meta">Fall 2024 — Spring 2026</span></div>
+              <div class="cv-list-item"><span>Chair, GSAPP Health and Wellness Committee</span> <span class="cv-list-meta">Fall 2024 — Spring 2026</span></div>
+              <div class="cv-list-item"><span>Mentor, Barnard + Columbia Architecture Society</span> <span class="cv-list-meta">Fall 2023 — Spring 2026</span></div>
+              <div class="cv-list-item"><span>Editor, Aster Review, University of Oklahoma</span> <span class="cv-list-meta">Fall 2021 — Spring 2023</span></div>
+              <div class="cv-list-item"><span>Representative, History of Science Association at OU</span> <span class="cv-list-meta">Fall 2021 — Spring 2023</span></div>
+              <div class="cv-list-item"><span>Educational Volunteer Member, AmeriCorps</span> <span class="cv-list-meta">Fall 2020 — Spring 2021</span></div>
+              <div class="cv-list-item"><span>Historian, Latinos in Action at the University of Utah</span> <span class="cv-list-meta">Fall 2020 — Spring 2021</span></div>
+              <div class="cv-list-item"><span>Board Chair, Associated Students of the University of Utah</span> <span class="cv-list-meta">Fall 2020 — Fall 2021</span></div>
+            </div>
+          </div>
+
+          <!-- Paper Publications -->
+          <div class="cv-row">
+            <div class="cv-label">Publications</div>
+            <div class="cv-content">
+              <div class="cv-list-item"><span>"Nomadic Pedagogy and the Writing Center," <em>Another Word</em>, University of Wisconsin–Madison</span> <span class="cv-list-meta">Oct 2022</span></div>
+              <div class="cv-list-item"><span>"Oklahoma Psychogeography 1 & 2," <em>The Aster Review</em>, University of Oklahoma (Vol. 5)</span> <span class="cv-list-meta">May 2022</span></div>
+              <div class="cv-list-item"><span>"The Bullet Train of Camden," <em>Plutonics: A Journal of Non-Standard Theory</em> (Vol. 15)</span> <span class="cv-list-meta">Mar 2022</span></div>
+              <div class="cv-list-item"><span>"Borderlands of Zoom University," <em>The Dangling Modifier</em>, Penn State University</span> <span class="cv-list-meta">Feb 2022</span></div>
+              <div class="cv-list-item"><span>"The Economics Benefits and Implications of Insuring All Utah Children," <em>Univ of Utah Undergraduate Research Journal</em> (Vol. 21)</span> <span class="cv-list-meta">Oct 2021</span></div>
+              <div class="cv-list-item"><span>"Adding Up The Cost of Excluding Undocumented Utahns From State And Federal COVID-19 Relief," <em>Univ of Utah Undergraduate Research Journal</em> (Vol. 20)</span> <span class="cv-list-meta">Oct 2020</span></div>
+            </div>
+          </div>
+
+          <!-- Conferences -->
+          <div class="cv-row">
+            <div class="cv-label">Conferences</div>
+            <div class="cv-content">
+              <div class="cv-list-item"><span>"Infrastructural Madness in Allan Sekula’s Fish Story," Society for the History of Technology 2023 Annual Conference, Long Beach, CA</span> <span class="cv-list-meta">Oct 2023</span></div>
+              <div class="cv-list-item"><span>"Towards a Writing Center Pedagogy of Place, Power, and Persons," South Central Writing Centers Association, Baton Rouge, LA</span> <span class="cv-list-meta">Feb 2022</span></div>
+              <div class="cv-list-item"><span>"The Gothic Flatline and Infrastructure Studies," Southwest Popular American Culture Association 43rd Conference, Albuquerque, NM</span> <span class="cv-list-meta">Feb 2022</span></div>
+              <div class="cv-list-item"><span>"Adding Up The Cost of Excluding Undocumented Utahns from State and Federal COVID-19 Relief," Univ of Utah, Research on Capitol Hill (ROCH)</span> <span class="cv-list-meta">Summer 2021</span></div>
+              <div class="cv-list-item"><span>"Adding Up The Cost of Excluding Undocumented Utahns from State and Federal COVID-19 Relief," BYU, Utah Conference on Undergraduate Research</span> <span class="cv-list-meta">Summer 2021</span></div>
+              <div class="cv-list-item"><span>"Adding Up The Cost of Excluding Undocumented Utahns from State and Federal COVID-19 Relief," Univ of Utah, Immunology, Inflammation, & Infectious Disease (3i) Initiative</span> <span class="cv-list-meta">June 2021</span></div>
+              <div class="cv-list-item"><span>"The Economic Benefits and Implications of Insuring All Utah Children," Univ of Utah, CSBS Virtual Student Research Day Conference</span> <span class="cv-list-meta">Apr 2021</span></div>
+            </div>
+          </div>
+
+          <!-- Honors, Awards, Scholarships & Grants -->
+          <div class="cv-row">
+            <div class="cv-label">Awards & Grants</div>
+            <div class="cv-content">
+              <div class="cv-awards-grid">
+                <div>Master of Architecture Program Scholarship (2023)</div>
+                <div>Marilyn B. Ogilvie Graduate Fellowship (2) (2022, 2023)</div>
+                <div>History of Science Travel & Research Award (2022)</div>
+                <div>National Conference on Peer Tutoring in Writing Travel Award (2022)</div>
+                <div>Robert E. and Mary B. Sturgis Scholarship (2022)</div>
+                <div>College of Arts and Sciences Travel Assistance Program Grant (2022)</div>
+                <div>Robberson and Wethington Prestigious Course Grant (2022)</div>
+                <div>Dodge Family College of Arts & Sciences Scholarship (2022)</div>
+                <div>SLIS Scholarship (2022)</div>
+                <div>Writing Center Travel Grant (2021)</div>
+                <div>Robberson Travel Grant (2021)</div>
+                <div>Segal AmeriCorps Education Award (2021)</div>
+                <div>Undergraduate Research Scholar Designation (2021)</div>
+                <div>2021 CSBS Student Research Day Student Choice Award (2021)</div>
+                <div>Stephen and Lynda Jacobsen Scholarship (2021)</div>
+                <div>Economics Department Scholar (2020)</div>
+                <div>Kem C. Gardner Policy Institute Scholar (2020)</div>
+                <div>Jewel J. and Larue J. Rasmussen Scholarship (2020)</div>
+                <div>University of Utah Undergraduate Research Office Grant (2020)</div>
+                <div>Beacon Community Engagement Award (2020)</div>
+                <div>Informed Decisions Scholarship (2) (2019, 2021)</div>
+                <div>Economic Ambassador Scholarship (2) (2019, 2021)</div>
+                <div>Utah Early Graduate Scholarship (2018)</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interests -->
+          <div class="cv-row">
+            <div class="cv-label">Interests</div>
+            <div class="cv-content">
+              <div class="cv-interests">
+                theory and history / writing / representation / material systems / urbanism / fabrication / photography / pedagogy / contemporary art
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 4. Images Section -->
+      <div id="tab-images" class="tab-content">
+        <div class="scattered-canvas" id="images-canvas">
+          <!-- All 438 images (1.jpg - 353.jpg & 1.png - 85.png) are dynamically scattered and animated here -->
+        </div>
+        <button class="load-more-btn" id="load-more-btn">Load More Archive</button>
+      </div>
+
+      <!-- 5. Research Section -->
+      <div id="tab-research" class="tab-content">
+        <div class="text-block">
+          <p>WORK IN PROGRESS</p>
+        </div>
+      </div>
+
+      <!-- 6. Blog Section -->
+      <div id="tab-blog" class="tab-content">
+        <div class="text-block">
+          <p>WORK IN PROGRESS</p>
+        </div>
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- Interactive Tab Script -->
+  <script>
+  (function() {
+    const tabs = document.querySelectorAll(".nav-tab");
+    const contents = document.querySelectorAll(".tab-content");
+    const siteHeader = document.querySelector(".site-header");
+    const siteTitle = document.querySelector(".site-title");
+    let timeoutId = null;
+
+    // Dynamically split your name into individual letters for Flexbox vertical justified spacing
+    if (siteTitle) {
+      const nameText = siteTitle.textContent.trim();
+      siteTitle.innerHTML = ""; // Clear raw text
+      for (let char of nameText) {
+        const span = document.createElement("span");
+        if (char === " ") {
+          span.innerHTML = "&nbsp;"; // Retain structured spaces
+        } else {
+          span.textContent = char;
+        }
+        siteTitle.appendChild(span);
+      }
+    }
+
+    // Define resources pools to match folder contents exactly (353 JPGs and 85 PNGs)
+    const totalJpgs = 353;
+    const totalPngs = 85;
+    const imagePool = [];
+    for (let i = 1; i <= totalJpgs; i++) imagePool.push(`${i}.jpg`);
+    for (let i = 1; i <= totalPngs; i++) imagePool.push(`${i}.png`);
+
+    // Shuffle array utility
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+    shuffleArray(imagePool);
+
+    let currentTop = 50;
+    const canvas = document.getElementById("images-canvas");
+    const loadMoreBtn = document.getElementById("load-more-btn");
+    let isCanvasInitialized = false;
+
+    // Renders images in stable batches of 20 to protect browser memory performance
+    function renderBatch(batchSize = 20) {
+      if (!canvas) return;
+
+      for (let i = 0; i < batchSize; i++) {
+        if (imagePool.length === 0) {
+          if (loadMoreBtn) loadMoreBtn.style.display = "none";
+          return;
+        }
+        const imgSrc = imagePool.pop(); // Safely pop elements from the randomized pool
+
+        const wrapper = document.createElement("div");
+        wrapper.className = "floating-image-wrapper";
+        
+        // Generate precise random layout attributes
+        const randomLeft = Math.random() * 65; // Safeguard within browser viewport limits
+        const rotation = (Math.random() * 16) - 8; // Staggered -8deg to 8deg
+        const driftX = (Math.random() * 20) - 10; // Left-to-right drift offsets
+        const driftY = (Math.random() * 20) - 10; // Up-and-down drift offsets
+        const driftRot = (Math.random() * 4) - 2;
+        const driftDuration = 5 + (Math.random() * 5); // Fluid drifting speed
+
+        wrapper.style.left = `${randomLeft}%`;
+        wrapper.style.top = `${currentTop}px`;
+        wrapper.style.setProperty('--rot', `${rotation}deg`); // References the corrected rotation variable
+        wrapper.style.setProperty('--drift-x', `${driftX}px`);
+        wrapper.style.setProperty('--drift-y', `${driftY}px`);
+        wrapper.style.setProperty('--drift-rot', `${driftRot}deg`);
+        wrapper.style.setProperty('--drift-duration', `${driftDuration}s`);
+        
+        // Stagger visual sizes organically
+        const randomWidth = 180 + Math.floor(Math.random() * 100);
+        wrapper.style.width = `${randomWidth}px`;
+
+        const img = document.createElement("img");
+        img.src = imgSrc;
+        img.loading = "lazy"; // Standard load performance optimization
+        
+        wrapper.appendChild(img);
+        canvas.appendChild(wrapper);
+        
+        makeDraggable(wrapper);
+
+        // Advance down the vertical canvas organically to prevent clusters
+        currentTop += (randomWidth * 0.75) + (Math.random() * 60);
+      }
+      
+      // Sized correctly so document body scrolls smoothly
+      canvas.style.height = `${currentTop + 300}px`;
+    }
+
+    // Hand-engineered Drag and Drop logic with Touchscreen support
+    function makeDraggable(element) {
+      let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+      
+      element.onmousedown = dragMouseDown;
+      element.ontouchstart = dragMouseDown;
+
+      function dragMouseDown(e) {
+        e = e || window.event;
+        if (e.type !== 'touchstart') {
+          e.preventDefault();
+        }
+        
+        pos3 = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+        pos4 = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+        
+        document.onmouseup = closeDragElement;
+        document.ontouchend = closeDragElement;
+        document.onmousemove = elementDrag;
+        document.ontouchmove = elementDrag;
+        
+        // Bring active photo frame to the front layer
+        document.querySelectorAll('.floating-image-wrapper').forEach(el => el.style.zIndex = "10");
+        element.style.zIndex = "9999";
+      }
+
+      function elementDrag(e) {
+        e = e || window.event;
+        const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+        const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+        
+        pos1 = pos3 - clientX;
+        pos2 = pos4 - clientY;
+        pos3 = clientX;
+        pos4 = clientY;
+        
+        element.style.top = (element.offsetTop - pos2) + "px";
+        element.style.left = (element.offsetLeft - pos1) + "px";
+      }
+
+      function closeDragElement() {
+        document.onmouseup = null;
+        document.ontouchend = null;
+        document.onmousemove = null;
+        document.ontouchmove = null;
+      }
+    }
+
+    // Randomly selects an image and applies a risograph, photocopy, grain, or halftone filter on page load
+    function initializeHomepageArtwork() {
+      const artImg = document.getElementById("dynamic-artwork");
+      const artFrame = document.querySelector(".artwork-frame");
+      if (!artImg || !artFrame) return;
+
+      // 1. Pick JPG (75% probability) or PNG (25% probability)
+      const useJpg = Math.random() > 0.25;
+      let selectedFile = "";
+      if (useJpg) {
+        const randomJpgId = Math.floor(Math.random() * totalJpgs) + 1;
+        selectedFile = `${randomJpgId}.jpg`;
+      } else {
+        const randomPngId = Math.floor(Math.random() * totalPngs) + 1;
+        selectedFile = `${randomPngId}.png`;
+      }
+
+      // 2. Set the image source
+      artImg.src = selectedFile;
+
+      // 3. Pick and apply a random post-modern graphic filter class
+      const effects = ["effect-photocopy", "effect-risograph", "effect-grain", "effect-halftone"];
+      const chosenEffect = effects[Math.floor(Math.random() * effects.length)];
+      artFrame.classList.add(chosenEffect);
+    }
+
+    // Run the dynamic artwork compiler on page load
+    initializeHomepageArtwork();
+
+    // FIXED DRAG ONCLICK: Bounded securely as a single property click action for Netlify environment consistency
+    if (loadMoreBtn) {
+      loadMoreBtn.onclick = function(e) {
+        e.preventDefault();
+        renderBatch(15);
+      };
+    }
+
+    function switchTab(tabElement) {
+      const targetId = "tab-" + tabElement.getAttribute("data-tab");
+      const currentActiveContent = document.querySelector(".tab-content.active");
+      const targetContent = document.getElementById(targetId);
+
+      if (targetContent === currentActiveContent) return;
+
+      if (timeoutId) clearTimeout(timeoutId);
+
+      // Handle active menu highlighted links
+      tabs.forEach(t => t.classList.remove("active"));
+      tabElement.classList.add("active");
+
+      // Lazy load first batch of images only when visitors visit the tab to protect initial page load speeds
+      if (targetId === "tab-images" && !isCanvasInitialized) {
+        renderBatch(20); // CORRECTED DISCREPANCY: Properly calls the active renderBatch function to load images correctly and restores images tab function
+        isCanvasInitialized = true;
+      }
+
+      if (currentActiveContent) {
+        currentActiveContent.classList.remove("visible");
+
+        timeoutId = setTimeout(() => {
+          contents.forEach(c => c.classList.remove("active", "visible"));
+          targetContent.classList.add("active");
+          targetContent.offsetHeight; 
+          targetContent.classList.add("visible");
+        }, 250); 
+      } else {
+        targetContent.classList.add("active");
+        targetContent.offsetHeight;
+        targetContent.classList.add("visible");
+      }
+    }
+
+    // Dynamic Scroll Opacity: Background of the sidebar dims to #dddddd on scroll (safety check protects against console errors)
+    window.addEventListener("scroll", function() {
+      if (siteHeader) {
+        if (window.scrollY > 40) {
+          siteHeader.classList.add("dimmed");
+        } else {
+          siteHeader.classList.remove("dimmed");
+        }
+      }
+    });
+
+    tabs.forEach(tab => {
+      tab.addEventListener("mouseenter", function() {
+        switchTab(this);
+      });
+      tab.addEventListener("click", function(e) {
+        e.preventDefault();
+        switchTab(this);
+      });
+    });
+  })();
+  </script>
 </body>
 </html>
