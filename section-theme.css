@@ -1,0 +1,333 @@
+/* ========================================
+   FONTS
+======================================== */
+
+@font-face {
+  font-family: "NudistaMedium";
+  src: url("NudistaMedium.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "ApercuMono";
+  src: url("ApercuMonoProRegular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+/* ========================================
+   DARK BACKGROUND
+======================================== */
+
+body.section-theme {
+  --section-gutter: clamp(20px, 3vw, 55px);
+  --section-name-height: clamp(80px, 8vw, 180px);
+
+  position: relative;
+  isolation: isolate;
+
+  min-height: 100vh;
+  margin: 0;
+
+  color: #ffffff;
+  background: #242424;
+
+  font-family: "NudistaMedium", Arial, sans-serif;
+  font-weight: 500;
+
+  overflow-x: clip;
+}
+
+.section-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+
+  background:
+    radial-gradient(
+      ellipse at 75% 30%,
+      #484848 0%,
+      #252525 48%,
+      #151515 100%
+    );
+
+  pointer-events: none;
+}
+
+.section-backdrop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Cpath fill='%23fff' filter='url(%23n)' d='M0 0h180v180H0z'/%3E%3C/svg%3E");
+
+  opacity: 0.22;
+  mix-blend-mode: soft-light;
+}
+
+
+/* ========================================
+   PAGE LAYOUT
+======================================== */
+
+.section-theme .site-container {
+  position: relative;
+
+  min-height: 100vh;
+
+  padding:
+    clamp(20px, 3vh, 35px)
+    var(--section-gutter)
+    calc(var(--section-name-height) * 0.5 + 40px)
+    !important;
+
+  color: #ffffff;
+  background: transparent;
+}
+
+.section-theme,
+.section-theme * {
+  text-shadow: none !important;
+}
+
+.section-theme .content-wrapper {
+  position: relative;
+  z-index: 2;
+}
+
+
+/* ========================================
+   NAVIGATION
+======================================== */
+
+.section-theme .top-nav {
+  position: relative;
+  z-index: 20;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  width: 100%;
+  margin: 0 0 clamp(24px, 5vh, 65px);
+  padding: 0;
+}
+
+.section-theme .top-nav .nav-tab,
+.section-theme .top-nav .nav-tab:hover {
+  margin: 0;
+  padding: 0;
+
+  color: #ffffff;
+  background: transparent;
+  opacity: 1;
+
+  font-family: "ApercuMono", monospace;
+  font-size: 0.9rem;
+}
+
+.section-theme .top-nav .nav-tab.active,
+.section-theme .top-nav .nav-tab[aria-current="page"] {
+  color: #ffffff;
+  background: transparent;
+
+  text-decoration: underline;
+  text-underline-offset: 7px;
+  text-decoration-thickness: 1px;
+}
+
+
+/* ========================================
+   CROPPED NAME AT BOTTOM
+======================================== */
+
+.section-theme .site-container > .site-header,
+.section-theme .site-container > .site-header.dimmed {
+  position: fixed !important;
+  inset: auto 0 0 0 !important;
+  z-index: 30;
+
+  display: block !important;
+
+  width: 100% !important;
+  height: calc(var(--section-name-height) * 0.5) !important;
+  min-height: 0;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  overflow: hidden;
+  background: transparent !important;
+}
+
+.section-theme .site-header a.site-title {
+  position: absolute;
+  inset: 0 auto auto 0;
+
+  display: block !important;
+
+  width: 100% !important;
+  max-width: none !important;
+  height: var(--section-name-height) !important;
+
+  margin: 0;
+  padding: 0 !important;
+
+  color: #ffffff !important;
+  background: transparent !important;
+
+  transform: none !important;
+}
+
+.section-name-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.section-name-svg text {
+  fill: #ffffff;
+
+  font-family: "ApercuMono", monospace;
+  font-size: 110px;
+  font-weight: 400;
+}
+
+
+/* ========================================
+   SHAPES
+======================================== */
+
+.section-shapes {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.section-mark {
+  position: absolute;
+  display: block;
+
+  background: #ffffff;
+  border: 0;
+  box-shadow: none;
+  pointer-events: none;
+}
+
+
+/* ========================================
+   RESUME
+======================================== */
+
+.section-theme .cv-container,
+.section-theme .cv-content,
+.section-theme .cv-item-desc,
+.section-theme .cv-interests,
+.section-theme .cv-item-title {
+  color: #ffffff;
+}
+
+.section-theme .cv-container,
+.section-theme .cv-content,
+.section-theme .cv-item-desc {
+  font-family: "NudistaMedium", Arial, sans-serif;
+  font-weight: 500;
+}
+
+.section-theme .cv-container {
+  margin-top: 0;
+}
+
+.section-theme .cv-label,
+.section-theme .cv-item-date,
+.section-theme .cv-list-meta {
+  color: #bcbcbc;
+}
+
+.section-theme .cv-label,
+.section-theme .cv-item-title {
+  font-family: "ApercuMono", monospace;
+}
+
+.section-theme .cv-row {
+  border-bottom-color: rgb(255 255 255 / 20%);
+}
+
+.section-theme .cv-list-item {
+  border-bottom-color: rgb(255 255 255 / 12%);
+}
+
+
+/* ========================================
+   PORTFOLIO
+======================================== */
+
+.section-theme .pdf-viewer-container {
+  height: 78vh;
+  height: 78dvh;
+  min-height: 420px;
+
+  margin: 0 0 30px;
+
+  border: 0;
+  box-shadow: none;
+}
+
+
+/* ========================================
+   IMAGES ARCHIVE
+======================================== */
+
+.section-theme .scattered-canvas {
+  margin-top: 0;
+}
+
+.section-theme .floating-image-wrapper,
+.section-theme .floating-image-wrapper:hover {
+  box-shadow: none;
+}
+
+.section-theme .load-more-btn {
+  color: #ffffff;
+  background: transparent;
+  border-color: #ffffff;
+
+  font-family: "ApercuMono", monospace;
+}
+
+.section-theme .load-more-btn:hover {
+  color: #000000;
+  background: #ffffff;
+}
+
+.section-theme a:focus-visible,
+.section-theme button:focus-visible {
+  outline-color: #ffffff;
+}
+
+
+/* ========================================
+   MOBILE
+======================================== */
+
+@media (max-width: 600px) {
+  .section-theme .top-nav {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 12px 20px;
+    margin-bottom: 24px;
+  }
+
+  .section-theme .top-nav .nav-tab {
+    font-size: 0.75rem;
+  }
+}
