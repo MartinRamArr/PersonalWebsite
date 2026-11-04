@@ -179,5 +179,16 @@ body.experimental-home {
 
   .home-background::before {
     background: rgb(255 255 255 / 88%);
+
+    /* Black backing behind the Home biography only. */
+.experimental-home #tab-home > .about-text {
+  background: #000000 !important;
+  color: #ffffff !important;
+  padding: clamp(16px, 1.5vw, 28px) !important;
+}
+
+.experimental-home #tab-home > .about-text p {
+  color: #ffffff !important;
+}
   }
 }

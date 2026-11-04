@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Marra — Mario Martin Ramirez-Arrazola</title>
+  <title>Marra</title>
 
   <link rel="stylesheet" href="styles.css">
   <script src="site.js" defer></script>
@@ -23,6 +23,27 @@
       scrollbar-gutter: auto;
     }
 
+    body {
+      --marra-gutter: clamp(20px, 3vw, 55px);
+      --marra-name-height: clamp(100px, 12vw, 220px);
+
+      overflow-x: clip;
+    }
+
+    .site-container {
+      padding:
+        clamp(20px, 3vh, 35px)
+        var(--marra-gutter)
+        calc(var(--marra-name-height) * 0.5 + 30px)
+        !important;
+    }
+
+    /* Navigation starts at the top, with no name above it. */
+    .top-nav {
+      margin-top: 0;
+      margin-bottom: clamp(24px, 5vh, 65px);
+    }
+
     /* Two equal halves. */
     #tab-marra {
       display: grid !important;
@@ -32,14 +53,12 @@
       width: 100%;
     }
 
-    /* Justified text in the left half. */
     #tab-marra > .text-block {
       width: 100% !important;
       max-width: 100% !important;
       min-width: 0;
 
       padding: 0 clamp(24px, 3vw, 60px) 0 0;
-      box-sizing: border-box;
 
       font-family: "NudistaMedium", Arial, sans-serif;
       font-weight: 500;
@@ -64,14 +83,11 @@
       margin-bottom: 0;
     }
 
-    /* Three random photographs in the right half. */
+    /* Photographs remain within the right half. */
     .marra-visuals {
-      position: relative;
       width: 100%;
       min-width: 0;
-
       padding-left: clamp(16px, 2vw, 40px);
-      box-sizing: border-box;
     }
 
     #marra-composition {
@@ -82,7 +98,7 @@
 
       width: 100%;
       min-width: 0;
-      height: clamp(300px, 68vh, 720px);
+      height: clamp(280px, 62vh, 650px);
 
       margin: 0;
       padding: 0;
@@ -111,6 +127,60 @@
       filter: none;
       transform: none;
       animation: none;
+    }
+
+    /* Cropped, full-width Marra wordmark. */
+    .site-container > .site-header,
+    .site-container > .site-header.dimmed {
+      position: fixed !important;
+      inset: auto 0 0 0 !important;
+      z-index: 30;
+
+      display: block !important;
+
+      width: 100% !important;
+      height: calc(var(--marra-name-height) * 0.5) !important;
+      min-height: 0;
+
+      margin: 0 !important;
+      padding: 0 !important;
+
+      overflow: hidden;
+      background: transparent !important;
+    }
+
+    .site-header a.site-title {
+      position: absolute;
+      inset: 0 auto auto 0;
+
+      display: block !important;
+
+      width: 100% !important;
+      max-width: none !important;
+      height: var(--marra-name-height) !important;
+
+      margin: 0;
+      padding: 0 !important;
+
+      color: #000000 !important;
+      background: transparent !important;
+
+      transform: none !important;
+      text-decoration: none;
+    }
+
+    .marra-name-svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    .marra-name-svg text {
+      fill: #000000;
+      font-family: "ApercuMono", monospace;
+      font-size: 110px;
+      font-weight: 400;
     }
 
     @media (max-width: 768px) {
@@ -152,8 +222,8 @@
     </nav>
 
     <header class="site-header">
-      <a href="index.html" class="site-title">
-        Mario Martin Ramirez-Arrazola
+      <a href="mailto:marraroofing@gmail.com" class="site-title">
+        marra
       </a>
     </header>
 
@@ -210,6 +280,65 @@
     </main>
 
   </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const name = document.querySelector(".site-title");
+      const namespace = "http://www.w3.org/2000/svg";
+
+      const svg = document.createElementNS(namespace, "svg");
+
+      svg.classList.add("marra-name-svg");
+      svg.setAttribute("viewBox", "0 0 1000 120");
+      svg.setAttribute("preserveAspectRatio", "none");
+      svg.setAttribute("aria-hidden", "true");
+
+      const lettering = document.createElementNS(
+        namespace,
+        "text"
+      );
+
+      lettering.textContent = "marra";
+      lettering.setAttribute("x", "0");
+      lettering.setAttribute("y", "90");
+      lettering.setAttribute("textLength", "1000");
+      lettering.setAttribute("lengthAdjust", "spacingAndGlyphs");
+
+      svg.appendChild(lettering);
+
+      name.href = "mailto:marraroofing@gmail.com";
+      name.setAttribute("aria-label", "Email marra");
+      name.replaceChildren(svg);
+
+      function fitWordmark() {
+        lettering.setAttribute("x", "0");
+        lettering.setAttribute("textLength", "1000");
+
+        const bounds = lettering.getBBox();
+
+        if (bounds.width <= 0) return;
+
+        lettering.setAttribute(
+          "textLength",
+          String(1000 * (1004 / bounds.width))
+        );
+
+        const stretchedBounds = lettering.getBBox();
+
+        lettering.setAttribute(
+          "x",
+          String(-stretchedBounds.x - 2)
+        );
+      }
+
+      requestAnimationFrame(fitWordmark);
+      window.addEventListener("resize", fitWordmark);
+
+      if (document.fonts) {
+        document.fonts.ready.then(fitWordmark);
+      }
+    });
+  </script>
 
 </body>
 </html>
