@@ -7,7 +7,9 @@
   <title>Marra — MARIO MARTIN RAMIREZ-ARRAZOLA</title>
 
   <link rel="stylesheet" href="styles.css">
+
   <script src="site.js" defer></script>
+  <script src="page-effects.js" defer></script>
 
   <style>
     html {
@@ -24,7 +26,7 @@
       width: 100%;
     }
 
-    /* Override any earlier narrow text-column rules. */
+    /* Text occupies the left half. */
     #tab-marra > .text-block {
       width: 100% !important;
       max-width: 100% !important;
@@ -41,17 +43,22 @@
       margin-bottom: 0;
     }
 
-    /* The entire image composition stays inside the right half. */
+    /* Images and their shape overlay occupy the right half. */
     .marra-visuals {
       position: relative;
+      isolation: isolate;
+
       width: 100%;
       min-width: 0;
       padding-left: clamp(16px, 2vw, 40px);
+
       box-sizing: border-box;
     }
 
     #marra-composition {
       position: relative;
+      z-index: 0;
+
       display: grid;
       grid-template-columns: repeat(6, minmax(0, 1fr));
       grid-template-rows: repeat(6, minmax(0, 1fr));
@@ -68,6 +75,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+
       min-width: 0;
       min-height: 0;
     }
@@ -80,6 +88,7 @@
       max-height: 100%;
 
       object-fit: contain;
+
       border: 0;
       box-shadow: none;
       filter: none;
@@ -87,24 +96,23 @@
       animation: none;
     }
 
-    /* Overlay: takes up no additional layout space. */
+    /* Shapes float above the images without adding page height. */
     .marra-shape-overlay {
       position: absolute;
       inset: 0;
       z-index: 5;
+
       overflow: hidden;
       pointer-events: none;
     }
 
-    .marra-email-shape,
-    .marra-email-shape:visited,
-    .marra-email-shape:hover,
-    .marra-email-shape:active {
+    #marra-shape-overlay .geometric-mark,
+    #marra-shape-overlay .geometric-mark:visited,
+    #marra-shape-overlay .geometric-mark:hover,
+    #marra-shape-overlay .geometric-mark:active {
       position: absolute;
       display: block;
 
-      width: var(--shape-size);
-      height: var(--shape-size);
       margin: 0;
       padding: 0;
 
@@ -112,27 +120,21 @@
       border: 0 !important;
       box-shadow: none !important;
       outline: none;
-      text-decoration: none;
 
+      text-decoration: none;
       opacity: 1;
+
       pointer-events: auto;
       cursor: pointer;
     }
 
-    .marra-email-shape.is-circle {
-      border-radius: 50%;
-    }
-
-    .marra-email-shape.is-square {
-      border-radius: 0;
-    }
-
-    /* Only show a focus indicator when navigating by keyboard. */
-    .marra-email-shape:focus-visible {
+    /* Focus indication appears only during keyboard navigation. */
+    #marra-shape-overlay .geometric-mark:focus-visible {
       outline: 2px dashed #000000;
-      outline-offset: -5px;
+      outline-offset: 3px;
     }
 
+    /* Stack on smaller screens. */
     @media (max-width: 768px) {
       #tab-marra {
         grid-template-columns: minmax(0, 1fr);
@@ -228,7 +230,9 @@
 
           <div
             class="marra-shape-overlay"
-            id="marra-shape-overlay">
+            id="marra-shape-overlay"
+            role="group"
+            aria-label="Email Marra using the white shapes">
           </div>
 
         </div>
@@ -237,65 +241,6 @@
     </main>
 
   </div>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const overlay = document.getElementById("marra-shape-overlay");
-
-      if (!overlay) return;
-
-      // Store random proportions so resizing preserves the composition.
-      const shapes = Array.from({ length: 7 }, (_, index) => ({
-        circle: index % 2 === 0,
-        size: 0.07 + Math.random() * 0.13,
-        x: Math.random(),
-        y: Math.random()
-      }));
-
-      function positionShapes() {
-        overlay.replaceChildren();
-
-        const width = overlay.clientWidth;
-        const height = overlay.clientHeight;
-
-        if (!width || !height) return;
-
-        shapes.forEach(shape => {
-          const size = Math.min(
-            Math.max(28, width * shape.size),
-            width,
-            height,
-            180
-          );
-
-          const link = document.createElement("a");
-
-          link.className = shape.circle
-            ? "marra-email-shape is-circle"
-            : "marra-email-shape is-square";
-
-          link.href = "mailto:marraroofing@gmail.com";
-          link.setAttribute("aria-label", "Email Marra");
-          link.title = "Email marraroofing@gmail.com";
-
-          link.style.setProperty("--shape-size", `${size}px`);
-          link.style.left = `${shape.x * (width - size)}px`;
-          link.style.top = `${shape.y * (height - size)}px`;
-
-          overlay.appendChild(link);
-        });
-      }
-
-      positionShapes();
-
-      if ("ResizeObserver" in window) {
-        const observer = new ResizeObserver(positionShapes);
-        observer.observe(overlay);
-      } else {
-        window.addEventListener("resize", positionShapes);
-      }
-    });
-  </script>
 
 </body>
 </html>
