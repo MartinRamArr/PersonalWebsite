@@ -13,6 +13,14 @@
   <script src="page-effects.js" defer></script>
 
   <style>
+    @font-face {
+      font-family: "NudistaMedium";
+      src: url("NudistaMedium.otf") format("opentype");
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+
     /* ========================================
        ONE SCREEN — NO SCROLLING
     ======================================== */
@@ -66,10 +74,6 @@
       background: rgb(0 0 0 / 28%) !important;
     }
 
-    /* ========================================
-       NO TEXT SHADOWS
-    ======================================== */
-
     .experimental-home,
     .experimental-home * {
       text-shadow: none !important;
@@ -120,7 +124,7 @@
     }
 
     /* ========================================
-       BIOGRAPHY — LEFT HALF ONLY
+       JUSTIFIED BIOGRAPHY — LEFT HALF
     ======================================== */
 
     .experimental-home .content-wrapper {
@@ -155,26 +159,32 @@
       margin: 0;
 
       color: #ffffff;
-      font-family: "AkzidenzGrotesk", Arial, sans-serif;
+      font-family: "NudistaMedium", Arial, sans-serif;
       font-size: clamp(16px, 1.05vw, 20px);
-      font-weight: 400;
+      font-weight: 500;
       line-height: 1.45;
-      letter-spacing: -0.01em;
-      text-align: left;
+      letter-spacing: 0;
+
+      text-align: justify;
+      text-align-last: left;
+      text-justify: inter-word;
+
+      overflow-wrap: break-word;
+      hyphens: auto;
     }
 
     /* ========================================
-       FULL-WIDTH CROPPED NAME
+       NAME — SCREEN EDGE TO SCREEN EDGE
     ======================================== */
 
     .experimental-home .site-container > .site-header {
       position: fixed !important;
-      inset: auto var(--page-gutter) 0 var(--page-gutter)
-        !important;
+      inset: auto 0 0 0 !important;
       z-index: 30;
 
       display: block !important;
-      width: auto !important;
+
+      width: 100% !important;
       height: calc(var(--bottom-name-size) * 0.5) !important;
       min-height: 0;
 
@@ -186,9 +196,11 @@
     }
 
     .experimental-home .site-header .site-title {
-      position: relative;
-      display: block !important;
+      position: absolute;
+      top: 0;
+      left: 0;
 
+      display: block !important;
       width: max-content !important;
       max-width: none;
       height: auto !important;
@@ -212,7 +224,8 @@
       transform-origin: left top;
       transform:
         translateY(-0.12em)
-        scaleX(var(--name-stretch, 1));
+        scaleX(var(--name-stretch, 1))
+        translateX(var(--name-offset, 0px));
     }
 
     /* ========================================
@@ -298,23 +311,67 @@
       const nameContainer = document.querySelector(".site-header");
       const name = document.querySelector(".site-title");
 
+      const measuringCanvas = document.createElement("canvas");
+      const context = measuringCanvas.getContext("2d");
+
       let frame = null;
 
-      function fitLayout() {
-        /* Stretch the name to fill the available width. */
+      function fitName() {
+        const styles = getComputedStyle(name);
+
         name.style.setProperty("--name-stretch", "1");
+        name.style.setProperty("--name-offset", "0px");
 
-        const naturalNameWidth = name.offsetWidth;
-        const availableNameWidth = nameContainer.clientWidth;
+        let visibleWidth = name.offsetWidth;
+        let leftBearing = 0;
 
-        if (naturalNameWidth > 0) {
-          name.style.setProperty(
-            "--name-stretch",
-            String(availableNameWidth / naturalNameWidth)
-          );
+        if (context) {
+          context.font = [
+            styles.fontStyle,
+            styles.fontWeight,
+            styles.fontSize,
+            styles.fontFamily
+          ].join(" ");
+
+          context.textAlign = "left";
+          context.textBaseline = "alphabetic";
+
+          const text = name.textContent.trim();
+          const metrics = context.measureText(text);
+          const spacing = parseFloat(styles.letterSpacing) || 0;
+
+          if (
+            Number.isFinite(metrics.actualBoundingBoxLeft) &&
+            Number.isFinite(metrics.actualBoundingBoxRight)
+          ) {
+            leftBearing = metrics.actualBoundingBoxLeft;
+
+            visibleWidth =
+              metrics.actualBoundingBoxLeft +
+              metrics.actualBoundingBoxRight +
+              Math.max(0, Array.from(text).length - 1) * spacing;
+          }
         }
 
-        /* Fit the biography vertically without widening its column. */
+        if (visibleWidth > 0) {
+          // A slight bleed ensures the lettering reaches both edges.
+          const bleed = 3;
+          const stretch =
+            (nameContainer.clientWidth + bleed * 2) / visibleWidth;
+
+          name.style.setProperty(
+            "--name-stretch",
+            String(stretch)
+          );
+
+          name.style.setProperty(
+            "--name-offset",
+            `${leftBearing - bleed / stretch}px`
+          );
+        }
+      }
+
+      function fitBiography() {
         paragraph.style.removeProperty("font-size");
 
         const preferredSize = parseFloat(
@@ -324,28 +381,35 @@
         const availableHeight = content.clientHeight;
 
         if (
-          availableHeight > 0 &&
-          biography.offsetHeight > availableHeight
+          availableHeight <= 0 ||
+          biography.offsetHeight <= availableHeight
         ) {
-          let lower = 1;
-          let upper = preferredSize;
-
-          for (let i = 0; i < 16; i++) {
-            const size = (lower + upper) / 2;
-
-            paragraph.style.fontSize = `${size}px`;
-
-            if (biography.offsetHeight <= availableHeight) {
-              lower = size;
-            } else {
-              upper = size;
-            }
-          }
-
-          paragraph.style.fontSize = `${lower}px`;
+          return;
         }
 
-        /* Refresh shape placement around the final text bounds. */
+        let lower = 1;
+        let upper = preferredSize;
+
+        for (let i = 0; i < 16; i++) {
+          const size = (lower + upper) / 2;
+
+          paragraph.style.fontSize = `${size}px`;
+
+          if (biography.offsetHeight <= availableHeight) {
+            lower = size;
+          } else {
+            upper = size;
+          }
+        }
+
+        paragraph.style.fontSize = `${lower}px`;
+      }
+
+      function fitLayout() {
+        fitName();
+        fitBiography();
+
+        // Update shape placement around the final text bounds.
         window.dispatchEvent(new Event("resize"));
       }
 
