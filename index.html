@@ -7,168 +7,25 @@
   <title>MARIO MARTIN RAMIREZ-ARRAZOLA</title>
 
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="page-effects.css">
+
   <script src="site.js" defer></script>
-
-  <style>
-    /* Restore the original Home layout. */
-    #tab-home {
-      display: block;
-      position: relative;
-      width: 100%;
-    }
-
-    #tab-home > .about-text {
-      width: 35%;
-      max-width: 35%;
-    }
-
-    .homepage-artwork-container {
-      position: absolute;
-      right: 40px;
-      bottom: 0;
-
-      width: 280px;
-      height: 280px;
-    }
-
-    .artwork-frame {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: transparent;
-    }
-
-    .artwork-frame img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border: 0;
-    }
-
-    .artwork-frame.effect-photocopy img {
-      filter: grayscale(1) contrast(3.5) brightness(1);
-    }
-
-    .artwork-frame.effect-risograph img {
-      filter:
-        grayscale(1)
-        contrast(1.8)
-        sepia(1)
-        hue-rotate(-45deg)
-        saturate(3.5);
-    }
-
-    .artwork-frame.effect-grain img {
-      filter: url("#svg-noise-filter") contrast(1.1);
-    }
-
-    .artwork-frame.effect-halftone {
-      filter: contrast(2.5) grayscale(1);
-    }
-
-    .artwork-frame.effect-halftone::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-
-      background-image:
-        radial-gradient(
-          circle,
-          #000000 1.2px,
-          transparent 1.5px
-        );
-
-      background-size: 4px 4px;
-      mix-blend-mode: multiply;
-      opacity: 0.75;
-      pointer-events: none;
-    }
-
-    @media (min-width: 769px) and (max-width: 1100px) {
-      #tab-home > .about-text {
-        width: 50%;
-        max-width: 50%;
-      }
-
-      .homepage-artwork-container {
-        right: 0;
-        width: 230px;
-        height: 230px;
-      }
-    }
-
-    @media (max-width: 768px) {
-      #tab-home > .about-text {
-        width: 100%;
-        max-width: 100%;
-      }
-
-      .homepage-artwork-container {
-        position: relative;
-        right: auto;
-        bottom: auto;
-
-        width: 100%;
-        height: auto;
-        aspect-ratio: 1;
-        margin-top: 40px;
-      }
-    }
-  </style>
+  <script src="page-effects.js" defer></script>
 </head>
-<body>
+<body class="experimental-home">
 
-  <svg
-    width="0"
-    height="0"
-    aria-hidden="true"
-    style="position: absolute; pointer-events: none;">
-    <defs>
-      <filter
-        id="svg-noise-filter"
-        x="0%"
-        y="0%"
-        width="100%"
-        height="100%"
-        color-interpolation-filters="sRGB">
+  <div class="home-background" aria-hidden="true">
+    <img id="home-background-image" alt="">
+  </div>
 
-        <feTurbulence
-          type="fractalNoise"
-          baseFrequency="0.65"
-          numOctaves="3"
-          stitchTiles="stitch"
-          result="noise"/>
-
-        <feColorMatrix
-          in="noise"
-          type="saturate"
-          values="0"
-          result="monoNoise"/>
-
-        <feComponentTransfer in="monoNoise" result="softNoise">
-          <feFuncA type="linear" slope="0.3"/>
-        </feComponentTransfer>
-
-        <feBlend
-          mode="multiply"
-          in="SourceGraphic"
-          in2="softNoise"/>
-      </filter>
-    </defs>
-  </svg>
+  <div class="shape-layer" id="shape-layer" aria-hidden="true"></div>
 
   <div class="site-container">
 
     <nav class="top-nav" aria-label="Main navigation">
-      <a
-        href="index.html"
-        class="nav-tab active"
-        aria-current="page">
+      <a href="index.html" class="nav-tab active" aria-current="page">
         Home
       </a>
-
       <a href="portfolio.html" class="nav-tab">Portfolio</a>
       <a href="resume.html" class="nav-tab">Resume</a>
       <a href="images.html" class="nav-tab">Images</a>
@@ -176,9 +33,7 @@
     </nav>
 
     <header class="site-header">
-      <a
-        href="mailto:marioramirezarrazola@gmail.com"
-        class="site-title">
+      <a href="mailto:marioramirezarrazola@gmail.com" class="site-title">
         MARIO MARTIN RAMIREZ-ARRAZOLA
       </a>
     </header>
@@ -190,63 +45,10 @@
           <p>Mario Ramirez-Arrazola is an architectural designer, contractor, and researcher from Salt Lake City, Utah. He holds a Master of Architecture from Columbia University GSAPP, an M.A. in the History of Technology from the University of Oklahoma, and a B.S. in Economics from the University of Utah. Previously, he taught history at Montclair State University and interned at WaCa Design and Office DFK. He also co-founded Marra with his father, a residential construction company that began in roofing. His work explores relationships among architecture, contemporary art, technology, and urban life, particularly how material processes and representation shape spatial experience and social relations. Through drawing, rendering, and model photography, he develops projects grounded in cultural and historical inquiry that challenge familiar expectations of space while addressing collective needs. A first-generation college graduate fluent in English and Spanish, Mario is committed to pedagogy, supporting first-generation students in higher education, and advocating for undocumented immigrants.</p>
         </div>
 
-        <div class="homepage-artwork-container">
-          <div class="artwork-frame">
-            <img
-              id="dynamic-artwork"
-              alt="Random graphic artwork"
-              decoding="async">
-          </div>
-        </div>
-
       </div>
     </main>
 
   </div>
-
-  <script>
-    (() => {
-      const image = document.getElementById("dynamic-artwork");
-      const frame = document.querySelector(".artwork-frame");
-
-      if (!image || !frame) return;
-
-      // Preserve the original numbered image pool.
-      const useJpg = Math.random() > 0.25;
-      const total = useJpg ? 353 : 85;
-      const extension = useJpg ? "jpg" : "png";
-      const number = Math.floor(Math.random() * total) + 1;
-
-      const effects = [
-        "effect-photocopy",
-        "effect-risograph",
-        "effect-grain",
-        "effect-halftone"
-      ];
-
-      // Avoid repeating the previous treatment when storage is available.
-      let previousEffect = null;
-
-      try {
-        previousEffect = sessionStorage.getItem("home-artwork-effect");
-      } catch {}
-
-      const availableEffects = effects.filter(
-        effect => effect !== previousEffect
-      );
-
-      const effect = availableEffects[
-        Math.floor(Math.random() * availableEffects.length)
-      ];
-
-      frame.classList.add(effect);
-      image.src = `${number}.${extension}`;
-
-      try {
-        sessionStorage.setItem("home-artwork-effect", effect);
-      } catch {}
-    })();
-  </script>
 
 </body>
 </html>
