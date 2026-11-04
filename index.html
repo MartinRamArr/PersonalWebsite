@@ -21,10 +21,6 @@
       font-display: swap;
     }
 
-    /* ========================================
-       ONE SCREEN — NO SCROLLING
-    ======================================== */
-
     html {
       height: 100%;
       overflow: hidden !important;
@@ -32,7 +28,7 @@
 
     body.experimental-home {
       --page-gutter: clamp(20px, 3vw, 55px);
-      --bottom-name-size: clamp(60px, 6vw, 150px);
+      --name-height: clamp(80px, 8vw, 180px);
 
       position: relative;
       width: 100%;
@@ -40,7 +36,6 @@
       height: 100dvh;
       min-height: 0;
       margin: 0;
-
       overflow: hidden !important;
     }
 
@@ -55,28 +50,66 @@
       padding:
         clamp(20px, 3vh, 35px)
         var(--page-gutter)
-        calc(var(--bottom-name-size) * 0.55 + 20px)
+        calc(var(--name-height) * 0.5 + 20px)
         !important;
 
       background: transparent;
     }
 
-    /* ========================================
-       BACKGROUND
-    ======================================== */
-
-    .home-background img {
-      filter: grayscale(1) contrast(1.2) brightness(0.85)
-        !important;
-    }
-
-    .home-background::before {
-      background: rgb(0 0 0 / 28%) !important;
-    }
-
     .experimental-home,
     .experimental-home * {
       text-shadow: none !important;
+    }
+
+    /* ========================================
+       BACKGROUND EFFECTS
+    ======================================== */
+
+    .home-background img {
+      object-fit: cover;
+      transform: scale(1.12);
+
+      filter: url("#home-film-grain") !important;
+    }
+
+    .home-background.is-soft-halftone img {
+      filter: url("#home-soft-grain") !important;
+    }
+
+    .home-background::before {
+      background: rgb(0 0 0 / 25%) !important;
+      z-index: 2;
+    }
+
+    /* Grain is now applied directly through the SVG filter. */
+    .experimental-home .home-background::after {
+      display: none !important;
+    }
+
+    /* A slightly softened halftone screen, only in that variant. */
+    .halftone-screen {
+      position: absolute;
+      inset: -5px;
+      z-index: 1;
+
+      display: none;
+
+      background-image:
+        radial-gradient(
+          circle,
+          rgb(0 0 0 / 85%) 0 0.8px,
+          transparent 1.5px
+        );
+
+      background-size: 5px 5px;
+      mix-blend-mode: multiply;
+      filter: blur(0.55px);
+      opacity: 0.45;
+      pointer-events: none;
+    }
+
+    .home-background.is-soft-halftone .halftone-screen {
+      display: block;
     }
 
     /* ========================================
@@ -124,7 +157,7 @@
     }
 
     /* ========================================
-       JUSTIFIED BIOGRAPHY — LEFT HALF
+       JUSTIFIED BIOGRAPHY
     ======================================== */
 
     .experimental-home .content-wrapper {
@@ -152,7 +185,6 @@
 
       color: #ffffff;
       background: transparent;
-      box-sizing: border-box;
     }
 
     .experimental-home .about-text p {
@@ -168,13 +200,12 @@
       text-align: justify;
       text-align-last: left;
       text-justify: inter-word;
-
       overflow-wrap: break-word;
       hyphens: auto;
     }
 
     /* ========================================
-       NAME — SCREEN EDGE TO SCREEN EDGE
+       EDGE-TO-EDGE CROPPED NAME
     ======================================== */
 
     .experimental-home .site-container > .site-header {
@@ -185,7 +216,7 @@
       display: block !important;
 
       width: 100% !important;
-      height: calc(var(--bottom-name-size) * 0.5) !important;
+      height: calc(var(--name-height) * 0.5) !important;
       min-height: 0;
 
       margin: 0 !important;
@@ -195,15 +226,15 @@
       background: transparent !important;
     }
 
-    .experimental-home .site-header .site-title {
+    .experimental-home .site-header a.site-title {
       position: absolute;
-      top: 0;
-      left: 0;
+      inset: 0 auto auto 0;
 
       display: block !important;
-      width: max-content !important;
-      max-width: none;
-      height: auto !important;
+
+      width: 100% !important;
+      max-width: none !important;
+      height: var(--name-height) !important;
 
       margin: 0;
       padding: 0 !important;
@@ -211,26 +242,23 @@
       color: #ffffff !important;
       background: transparent !important;
 
-      font-family: "ApercuMono", monospace !important;
-      font-size: var(--bottom-name-size) !important;
-      font-weight: 400;
-      line-height: 1 !important;
-      letter-spacing: -0.055em !important;
-
-      white-space: nowrap;
-      text-transform: none !important;
+      transform: none !important;
       text-decoration: none;
-
-      transform-origin: left top;
-      transform:
-        translateY(-0.12em)
-        scaleX(var(--name-stretch, 1))
-        translateX(var(--name-offset, 0px));
     }
 
-    /* ========================================
-       SMALLER SCREENS
-    ======================================== */
+    .bottom-name-svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    .bottom-name-svg text {
+      fill: #ffffff;
+      font-family: "ApercuMono", monospace;
+      font-size: 110px;
+      font-weight: 400;
+    }
 
     @media (max-width: 600px) {
       .experimental-home .top-nav {
@@ -258,8 +286,97 @@
 
 <body class="experimental-home">
 
+  <!-- Direct image filters: monochrome, noise, and optional blur. -->
+  <svg
+    width="0"
+    height="0"
+    aria-hidden="true"
+    style="position:absolute; pointer-events:none;">
+    <defs>
+
+      <filter
+        id="home-film-grain"
+        x="0%"
+        y="0%"
+        width="100%"
+        height="100%"
+        color-interpolation-filters="sRGB">
+
+        <feColorMatrix
+          in="SourceGraphic"
+          type="saturate"
+          values="0"
+          result="mono"/>
+
+        <feComponentTransfer in="mono" result="contrast">
+          <feFuncR type="linear" slope="1.2" intercept="-0.08"/>
+          <feFuncG type="linear" slope="1.2" intercept="-0.08"/>
+          <feFuncB type="linear" slope="1.2" intercept="-0.08"/>
+        </feComponentTransfer>
+
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.75"
+          numOctaves="3"
+          seed="12"
+          result="noise"/>
+
+        <feColorMatrix
+          in="noise"
+          type="saturate"
+          values="0"
+          result="monoNoise"/>
+
+        <feBlend
+          in="contrast"
+          in2="monoNoise"
+          mode="soft-light"/>
+      </filter>
+
+      <filter
+        id="home-soft-grain"
+        x="0%"
+        y="0%"
+        width="100%"
+        height="100%"
+        color-interpolation-filters="sRGB">
+
+        <feColorMatrix
+          in="SourceGraphic"
+          type="saturate"
+          values="0"
+          result="mono"/>
+
+        <feGaussianBlur
+          in="mono"
+          stdDeviation="0.65"
+          result="softImage"/>
+
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.65"
+          numOctaves="3"
+          seed="24"
+          result="noise"/>
+
+        <feColorMatrix
+          in="noise"
+          type="saturate"
+          values="0"
+          result="monoNoise"/>
+
+        <feBlend
+          in="softImage"
+          in2="monoNoise"
+          mode="soft-light"/>
+      </filter>
+
+    </defs>
+  </svg>
+
   <div class="home-background" aria-hidden="true">
     <img id="home-background-image" alt="">
+    <div class="halftone-screen"></div>
   </div>
 
   <div
@@ -304,74 +421,125 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
+      const background = document.querySelector(".home-background");
+      const layer = document.getElementById("shape-layer");
       const content = document.querySelector(".content-wrapper");
       const biography = document.querySelector(".about-text");
       const paragraph = biography.querySelector("p");
-
-      const nameContainer = document.querySelector(".site-header");
       const name = document.querySelector(".site-title");
 
-      const measuringCanvas = document.createElement("canvas");
-      const context = measuringCanvas.getContext("2d");
+      /* ========================================
+         SVG NAME: STRETCHED INDEPENDENTLY OF CROP
+      ======================================== */
 
-      let frame = null;
+      const svgNamespace = "http://www.w3.org/2000/svg";
 
-      function fitName() {
-        const styles = getComputedStyle(name);
+      const svg = document.createElementNS(svgNamespace, "svg");
+      svg.classList.add("bottom-name-svg");
+      svg.setAttribute("viewBox", "0 0 1000 120");
+      svg.setAttribute("preserveAspectRatio", "none");
+      svg.setAttribute("aria-hidden", "true");
 
-        name.style.setProperty("--name-stretch", "1");
-        name.style.setProperty("--name-offset", "0px");
+      const lettering = document.createElementNS(
+        svgNamespace,
+        "text"
+      );
 
-        let visibleWidth = name.offsetWidth;
-        let leftBearing = 0;
+      lettering.textContent = "Mario Martin Ramirez-Arrazola";
+      lettering.setAttribute("x", "0");
+      lettering.setAttribute("y", "90");
 
-        if (context) {
-          context.font = [
-            styles.fontStyle,
-            styles.fontWeight,
-            styles.fontSize,
-            styles.fontFamily
-          ].join(" ");
+      // Stretch the actual glyphs, not just the spaces.
+      lettering.setAttribute("textLength", "1000");
+      lettering.setAttribute("lengthAdjust", "spacingAndGlyphs");
 
-          context.textAlign = "left";
-          context.textBaseline = "alphabetic";
+      svg.appendChild(lettering);
 
-          const text = name.textContent.trim();
-          const metrics = context.measureText(text);
-          const spacing = parseFloat(styles.letterSpacing) || 0;
+      name.setAttribute(
+        "aria-label",
+        "Mario Martin Ramirez-Arrazola"
+      );
 
-          if (
-            Number.isFinite(metrics.actualBoundingBoxLeft) &&
-            Number.isFinite(metrics.actualBoundingBoxRight)
-          ) {
-            leftBearing = metrics.actualBoundingBoxLeft;
+      name.replaceChildren(svg);
 
-            visibleWidth =
-              metrics.actualBoundingBoxLeft +
-              metrics.actualBoundingBoxRight +
-              Math.max(0, Array.from(text).length - 1) * spacing;
-          }
-        }
+      function fitNameToEdges() {
+        // Measure visible lettering independently of the clipped header.
+        lettering.setAttribute("x", "0");
+        lettering.setAttribute("textLength", "1000");
 
-        if (visibleWidth > 0) {
-          // A slight bleed ensures the lettering reaches both edges.
-          const bleed = 3;
-          const stretch =
-            (nameContainer.clientWidth + bleed * 2) / visibleWidth;
+        const bounds = lettering.getBBox();
 
-          name.style.setProperty(
-            "--name-stretch",
-            String(stretch)
+        if (bounds.width > 0) {
+          const stretch = 1004 / bounds.width;
+
+          lettering.setAttribute(
+            "textLength",
+            String(1000 * stretch)
           );
 
-          name.style.setProperty(
-            "--name-offset",
-            `${leftBearing - bleed / stretch}px`
+          const stretchedBounds = lettering.getBBox();
+
+          lettering.setAttribute(
+            "x",
+            String(-stretchedBounds.x - 2)
           );
         }
       }
 
-      function fitBiography() {
+      /* ========================================
+         GRAIN / SOFT HALFTONE
+      ======================================== */
+
+      // Grain appears every time; blurred halftone is an occasional variant.
+      background.classList.toggle(
+        "is-soft-halftone",
+        Math.random() < 0.35
+      );
+
+      document.querySelectorAll("feTurbulence").forEach(noise => {
+        noise.setAttribute(
+          "seed",
+          String(Math.floor(Math.random() * 1000))
+        );
+      });
+
+      /* ========================================
+         OCCASIONAL COLORED SHAPES — HOME ONLY
+      ======================================== */
+
+      const coloredShapes = Math.random() < 0.20;
+
+      function colorNewShapes() {
+        if (!coloredShapes) return;
+
+        layer.querySelectorAll(".geometric-mark").forEach(mark => {
+          if (mark.dataset.homeColor) return;
+
+          const hue = Math.floor(Math.random() * 360);
+          const color = `hsl(${hue} 85% 62%)`;
+
+          mark.style.setProperty("background", color, "important");
+          mark.dataset.homeColor = "true";
+        });
+      }
+
+      const shapeObserver = new MutationObserver(colorNewShapes);
+
+      shapeObserver.observe(layer, {
+        childList: true
+      });
+
+      colorNewShapes();
+
+      /* ========================================
+         FIT BIO WITHOUT SCROLLING
+      ======================================== */
+
+      let frame = null;
+
+      function fitLayout() {
+        fitNameToEdges();
+
         paragraph.style.removeProperty("font-size");
 
         const preferredSize = parseFloat(
@@ -381,35 +549,27 @@
         const availableHeight = content.clientHeight;
 
         if (
-          availableHeight <= 0 ||
-          biography.offsetHeight <= availableHeight
+          availableHeight > 0 &&
+          biography.offsetHeight > availableHeight
         ) {
-          return;
-        }
+          let lower = 1;
+          let upper = preferredSize;
 
-        let lower = 1;
-        let upper = preferredSize;
+          for (let i = 0; i < 16; i++) {
+            const size = (lower + upper) / 2;
 
-        for (let i = 0; i < 16; i++) {
-          const size = (lower + upper) / 2;
+            paragraph.style.fontSize = `${size}px`;
 
-          paragraph.style.fontSize = `${size}px`;
-
-          if (biography.offsetHeight <= availableHeight) {
-            lower = size;
-          } else {
-            upper = size;
+            if (biography.offsetHeight <= availableHeight) {
+              lower = size;
+            } else {
+              upper = size;
+            }
           }
+
+          paragraph.style.fontSize = `${lower}px`;
         }
 
-        paragraph.style.fontSize = `${lower}px`;
-      }
-
-      function fitLayout() {
-        fitName();
-        fitBiography();
-
-        // Update shape placement around the final text bounds.
         window.dispatchEvent(new Event("resize"));
       }
 
