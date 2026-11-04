@@ -24,7 +24,7 @@
 
     body.experimental-home {
       --page-gutter: clamp(20px, 3vw, 55px);
-      --bottom-name-size: 4.6vw;
+      --bottom-name-size: clamp(60px, 6vw, 150px);
 
       position: relative;
       width: 100%;
@@ -32,6 +32,7 @@
       height: 100dvh;
       min-height: 0;
       margin: 0;
+
       overflow: hidden !important;
     }
 
@@ -46,14 +47,14 @@
       padding:
         clamp(20px, 3vh, 35px)
         var(--page-gutter)
-        calc(var(--bottom-name-size) * 0.65 + 22px)
+        calc(var(--bottom-name-size) * 0.55 + 20px)
         !important;
 
       background: transparent;
     }
 
     /* ========================================
-       BACKGROUND — NO WHITE WASH
+       BACKGROUND
     ======================================== */
 
     .home-background img {
@@ -61,15 +62,21 @@
         !important;
     }
 
-    /* A light, uniform darkening instead of a white gradient. */
     .home-background::before {
-      background: rgb(0 0 0 / 24%) !important;
+      background: rgb(0 0 0 / 28%) !important;
     }
 
-    /* Existing black-and-white grain remains in place. */
+    /* ========================================
+       NO TEXT SHADOWS
+    ======================================== */
+
+    .experimental-home,
+    .experimental-home * {
+      text-shadow: none !important;
+    }
 
     /* ========================================
-       NAVIGATION — ALIGNED WITH THE BIO
+       NAVIGATION
     ======================================== */
 
     .experimental-home .top-nav {
@@ -96,10 +103,6 @@
 
       font-family: "ApercuMono", monospace;
       font-size: 0.9rem;
-
-      text-shadow:
-        0 1px 3px rgb(0 0 0 / 90%),
-        0 0 12px rgb(0 0 0 / 65%);
     }
 
     .experimental-home .top-nav .nav-tab.active,
@@ -117,7 +120,7 @@
     }
 
     /* ========================================
-       LARGER BIO — NO RECTANGULAR BACKING
+       BIOGRAPHY — LEFT HALF ONLY
     ======================================== */
 
     .experimental-home .content-wrapper {
@@ -136,15 +139,16 @@
       position: relative;
       z-index: 20;
 
-      width: min(850px, 58vw);
-      max-width: 100%;
+      width: 50% !important;
+      max-width: 50% !important;
       min-width: 0;
 
       margin: 0;
-      padding: 0;
+      padding: 0 clamp(16px, 2vw, 40px) 0 0;
 
       color: #ffffff;
       background: transparent;
+      box-sizing: border-box;
     }
 
     .experimental-home .about-text p {
@@ -152,19 +156,15 @@
 
       color: #ffffff;
       font-family: "AkzidenzGrotesk", Arial, sans-serif;
-      font-size: clamp(19px, 1.45vw, 26px);
+      font-size: clamp(16px, 1.05vw, 20px);
       font-weight: 400;
-      line-height: 1.38;
-      letter-spacing: -0.015em;
+      line-height: 1.45;
+      letter-spacing: -0.01em;
       text-align: left;
-
-      text-shadow:
-        0 1px 3px rgb(0 0 0 / 95%),
-        0 0 12px rgb(0 0 0 / 70%);
     }
 
     /* ========================================
-       NAME — CROPPED AT THE BOTTOM EDGE
+       FULL-WIDTH CROPPED NAME
     ======================================== */
 
     .experimental-home .site-container > .site-header {
@@ -186,6 +186,7 @@
     }
 
     .experimental-home .site-header .site-title {
+      position: relative;
       display: block !important;
 
       width: max-content !important;
@@ -208,21 +209,15 @@
       text-transform: none !important;
       text-decoration: none;
 
-      /* Lift the glyphs slightly so the crop cuts through them. */
-      transform: translateY(-0.12em);
-
-      text-shadow: 0 1px 8px rgb(0 0 0 / 60%);
+      transform-origin: left top;
+      transform:
+        translateY(-0.12em)
+        scaleX(var(--name-stretch, 1));
     }
 
     /* ========================================
        SMALLER SCREENS
     ======================================== */
-
-    @media (max-width: 900px) {
-      .experimental-home #tab-home > .about-text {
-        width: min(740px, 80vw);
-      }
-    }
 
     @media (max-width: 600px) {
       .experimental-home .top-nav {
@@ -236,13 +231,13 @@
         font-size: 0.75rem;
       }
 
-      .experimental-home #tab-home > .about-text {
-        width: 100%;
+      .experimental-home .about-text p {
+        font-size: 16px;
+        line-height: 1.35;
       }
 
-      .experimental-home .about-text p {
-        font-size: 19px;
-        line-height: 1.3;
+      .experimental-home #tab-home > .about-text {
+        padding-right: 12px;
       }
     }
   </style>
@@ -300,10 +295,26 @@
       const biography = document.querySelector(".about-text");
       const paragraph = biography.querySelector("p");
 
+      const nameContainer = document.querySelector(".site-header");
+      const name = document.querySelector(".site-title");
+
       let frame = null;
 
-      function fitBiography() {
-        // Start at the larger designed size.
+      function fitLayout() {
+        /* Stretch the name to fill the available width. */
+        name.style.setProperty("--name-stretch", "1");
+
+        const naturalNameWidth = name.offsetWidth;
+        const availableNameWidth = nameContainer.clientWidth;
+
+        if (naturalNameWidth > 0) {
+          name.style.setProperty(
+            "--name-stretch",
+            String(availableNameWidth / naturalNameWidth)
+          );
+        }
+
+        /* Fit the biography vertically without widening its column. */
         paragraph.style.removeProperty("font-size");
 
         const preferredSize = parseFloat(
@@ -312,20 +323,13 @@
 
         const availableHeight = content.clientHeight;
 
-        if (availableHeight <= 0) return;
-
-        // If necessary, widen the biography before reducing its type.
-        biography.style.removeProperty("width");
-
-        if (biography.offsetHeight > availableHeight) {
-          biography.style.width = "min(1050px, 100%)";
-        }
-
-        if (biography.offsetHeight > availableHeight) {
+        if (
+          availableHeight > 0 &&
+          biography.offsetHeight > availableHeight
+        ) {
           let lower = 1;
           let upper = preferredSize;
 
-          // Fit the complete bio without adding a scrollbar.
           for (let i = 0; i < 16; i++) {
             const size = (lower + upper) / 2;
 
@@ -341,21 +345,21 @@
           paragraph.style.fontSize = `${lower}px`;
         }
 
-        // Refresh shape placement around the resized text.
+        /* Refresh shape placement around the final text bounds. */
         window.dispatchEvent(new Event("resize"));
       }
 
       function scheduleFit() {
-        if (frame !== null) cancelAnimationFrame(frame);
+        if (frame !== null) {
+          cancelAnimationFrame(frame);
+        }
 
         frame = requestAnimationFrame(() => {
           frame = null;
-          fitBiography();
+          fitLayout();
         });
       }
 
-      // Listen to actual viewport changes, avoiding the synthetic
-      // resize event used above for the shape renderer.
       let previousWidth = window.innerWidth;
       let previousHeight = window.innerHeight;
 
