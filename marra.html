@@ -4,14 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Marra — MARIO MARTIN RAMIREZ-ARRAZOLA</title>
+  <title>Marra — Mario Martin Ramirez-Arrazola</title>
 
   <link rel="stylesheet" href="styles.css">
-
   <script src="site.js" defer></script>
-  <script src="page-effects.js" defer></script>
 
   <style>
+    @font-face {
+      font-family: "NudistaMedium";
+      src: url("NudistaMedium.otf") format("opentype");
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+
     html {
       overflow-y: auto !important;
       scrollbar-gutter: auto;
@@ -26,39 +32,49 @@
       width: 100%;
     }
 
-    /* Text occupies the left half. */
+    /* Justified text in the left half. */
     #tab-marra > .text-block {
       width: 100% !important;
       max-width: 100% !important;
       min-width: 0;
+
       padding: 0 clamp(24px, 3vw, 60px) 0 0;
       box-sizing: border-box;
+
+      font-family: "NudistaMedium", Arial, sans-serif;
+      font-weight: 500;
     }
 
     #tab-marra .text-block p {
       margin: 0 0 20px;
+
+      font-family: "NudistaMedium", Arial, sans-serif;
+      font-weight: 500;
+      line-height: 1.5;
+
+      text-align: justify;
+      text-align-last: left;
+      text-justify: inter-word;
+
+      overflow-wrap: break-word;
+      hyphens: auto;
     }
 
     #tab-marra .text-block p:last-child {
       margin-bottom: 0;
     }
 
-    /* Images and their shape overlay occupy the right half. */
+    /* Three random photographs in the right half. */
     .marra-visuals {
       position: relative;
-      isolation: isolate;
-
       width: 100%;
       min-width: 0;
-      padding-left: clamp(16px, 2vw, 40px);
 
+      padding-left: clamp(16px, 2vw, 40px);
       box-sizing: border-box;
     }
 
     #marra-composition {
-      position: relative;
-      z-index: 0;
-
       display: grid;
       grid-template-columns: repeat(6, minmax(0, 1fr));
       grid-template-rows: repeat(6, minmax(0, 1fr));
@@ -67,6 +83,7 @@
       width: 100%;
       min-width: 0;
       height: clamp(300px, 68vh, 720px);
+
       margin: 0;
       padding: 0;
     }
@@ -96,45 +113,6 @@
       animation: none;
     }
 
-    /* Shapes float above the images without adding page height. */
-    .marra-shape-overlay {
-      position: absolute;
-      inset: 0;
-      z-index: 5;
-
-      overflow: hidden;
-      pointer-events: none;
-    }
-
-    #marra-shape-overlay .geometric-mark,
-    #marra-shape-overlay .geometric-mark:visited,
-    #marra-shape-overlay .geometric-mark:hover,
-    #marra-shape-overlay .geometric-mark:active {
-      position: absolute;
-      display: block;
-
-      margin: 0;
-      padding: 0;
-
-      background: #ffffff;
-      border: 0 !important;
-      box-shadow: none !important;
-      outline: none;
-
-      text-decoration: none;
-      opacity: 1;
-
-      pointer-events: auto;
-      cursor: pointer;
-    }
-
-    /* Focus indication appears only during keyboard navigation. */
-    #marra-shape-overlay .geometric-mark:focus-visible {
-      outline: 2px dashed #000000;
-      outline-offset: 3px;
-    }
-
-    /* Stack on smaller screens. */
     @media (max-width: 768px) {
       #tab-marra {
         grid-template-columns: minmax(0, 1fr);
@@ -174,8 +152,8 @@
     </nav>
 
     <header class="site-header">
-      <a href="mailto:marraroofing@gmail.com" class="site-title">
-        MARRA
+      <a href="index.html" class="site-title">
+        Mario Martin Ramirez-Arrazola
       </a>
     </header>
 
@@ -221,20 +199,11 @@
         </div>
 
         <div class="marra-visuals">
-
           <div
             class="random-composition"
             id="marra-composition"
             aria-label="Marra project photographs">
           </div>
-
-          <div
-            class="marra-shape-overlay"
-            id="marra-shape-overlay"
-            role="group"
-            aria-label="Email Marra using the white shapes">
-          </div>
-
         </div>
 
       </div>
