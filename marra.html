@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="icon" type="image/jpeg" href="mariofavicon.png">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Marra</title>
 
+  <link rel="icon" type="image/jpeg" href="mariofavicon.jpg">
   <link rel="stylesheet" href="styles.css">
+
   <script src="site.js" defer></script>
 
   <style>
@@ -28,36 +29,48 @@
     }
 
     html {
-      overflow-y: auto !important;
-      scrollbar-gutter: auto;
+      height: 100%;
+      overflow: hidden !important;
     }
 
     body.marra-page {
-      --marra-gutter: clamp(20px, 3vw, 55px);
-      --marra-name-height: clamp(100px, 12vw, 220px);
+      --marra-gutter: clamp(14px, 3vw, 55px);
+      --marra-name-height: clamp(70px, 12vw, 220px);
 
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+      min-height: 0;
       margin: 0;
-      overflow-x: clip;
 
+      overflow: hidden;
       color: #000000;
       background: #ffffff;
     }
 
     .marra-page .site-container {
+      display: flex;
+      flex-direction: column;
+
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+
       padding:
-        clamp(20px, 3vh, 35px)
+        clamp(16px, 3vh, 35px)
         var(--marra-gutter)
-        calc(var(--marra-name-height) * 0.5 + 30px)
+        calc(var(--marra-name-height) * 0.5 + 16px)
         !important;
+
+      color: #000000;
+      background: #ffffff;
     }
 
-    /* ========================================
-       MATCH THE OTHER PAGES' NAVIGATION
-    ======================================== */
-
+    /* Navigation */
     .marra-page .top-nav {
       position: relative;
       z-index: 20;
+      flex: 0 0 auto;
 
       display: flex;
       align-items: center;
@@ -65,7 +78,7 @@
       gap: 12px;
 
       width: 100%;
-      margin: 0 0 clamp(24px, 5vh, 65px);
+      margin: 0 0 clamp(18px, 4vh, 50px);
       padding: 0;
     }
 
@@ -94,47 +107,50 @@
     .marra-page .top-nav .nav-tab[aria-current="page"] {
       color: #000000;
       background: transparent;
-      opacity: 1;
 
       text-decoration: underline;
       text-underline-offset: 7px;
       text-decoration-thickness: 1px;
     }
 
-    .marra-page .nav-tab:focus-visible {
-      outline: 2px solid #000000;
-      outline-offset: 4px;
+    /* Fill the space above the bottom wordmark. */
+    .marra-page .content-wrapper {
+      flex: 1 1 auto;
+      width: 100%;
+      min-height: 0;
     }
 
-    /* ========================================
-       EQUAL LEFT AND RIGHT HALVES
-    ======================================== */
-
-    #tab-marra {
+    /* Keep two columns at every screen size. */
+    .marra-page #tab-marra {
       display: grid !important;
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       align-items: start;
-      gap: 0;
+      gap: clamp(10px, 2vw, 36px);
+
       width: 100%;
+      height: 100%;
+      min-height: 0;
     }
 
-    #tab-marra > .text-block {
+    .marra-page #tab-marra > .text-block {
       width: 100% !important;
       max-width: 100% !important;
       min-width: 0;
 
-      padding: 0 clamp(24px, 3vw, 60px) 0 0;
+      margin: 0;
+      padding: 0;
 
       font-family: "NudistaMedium", Arial, sans-serif;
+      font-size: clamp(12px, 1.05vw, 17px);
       font-weight: 500;
+      line-height: 1.4;
     }
 
-    #tab-marra .text-block p {
-      margin: 0 0 20px;
+    .marra-page #tab-marra .text-block p {
+      margin: 0 0 1em;
 
-      font-family: "NudistaMedium", Arial, sans-serif;
-      font-weight: 500;
-      line-height: 1.5;
+      font: inherit;
+      letter-spacing: 0;
 
       text-align: justify;
       text-align-last: left;
@@ -144,64 +160,59 @@
       hyphens: auto;
     }
 
-    /* ========================================
-       CONTACT — ONE ITEM PER LINE
-    ======================================== */
-
-    #tab-marra .marra-contact {
+    /* Contact details remain on separate lines. */
+    .marra-page #tab-marra .marra-contact {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      gap: 4px;
+      gap: 0.25em;
 
-      margin: 28px 0 0;
+      margin: 1.2em 0 0;
 
-      font-family: "NudistaMedium", Arial, sans-serif;
-      font-weight: 500;
+      font: inherit;
       font-style: normal;
-      line-height: 1.5;
-
       text-align: left;
     }
 
-    #tab-marra .marra-contact a {
+    .marra-page .marra-contact a {
       display: block;
+      max-width: 100%;
 
       color: inherit;
       text-decoration: none;
       overflow-wrap: anywhere;
     }
 
-    #tab-marra .marra-contact a:hover {
+    .marra-page .marra-contact a:hover {
       text-decoration: underline;
-      text-underline-offset: 3px;
     }
 
-    /* ========================================
-       RIGHT-HAND PHOTOGRAPHS
-    ======================================== */
-
-    .marra-visuals {
+    /* Right-hand image composition */
+    .marra-page .marra-visuals {
       width: 100%;
+      height: 100%;
       min-width: 0;
-      padding-left: clamp(16px, 2vw, 40px);
-    }
-
-    #marra-composition {
-      display: grid;
-      grid-template-columns: repeat(6, minmax(0, 1fr));
-      grid-template-rows: repeat(6, minmax(0, 1fr));
-      gap: clamp(10px, 1.5vw, 24px);
-
-      width: 100%;
-      min-width: 0;
-      height: clamp(280px, 62vh, 650px);
-
-      margin: 0;
+      min-height: 0;
       padding: 0;
     }
 
-    #marra-composition .composition-image {
+    .marra-page #marra-composition {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      grid-template-rows: repeat(6, minmax(0, 1fr));
+      gap: clamp(5px, 1vw, 18px);
+
+      width: 100%;
+      height: 100%;
+      min-width: 0;
+      min-height: 0;
+
+      margin: 0;
+      padding: 0;
+      aspect-ratio: auto;
+    }
+
+    .marra-page .composition-image {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -210,7 +221,7 @@
       min-height: 0;
     }
 
-    #marra-composition .composition-image img {
+    .marra-page .composition-image img {
       display: block;
       width: 100%;
       height: 100%;
@@ -226,10 +237,7 @@
       animation: none;
     }
 
-    /* ========================================
-       CROPPED MARRA WORDMARK
-    ======================================== */
-
+    /* Cropped bottom wordmark */
     .marra-page .site-container > .site-header,
     .marra-page .site-container > .site-header.dimmed {
       position: fixed !important;
@@ -254,7 +262,6 @@
       inset: 0 auto auto 0;
 
       display: block !important;
-
       width: 100% !important;
       max-width: none !important;
       height: var(--marra-name-height) !important;
@@ -264,9 +271,7 @@
 
       color: #000000 !important;
       background: transparent !important;
-
       transform: none !important;
-      text-decoration: none;
     }
 
     .marra-name-svg {
@@ -278,47 +283,19 @@
 
     .marra-name-svg text {
       fill: #000000;
-
       font-family: "ApercuMono", monospace;
       font-size: 110px;
       font-weight: 400;
     }
 
-    /* ========================================
-       MOBILE
-    ======================================== */
-
     @media (max-width: 768px) {
-      #tab-marra {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 30px;
-      }
-
-      #tab-marra > .text-block {
-        padding-right: 0;
-      }
-
-      .marra-visuals {
-        padding-left: 0;
-      }
-
-      #marra-composition {
-        height: auto;
-        aspect-ratio: 1;
-      }
-    }
-
-    @media (max-width: 600px) {
       .marra-page .top-nav {
-        flex-wrap: wrap;
-        justify-content: flex-start;
-        gap: 12px 20px;
-
-        margin-bottom: 24px;
+        margin-bottom: 20px;
       }
 
-      .marra-page .top-nav .nav-tab {
-        font-size: 0.75rem;
+      .marra-page #tab-marra > .text-block {
+        font-size: 12px;
+        line-height: 1.3;
       }
     }
   </style>
@@ -391,11 +368,9 @@
             <a href="mailto:marraroofing@gmail.com">
               marraroofing@gmail.com
             </a>
-
             <a href="tel:+18018332752">
               +1 801.833.2752
             </a>
-
             <a href="tel:+18017830184">
               +1 801.783.0184
             </a>
@@ -418,8 +393,10 @@
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const name = document.querySelector(".site-title");
-      const namespace = "http://www.w3.org/2000/svg";
+      const biography = document.querySelector(".text-block");
+      const section = document.getElementById("tab-marra");
 
+      const namespace = "http://www.w3.org/2000/svg";
       const svg = document.createElementNS(namespace, "svg");
 
       svg.classList.add("marra-name-svg");
@@ -465,11 +442,67 @@
         );
       }
 
-      requestAnimationFrame(fitWordmark);
-      window.addEventListener("resize", fitWordmark);
+      function fitText() {
+        biography.style.removeProperty("font-size");
+
+        const preferredSize = parseFloat(
+          getComputedStyle(biography).fontSize
+        );
+
+        const availableHeight = section.clientHeight;
+
+        if (
+          availableHeight <= 0 ||
+          biography.scrollHeight <= availableHeight
+        ) {
+          return;
+        }
+
+        let lower = 1;
+        let upper = preferredSize;
+
+        for (let i = 0; i < 18; i++) {
+          const size = (lower + upper) / 2;
+
+          biography.style.fontSize = `${size}px`;
+
+          if (biography.scrollHeight <= availableHeight) {
+            lower = size;
+          } else {
+            upper = size;
+          }
+        }
+
+        biography.style.fontSize = `${lower}px`;
+      }
+
+      let frame = null;
+
+      function scheduleLayout() {
+        if (frame !== null) {
+          cancelAnimationFrame(frame);
+        }
+
+        frame = requestAnimationFrame(() => {
+          frame = null;
+          fitWordmark();
+          fitText();
+        });
+      }
+
+      scheduleLayout();
+
+      window.addEventListener("resize", scheduleLayout);
+
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener(
+          "resize",
+          scheduleLayout
+        );
+      }
 
       if (document.fonts) {
-        document.fonts.ready.then(fitWordmark);
+        document.fonts.ready.then(scheduleLayout);
       }
     });
   </script>

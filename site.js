@@ -2,7 +2,63 @@
   "use strict";
 
   /* ========================================
-     HORIZONTAL NAME ABOVE NAVIGATION
+     EVENLY SPACED MOBILE NAVIGATION
+     Applies to every page using site.js.
+  ======================================== */
+
+  const navigationStyle = document.createElement("style");
+
+  navigationStyle.textContent = `
+    @media (max-width: 768px) {
+      html body .site-container nav.top-nav {
+        display: grid !important;
+        grid-template-columns:
+          minmax(0, 0.8fr)
+          minmax(0, 1.35fr)
+          minmax(0, 1.05fr)
+          minmax(0, 1fr)
+          minmax(0, 0.8fr) !important;
+        align-items: start !important;
+        justify-content: stretch !important;
+        gap: 0 !important;
+
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+      }
+
+      html body .site-container nav.top-nav .nav-tab {
+        display: block !important;
+        justify-self: stretch !important;
+
+        min-width: 0;
+        margin: 0 !important;
+        padding: 0 !important;
+
+        font-size: clamp(8px, 2.5vw, 12px) !important;
+        line-height: 1.3 !important;
+        letter-spacing: 0 !important;
+
+        text-align: center !important;
+        white-space: nowrap !important;
+      }
+
+      html body .site-container nav.top-nav .nav-tab:first-child {
+        text-align: left !important;
+      }
+
+      html body .site-container nav.top-nav .nav-tab:last-child {
+        text-align: right !important;
+      }
+    }
+  `;
+
+  document.head.appendChild(navigationStyle);
+
+  /* ========================================
+     HEADER
+     Individual pages can replace this with
+     their cropped wordmark after loading.
   ======================================== */
 
   const container = document.querySelector(".site-container");
@@ -57,7 +113,7 @@
   }
 
   /* ========================================
-     THREE-IMAGE COMPOSITIONS
+     MARRA PHOTOGRAPHS
   ======================================== */
 
   function createComposition(containerId, sources, description) {
