@@ -7,14 +7,154 @@
   <title>Marra — MARIO MARTIN RAMIREZ-ARRAZOLA</title>
 
   <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="page-effects.css">
-
   <script src="site.js" defer></script>
-  <script src="page-effects.js" defer></script>
-</head>
-<body class="experimental-marra">
 
-  <div class="shape-layer" id="shape-layer"></div>
+  <style>
+    html {
+      overflow-y: auto !important;
+      scrollbar-gutter: auto;
+    }
+
+    /* Two equal halves. */
+    #tab-marra {
+      display: grid !important;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: start;
+      gap: 0;
+      width: 100%;
+    }
+
+    /* Override any earlier narrow text-column rules. */
+    #tab-marra > .text-block {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0;
+      padding: 0 clamp(24px, 3vw, 60px) 0 0;
+      box-sizing: border-box;
+    }
+
+    #tab-marra .text-block p {
+      margin: 0 0 20px;
+    }
+
+    #tab-marra .text-block p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* The entire image composition stays inside the right half. */
+    .marra-visuals {
+      position: relative;
+      width: 100%;
+      min-width: 0;
+      padding-left: clamp(16px, 2vw, 40px);
+      box-sizing: border-box;
+    }
+
+    #marra-composition {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      grid-template-rows: repeat(6, minmax(0, 1fr));
+      gap: clamp(10px, 1.5vw, 24px);
+
+      width: 100%;
+      min-width: 0;
+      height: clamp(300px, 68vh, 720px);
+      margin: 0;
+      padding: 0;
+    }
+
+    #marra-composition .composition-image {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 0;
+      min-height: 0;
+    }
+
+    #marra-composition .composition-image img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
+
+      object-fit: contain;
+      border: 0;
+      box-shadow: none;
+      filter: none;
+      transform: none;
+      animation: none;
+    }
+
+    /* Overlay: takes up no additional layout space. */
+    .marra-shape-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .marra-email-shape,
+    .marra-email-shape:visited,
+    .marra-email-shape:hover,
+    .marra-email-shape:active {
+      position: absolute;
+      display: block;
+
+      width: var(--shape-size);
+      height: var(--shape-size);
+      margin: 0;
+      padding: 0;
+
+      background: #ffffff;
+      border: 0 !important;
+      box-shadow: none !important;
+      outline: none;
+      text-decoration: none;
+
+      opacity: 1;
+      pointer-events: auto;
+      cursor: pointer;
+    }
+
+    .marra-email-shape.is-circle {
+      border-radius: 50%;
+    }
+
+    .marra-email-shape.is-square {
+      border-radius: 0;
+    }
+
+    /* Only show a focus indicator when navigating by keyboard. */
+    .marra-email-shape:focus-visible {
+      outline: 2px dashed #000000;
+      outline-offset: -5px;
+    }
+
+    @media (max-width: 768px) {
+      #tab-marra {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 30px;
+      }
+
+      #tab-marra > .text-block {
+        padding-right: 0;
+      }
+
+      .marra-visuals {
+        padding-left: 0;
+      }
+
+      #marra-composition {
+        height: auto;
+        aspect-ratio: 1;
+      }
+    }
+  </style>
+</head>
+<body>
 
   <div class="site-container">
 
@@ -23,7 +163,10 @@
       <a href="portfolio.html" class="nav-tab">Portfolio</a>
       <a href="resume.html" class="nav-tab">Resume</a>
       <a href="images.html" class="nav-tab">Images</a>
-      <a href="marra.html" class="nav-tab active" aria-current="page">
+      <a
+        href="marra.html"
+        class="nav-tab active"
+        aria-current="page">
         Marra
       </a>
     </nav>
@@ -73,24 +216,86 @@
             tradespeople, specialists, and suppliers as their
             projects require.
           </p>
-
-          <div class="marra-contact">
-            <a href="mailto:marraroofing@gmail.com">
-              marraroofing@gmail.com
-            </a>
-          </div>
         </div>
 
-        <div
-          class="random-composition"
-          id="marra-composition"
-          aria-label="Marra project photographs">
+        <div class="marra-visuals">
+
+          <div
+            class="random-composition"
+            id="marra-composition"
+            aria-label="Marra project photographs">
+          </div>
+
+          <div
+            class="marra-shape-overlay"
+            id="marra-shape-overlay">
+          </div>
+
         </div>
 
       </div>
     </main>
 
   </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const overlay = document.getElementById("marra-shape-overlay");
+
+      if (!overlay) return;
+
+      // Store random proportions so resizing preserves the composition.
+      const shapes = Array.from({ length: 7 }, (_, index) => ({
+        circle: index % 2 === 0,
+        size: 0.07 + Math.random() * 0.13,
+        x: Math.random(),
+        y: Math.random()
+      }));
+
+      function positionShapes() {
+        overlay.replaceChildren();
+
+        const width = overlay.clientWidth;
+        const height = overlay.clientHeight;
+
+        if (!width || !height) return;
+
+        shapes.forEach(shape => {
+          const size = Math.min(
+            Math.max(28, width * shape.size),
+            width,
+            height,
+            180
+          );
+
+          const link = document.createElement("a");
+
+          link.className = shape.circle
+            ? "marra-email-shape is-circle"
+            : "marra-email-shape is-square";
+
+          link.href = "mailto:marraroofing@gmail.com";
+          link.setAttribute("aria-label", "Email Marra");
+          link.title = "Email marraroofing@gmail.com";
+
+          link.style.setProperty("--shape-size", `${size}px`);
+          link.style.left = `${shape.x * (width - size)}px`;
+          link.style.top = `${shape.y * (height - size)}px`;
+
+          overlay.appendChild(link);
+        });
+      }
+
+      positionShapes();
+
+      if ("ResizeObserver" in window) {
+        const observer = new ResizeObserver(positionShapes);
+        observer.observe(overlay);
+      } else {
+        window.addEventListener("resize", positionShapes);
+      }
+    });
+  </script>
 
 </body>
 </html>
