@@ -11,21 +11,265 @@
 
   <script src="site.js" defer></script>
   <script src="page-effects.js" defer></script>
+
+  <style>
+    /* ========================================
+       ONE SCREEN — NO SCROLLING
+    ======================================== */
+
+    html {
+      height: 100%;
+      overflow: hidden !important;
+    }
+
+    body.experimental-home {
+      --page-gutter: clamp(20px, 3vw, 55px);
+      --bottom-name-size: 4.6vw;
+
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+      min-height: 0;
+      margin: 0;
+      overflow: hidden !important;
+    }
+
+    .experimental-home .site-container {
+      display: flex;
+      flex-direction: column;
+
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+
+      padding:
+        clamp(20px, 3vh, 35px)
+        var(--page-gutter)
+        calc(var(--bottom-name-size) * 0.65 + 22px)
+        !important;
+
+      background: transparent;
+    }
+
+    /* ========================================
+       BACKGROUND — NO WHITE WASH
+    ======================================== */
+
+    .home-background img {
+      filter: grayscale(1) contrast(1.2) brightness(0.85)
+        !important;
+    }
+
+    /* A light, uniform darkening instead of a white gradient. */
+    .home-background::before {
+      background: rgb(0 0 0 / 24%) !important;
+    }
+
+    /* Existing black-and-white grain remains in place. */
+
+    /* ========================================
+       NAVIGATION — ALIGNED WITH THE BIO
+    ======================================== */
+
+    .experimental-home .top-nav {
+      flex: 0 0 auto;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      width: 100%;
+      margin: 0 0 clamp(24px, 5vh, 65px);
+      padding: 0;
+    }
+
+    .experimental-home .top-nav .nav-tab,
+    .experimental-home .top-nav .nav-tab:hover {
+      margin: 0;
+      padding: 0;
+
+      color: #ffffff;
+      background: transparent;
+      opacity: 1;
+
+      font-family: "ApercuMono", monospace;
+      font-size: 0.9rem;
+
+      text-shadow:
+        0 1px 3px rgb(0 0 0 / 90%),
+        0 0 12px rgb(0 0 0 / 65%);
+    }
+
+    .experimental-home .top-nav .nav-tab.active,
+    .experimental-home .top-nav .nav-tab[aria-current="page"] {
+      color: #ffffff;
+      background: transparent;
+
+      text-decoration: underline;
+      text-underline-offset: 7px;
+      text-decoration-thickness: 1px;
+    }
+
+    .experimental-home .nav-tab:focus-visible {
+      outline-color: #ffffff;
+    }
+
+    /* ========================================
+       LARGER BIO — NO RECTANGULAR BACKING
+    ======================================== */
+
+    .experimental-home .content-wrapper {
+      flex: 1 1 auto;
+      min-height: 0;
+      width: 100%;
+    }
+
+    .experimental-home #tab-home {
+      display: block;
+      height: 100%;
+      min-height: 0;
+    }
+
+    .experimental-home #tab-home > .about-text {
+      position: relative;
+      z-index: 20;
+
+      width: min(850px, 58vw);
+      max-width: 100%;
+      min-width: 0;
+
+      margin: 0;
+      padding: 0;
+
+      color: #ffffff;
+      background: transparent;
+    }
+
+    .experimental-home .about-text p {
+      margin: 0;
+
+      color: #ffffff;
+      font-family: "AkzidenzGrotesk", Arial, sans-serif;
+      font-size: clamp(19px, 1.45vw, 26px);
+      font-weight: 400;
+      line-height: 1.38;
+      letter-spacing: -0.015em;
+      text-align: left;
+
+      text-shadow:
+        0 1px 3px rgb(0 0 0 / 95%),
+        0 0 12px rgb(0 0 0 / 70%);
+    }
+
+    /* ========================================
+       NAME — CROPPED AT THE BOTTOM EDGE
+    ======================================== */
+
+    .experimental-home .site-container > .site-header {
+      position: fixed !important;
+      inset: auto var(--page-gutter) 0 var(--page-gutter)
+        !important;
+      z-index: 30;
+
+      display: block !important;
+      width: auto !important;
+      height: calc(var(--bottom-name-size) * 0.5) !important;
+      min-height: 0;
+
+      margin: 0 !important;
+      padding: 0 !important;
+
+      overflow: hidden;
+      background: transparent !important;
+    }
+
+    .experimental-home .site-header .site-title {
+      display: block !important;
+
+      width: max-content !important;
+      max-width: none;
+      height: auto !important;
+
+      margin: 0;
+      padding: 0 !important;
+
+      color: #ffffff !important;
+      background: transparent !important;
+
+      font-family: "ApercuMono", monospace !important;
+      font-size: var(--bottom-name-size) !important;
+      font-weight: 400;
+      line-height: 1 !important;
+      letter-spacing: -0.055em !important;
+
+      white-space: nowrap;
+      text-transform: none !important;
+      text-decoration: none;
+
+      /* Lift the glyphs slightly so the crop cuts through them. */
+      transform: translateY(-0.12em);
+
+      text-shadow: 0 1px 8px rgb(0 0 0 / 60%);
+    }
+
+    /* ========================================
+       SMALLER SCREENS
+    ======================================== */
+
+    @media (max-width: 900px) {
+      .experimental-home #tab-home > .about-text {
+        width: min(740px, 80vw);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .experimental-home .top-nav {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 12px 20px;
+        margin-bottom: 24px;
+      }
+
+      .experimental-home .top-nav .nav-tab {
+        font-size: 0.75rem;
+      }
+
+      .experimental-home #tab-home > .about-text {
+        width: 100%;
+      }
+
+      .experimental-home .about-text p {
+        font-size: 19px;
+        line-height: 1.3;
+      }
+    }
+  </style>
 </head>
+
 <body class="experimental-home">
 
   <div class="home-background" aria-hidden="true">
     <img id="home-background-image" alt="">
   </div>
 
-  <div class="shape-layer" id="shape-layer" aria-hidden="true"></div>
+  <div
+    class="shape-layer"
+    id="shape-layer"
+    aria-hidden="true">
+  </div>
 
   <div class="site-container">
 
     <nav class="top-nav" aria-label="Main navigation">
-      <a href="index.html" class="nav-tab active" aria-current="page">
+      <a
+        href="index.html"
+        class="nav-tab active"
+        aria-current="page">
         Home
       </a>
+
       <a href="portfolio.html" class="nav-tab">Portfolio</a>
       <a href="resume.html" class="nav-tab">Resume</a>
       <a href="images.html" class="nav-tab">Images</a>
@@ -33,8 +277,8 @@
     </nav>
 
     <header class="site-header">
-      <a href="mailto:marioramirezarrazola@gmail.com" class="site-title">
-        MARIO MARTIN RAMIREZ-ARRAZOLA
+      <a href="index.html" class="site-title">
+        Mario Martin Ramirez-Arrazola
       </a>
     </header>
 
@@ -49,6 +293,93 @@
     </main>
 
   </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const content = document.querySelector(".content-wrapper");
+      const biography = document.querySelector(".about-text");
+      const paragraph = biography.querySelector("p");
+
+      let frame = null;
+
+      function fitBiography() {
+        // Start at the larger designed size.
+        paragraph.style.removeProperty("font-size");
+
+        const preferredSize = parseFloat(
+          getComputedStyle(paragraph).fontSize
+        );
+
+        const availableHeight = content.clientHeight;
+
+        if (availableHeight <= 0) return;
+
+        // If necessary, widen the biography before reducing its type.
+        biography.style.removeProperty("width");
+
+        if (biography.offsetHeight > availableHeight) {
+          biography.style.width = "min(1050px, 100%)";
+        }
+
+        if (biography.offsetHeight > availableHeight) {
+          let lower = 1;
+          let upper = preferredSize;
+
+          // Fit the complete bio without adding a scrollbar.
+          for (let i = 0; i < 16; i++) {
+            const size = (lower + upper) / 2;
+
+            paragraph.style.fontSize = `${size}px`;
+
+            if (biography.offsetHeight <= availableHeight) {
+              lower = size;
+            } else {
+              upper = size;
+            }
+          }
+
+          paragraph.style.fontSize = `${lower}px`;
+        }
+
+        // Refresh shape placement around the resized text.
+        window.dispatchEvent(new Event("resize"));
+      }
+
+      function scheduleFit() {
+        if (frame !== null) cancelAnimationFrame(frame);
+
+        frame = requestAnimationFrame(() => {
+          frame = null;
+          fitBiography();
+        });
+      }
+
+      // Listen to actual viewport changes, avoiding the synthetic
+      // resize event used above for the shape renderer.
+      let previousWidth = window.innerWidth;
+      let previousHeight = window.innerHeight;
+
+      window.addEventListener("resize", () => {
+        if (
+          window.innerWidth === previousWidth &&
+          window.innerHeight === previousHeight
+        ) {
+          return;
+        }
+
+        previousWidth = window.innerWidth;
+        previousHeight = window.innerHeight;
+
+        scheduleFit();
+      });
+
+      scheduleFit();
+
+      if (document.fonts) {
+        document.fonts.ready.then(scheduleFit);
+      }
+    });
+  </script>
 
 </body>
 </html>
