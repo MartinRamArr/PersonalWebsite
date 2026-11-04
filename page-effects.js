@@ -106,7 +106,7 @@
     }
 
     /* ========================================
-       CHOOSE OVERLAY
+       FIND THE CORRECT OVERLAY
     ======================================== */
 
     const marraLayer = document.getElementById(
@@ -125,60 +125,34 @@
     layer.style.overflow = "hidden";
 
     /* ========================================
-       RANDOM PATTERN MODE
+       CHOOSE A COMPOSITION
 
-       Eight possibilities:
-       - Large squares
-       - Large circles
-       - Large plus signs
-       - Large mixed shapes
-       - Tiny squares
-       - Tiny circles
-       - Tiny plus signs
-       - Tiny mixed shapes
+       70%: fewer, larger shapes
+       30%: many small, irregularly scattered shapes
+
+       Either version can contain:
+       - squares only
+       - circles only
+       - plus signs only
+       - circles and squares
+       - all three
     ======================================== */
 
-    const modes = [
-      { dense: false, types: ["square"] },
-      { dense: false, types: ["circle"] },
-      { dense: false, types: ["plus"] },
-      { dense: false, types: ["square", "circle", "plus"] },
+    const dense = Math.random() < 0.30;
 
-      { dense: true, types: ["square"] },
-      { dense: true, types: ["circle"] },
-      { dense: true, types: ["plus"] },
-      { dense: true, types: ["square", "circle", "plus"] }
+    const shapeFamilies = [
+      ["square"],
+      ["circle"],
+      ["plus"],
+      ["circle", "square"],
+      ["circle", "square", "plus"]
     ];
 
-    let previousMode = null;
-
-    const storageKey = isMarra
-      ? "marra-shape-mode"
-      : "home-shape-mode";
-
-    try {
-      const stored = sessionStorage.getItem(storageKey);
-
-      if (stored !== null) {
-        previousMode = Number(stored);
-      }
-    } catch {}
-
-    const availableModes = modes
-      .map((mode, index) => ({ ...mode, index }))
-      .filter(mode => mode.index !== previousMode);
-
-    const mode = availableModes[
-      Math.floor(Math.random() * availableModes.length)
+    const types = shapeFamilies[
+      Math.floor(Math.random() * shapeFamilies.length)
     ];
 
-    try {
-      sessionStorage.setItem(storageKey, String(mode.index));
-    } catch {}
-
-    /* Stable random values keep resizing from
-       generating a completely different composition. */
-
+    // Preserve the random composition when resizing.
     const seed = Math.floor(Math.random() * 4294967296);
 
     function randomGenerator(initialSeed) {
@@ -215,7 +189,7 @@
       );
     }
 
-    function createMark(type, size, left, top) {
+    function createMark(type, size, left, top, index) {
       const mark = document.createElement(
         isMarra ? "a" : "span"
       );
@@ -227,12 +201,14 @@
       mark.style.left = `${left}px`;
       mark.style.top = `${top}px`;
 
+      // Later shapes can stack above earlier shapes.
+      mark.style.zIndex = String(index + 1);
+
       if (type === "circle") {
         mark.style.borderRadius = "50%";
       }
 
       if (type === "plus") {
-        // A geometric plus sign with equal-width arms.
         mark.style.clipPath = `
           polygon(
             36% 0%,
@@ -256,9 +232,7 @@
         mark.setAttribute("aria-label", "Email Marra");
         mark.title = "Email marraroofing@gmail.com";
 
-        // Keep dense patterns from creating hundreds
-        // of keyboard tab stops. The first mark remains focusable.
-        if (mode.dense) {
+        if (dense) {
           mark.tabIndex = -1;
         }
       } else {
@@ -269,7 +243,7 @@
     }
 
     /* ========================================
-       DRAW PATTERN
+       DRAW SHAPES
     ======================================== */
 
     function renderShapes() {
@@ -282,7 +256,7 @@
       let height;
 
       if (marraLayer) {
-        // Marra shapes stay over the existing image area.
+        // Marra stays within the existing right-hand image area.
         width = layer.clientWidth;
         height = layer.clientHeight;
       } else {
@@ -300,6 +274,7 @@
 
       const layerRectangle = layer.getBoundingClientRect();
 
+      // Keep shapes off the text, sidebar, and navigation.
       const protectedRectangles = marraLayer
         ? []
         : [
@@ -318,7 +293,7 @@
             };
           });
 
-      function allowed(left, top, size, spacing = 8) {
+      function allowed(left, top, size) {
         const rectangle = {
           left,
           top,
@@ -327,101 +302,91 @@
         };
 
         return !protectedRectangles.some(protectedRectangle =>
-          intersects(rectangle, protectedRectangle, spacing)
+          intersects(rectangle, protectedRectangle, 8)
         );
       }
 
       const fragment = document.createDocumentFragment();
 
-      if (mode.dense) {
-        /* Dense regular field, like a white halftone. */
+      // Random cluster centers create uneven density.
+      const clusters = Array.from({ length: 5 }, () => ({
+        x: random() * width,
+        y: random() * height
+      }));
 
-        let pitch = mobile
-          ? 18 + random() * 8
-          : 22 + random() * 12;
+      const count = dense
+        ? Math.min(
+            1400,
+            Math.max(180, Math.round((width * height) / 1800))
+          )
+        : mobile
+          ? 6 + Math.floor(random() * 3)
+          : 8 + Math.floor(random() * 5);
 
-        // Bound element count on unusually large pages.
-        pitch = Math.max(
-          pitch,
-          Math.sqrt((width * height) / 2200)
+      let placed = 0;
+
+      for (let index = 0; index < count; index++) {
+        const size = Math.min(
+          dense
+            ? mobile
+              ? 3 + Math.pow(random(), 1.8) * 12
+              : 4 + Math.pow(random(), 1.8) * 20
+            : mobile
+              ? 35 + random() * 90
+              : 55 + random() * 180,
+          width,
+          height
         );
 
-        const size = pitch * (0.28 + random() * 0.16);
-        const offsetX = random() * pitch;
-        const offsetY = random() * pitch;
+        const type = types[index % types.length];
 
-        for (
-          let top = offsetY;
-          top + size <= height;
-          top += pitch
-        ) {
-          for (
-            let left = offsetX;
-            left + size <= width;
-            left += pitch
-          ) {
-            if (!allowed(left, top, size, 6)) continue;
+        for (let attempt = 0; attempt < 100; attempt++) {
+          let left;
+          let top;
 
-            const type = mode.types[
-              Math.floor(random() * mode.types.length)
+          if (dense && random() < 0.60) {
+            // Cluster some marks; scatter the others freely.
+            const cluster = clusters[
+              Math.floor(random() * clusters.length)
             ];
 
-            fragment.appendChild(
-              createMark(type, size, left, top)
-            );
+            left =
+              cluster.x +
+              (random() + random() - 1) * width * 0.30;
+
+            top =
+              cluster.y +
+              (random() + random() - 1) * height * 0.30;
+          } else {
+            left = random() * (width - size);
+            top = random() * (height - size);
           }
-        }
-      } else {
-        /* Larger scattered shapes with varied dimensions. */
 
-        const count = mobile ? 6 : 10;
-        const occupied = [];
+          if (
+            left < 0 ||
+            top < 0 ||
+            left + size > width ||
+            top + size > height
+          ) {
+            continue;
+          }
 
-        for (let index = 0; index < count; index++) {
-          const size = Math.min(
-            mobile
-              ? 35 + random() * 80
-              : 55 + random() * 170,
-            width,
-            height
+          if (!allowed(left, top, size)) continue;
+
+          // No collision check between marks:
+          // overlap and stacking are deliberately allowed.
+          fragment.appendChild(
+            createMark(type, size, left, top, placed)
           );
 
-          const type = mode.types[index % mode.types.length];
-
-          for (let attempt = 0; attempt < 120; attempt++) {
-            const left = random() * (width - size);
-            const top = random() * (height - size);
-
-            if (!allowed(left, top, size, 12)) continue;
-
-            const rectangle = {
-              left,
-              top,
-              right: left + size,
-              bottom: top + size
-            };
-
-            if (
-              occupied.some(other =>
-                intersects(rectangle, other, 12)
-              )
-            ) {
-              continue;
-            }
-
-            fragment.appendChild(
-              createMark(type, size, left, top)
-            );
-
-            occupied.push(rectangle);
-            break;
-          }
+          placed++;
+          break;
         }
       }
 
       layer.appendChild(fragment);
 
-      if (isMarra && mode.dense) {
+      if (isMarra && dense) {
         const firstLink = layer.querySelector("a");
 
         if (firstLink) {
