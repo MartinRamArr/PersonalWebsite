@@ -2,61 +2,43 @@
   "use strict";
 
   /* ========================================
-     VERTICAL NAME
+     HORIZONTAL NAME ABOVE NAVIGATION
   ======================================== */
 
-  const siteHeader = document.querySelector(".site-header");
-  const siteTitle = document.querySelector(".site-title");
+  const container = document.querySelector(".site-container");
+  const navigation = document.querySelector(".top-nav");
 
-  if (siteTitle) {
-    const name = siteTitle.textContent.trim();
+  let header = document.querySelector(".site-header");
 
-    siteTitle.setAttribute("aria-label", name);
-    siteTitle.replaceChildren();
-
-    for (const character of name) {
-      const span = document.createElement("span");
-
-      span.textContent = character === " " ? "\u00A0" : character;
-      span.setAttribute("aria-hidden", "true");
-
-      siteTitle.appendChild(span);
+  if (container && navigation) {
+    if (!header) {
+      header = document.createElement("header");
     }
+
+    header.className = "site-header";
+
+    const title = document.createElement("a");
+
+    title.className = "site-title";
+    title.href = "index.html";
+    title.textContent = "Mario Martin Ramirez-Arrazola";
+
+    header.replaceChildren(title);
+    container.insertBefore(header, navigation);
   }
-
-  /* ========================================
-     SIDEBAR SCROLL EFFECT
-  ======================================== */
-
-  function updateSidebar() {
-    if (siteHeader) {
-      siteHeader.classList.toggle("dimmed", window.scrollY > 40);
-    }
-  }
-
-  window.addEventListener("scroll", updateSidebar, {
-    passive: true
-  });
-
-  window.addEventListener("pageshow", updateSidebar);
-
-  updateSidebar();
 
   /* ========================================
      IMAGE POOLS
   ======================================== */
 
-  const totalJpgs = 353;
-  const totalPngs = 85;
-
   function createNumberedPool() {
     return [
       ...Array.from(
-        { length: totalJpgs },
+        { length: 353 },
         (_, index) => `${index + 1}.jpg`
       ),
       ...Array.from(
-        { length: totalPngs },
+        { length: 85 },
         (_, index) => `${index + 1}.png`
       )
     ];
@@ -75,19 +57,14 @@
   }
 
   /* ========================================
-     HOME / MARRA COMPOSITIONS
+     THREE-IMAGE COMPOSITIONS
   ======================================== */
 
   function createComposition(containerId, sources, description) {
-    const container = document.getElementById(containerId);
+    const target = document.getElementById(containerId);
 
-    if (!container) return;
+    if (!target) return;
 
-    const selectedImages = shuffle(sources).slice(0, 3);
-
-    // Each rectangle uses:
-    // column start, column span, row start, row span.
-    // Rectangles remain orthogonal and do not overlap.
     const arrangements = [
       [
         [1, 3, 1, 3],
@@ -111,17 +88,18 @@
       ]
     ];
 
-    const arrangement =
-      arrangements[Math.floor(Math.random() * arrangements.length)];
+    const arrangement = arrangements[
+      Math.floor(Math.random() * arrangements.length)
+    ];
 
-    container.replaceChildren();
+    target.replaceChildren();
 
-    selectedImages.forEach((source, index) => {
+    shuffle(sources).slice(0, 3).forEach((source, index) => {
       const [column, columnSpan, row, rowSpan] = arrangement[index];
 
       const frame = document.createElement("div");
-      frame.className = "composition-image";
 
+      frame.className = "composition-image";
       frame.style.gridColumn = `${column} / span ${columnSpan}`;
       frame.style.gridRow = `${row} / span ${rowSpan}`;
 
@@ -129,38 +107,24 @@
 
       image.alt = `${description} — ${source}`;
       image.decoding = "async";
-      image.loading = "eager";
       image.src = source;
 
       frame.appendChild(image);
-      container.appendChild(frame);
+      target.appendChild(frame);
     });
   }
 
-  if (document.getElementById("home-composition")) {
-    createComposition(
-      "home-composition",
-      createNumberedPool(),
-      "Selected artwork"
-    );
-  }
-
-  if (document.getElementById("marra-composition")) {
-    const marraSources = Array.from(
+  createComposition(
+    "marra-composition",
+    Array.from(
       { length: 14 },
       (_, index) => `marra${index + 1}.jpg`
-    );
-
-    createComposition(
-      "marra-composition",
-      marraSources,
-      "Marra project photograph"
-    );
-  }
+    ),
+    "Marra project photograph"
+  );
 
   /* ========================================
      IMAGES ARCHIVE
-     Runs only on images.html.
   ======================================== */
 
   const canvas = document.getElementById("images-canvas");
@@ -207,9 +171,9 @@
     });
 
     function stopDragging(event) {
-      if (event.pointerId !== activePointer) return;
-
-      activePointer = null;
+      if (event.pointerId === activePointer) {
+        activePointer = null;
+      }
     }
 
     element.addEventListener("pointerup", stopDragging);
