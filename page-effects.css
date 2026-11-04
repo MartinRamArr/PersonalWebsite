@@ -38,7 +38,6 @@ body.experimental-home {
   filter: grayscale(1) contrast(1.2) brightness(0.85);
 }
 
-/* Darken the photograph without washing it out. */
 .home-background::before {
   content: "";
   position: absolute;
@@ -52,10 +51,6 @@ body.experimental-home {
 
 /* ========================================
    GRAIN FALLBACK
-
-   Used when the page has no inline SVG grain
-   filters. The latest index.html applies its
-   own filters directly to the photograph.
 ======================================== */
 
 .home-background::after {
@@ -73,7 +68,6 @@ body.experimental-home {
   pointer-events: none;
 }
 
-/* Keep older randomized class names monochrome. */
 .home-background.effect-photocopy img,
 .home-background.effect-risograph img,
 .home-background.effect-grain img,
@@ -95,7 +89,6 @@ body.experimental-home {
   filter: url("#home-soft-grain") !important;
 }
 
-/* Avoid layering fallback grain over the direct grain filter. */
 .experimental-home:has(#home-film-grain)
   .home-background::after {
   display: none;
@@ -135,7 +128,7 @@ body.experimental-home {
 
 
 /* ========================================
-   HOME BIOGRAPHY — BLACK PANEL ONLY
+   HOME BIOGRAPHY — REDUCED BLACK PADDING
 ======================================== */
 
 .experimental-home #tab-home {
@@ -153,7 +146,7 @@ body.experimental-home {
   min-width: 0;
 
   margin: 0;
-  padding: clamp(16px, 1.5vw, 28px) !important;
+  padding: clamp(8px, 0.75vw, 14px) !important;
 
   color: #ffffff !important;
   background: #000000 !important;
@@ -181,7 +174,7 @@ body.experimental-home {
 
 
 /* ========================================
-   HEADERS — NO BACKGROUND PANELS
+   HOME HEADERS — NO BACKGROUND PANELS
 ======================================== */
 
 .experimental-home .site-header,
@@ -223,7 +216,6 @@ body.experimental-home {
   outline-offset: 4px;
 }
 
-/* No drop shadows on any Home text. */
 .experimental-home,
 .experimental-home * {
   text-shadow: none !important;
@@ -261,9 +253,6 @@ body.experimental-home {
   pointer-events: none;
 }
 
-/* Shapes remain behind the biography and navigation.
-   Random colors are assigned by the Home page script. */
-
 
 /* ========================================
    SMALLER SCREENS
@@ -271,7 +260,7 @@ body.experimental-home {
 
 @media (max-width: 600px) {
   .experimental-home #tab-home > .about-text {
-    padding: 14px !important;
+    padding: 7px !important;
   }
 
   .experimental-home #tab-home > .about-text p {

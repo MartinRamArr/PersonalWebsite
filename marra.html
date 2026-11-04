@@ -18,19 +18,31 @@
       font-display: swap;
     }
 
+    @font-face {
+      font-family: "ApercuMono";
+      src: url("ApercuMonoProRegular.ttf") format("truetype");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
     html {
       overflow-y: auto !important;
       scrollbar-gutter: auto;
     }
 
-    body {
+    body.marra-page {
       --marra-gutter: clamp(20px, 3vw, 55px);
       --marra-name-height: clamp(100px, 12vw, 220px);
 
+      margin: 0;
       overflow-x: clip;
+
+      color: #000000;
+      background: #ffffff;
     }
 
-    .site-container {
+    .marra-page .site-container {
       padding:
         clamp(20px, 3vh, 35px)
         var(--marra-gutter)
@@ -38,13 +50,65 @@
         !important;
     }
 
-    /* Navigation */
-    .top-nav {
-      margin-top: 0;
-      margin-bottom: clamp(24px, 5vh, 65px);
+    /* ========================================
+       MATCH THE OTHER PAGES' NAVIGATION
+    ======================================== */
+
+    .marra-page .top-nav {
+      position: relative;
+      z-index: 20;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      width: 100%;
+      margin: 0 0 clamp(24px, 5vh, 65px);
+      padding: 0;
     }
 
-    /* Equal left and right halves */
+    .marra-page .top-nav .nav-tab,
+    .marra-page .top-nav .nav-tab:hover,
+    .marra-page .top-nav:hover .nav-tab {
+      margin: 0;
+      padding: 0;
+
+      color: #000000;
+      background: transparent;
+      opacity: 1;
+
+      font-family: "ApercuMono", monospace;
+      font-size: 0.9rem;
+      font-weight: 400;
+      line-height: 1.2;
+      letter-spacing: 0;
+
+      text-transform: uppercase;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .marra-page .top-nav .nav-tab.active,
+    .marra-page .top-nav .nav-tab[aria-current="page"] {
+      color: #000000;
+      background: transparent;
+      opacity: 1;
+
+      text-decoration: underline;
+      text-underline-offset: 7px;
+      text-decoration-thickness: 1px;
+    }
+
+    .marra-page .nav-tab:focus-visible {
+      outline: 2px solid #000000;
+      outline-offset: 4px;
+    }
+
+    /* ========================================
+       EQUAL LEFT AND RIGHT HALVES
+    ======================================== */
+
     #tab-marra {
       display: grid !important;
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -53,7 +117,6 @@
       width: 100%;
     }
 
-    /* Justified text */
     #tab-marra > .text-block {
       width: 100% !important;
       max-width: 100% !important;
@@ -80,7 +143,10 @@
       hyphens: auto;
     }
 
-    /* Contact details: one per line */
+    /* ========================================
+       CONTACT — ONE ITEM PER LINE
+    ======================================== */
+
     #tab-marra .marra-contact {
       display: flex;
       flex-direction: column;
@@ -99,6 +165,7 @@
 
     #tab-marra .marra-contact a {
       display: block;
+
       color: inherit;
       text-decoration: none;
       overflow-wrap: anywhere;
@@ -109,7 +176,10 @@
       text-underline-offset: 3px;
     }
 
-    /* Photographs in the right half */
+    /* ========================================
+       RIGHT-HAND PHOTOGRAPHS
+    ======================================== */
+
     .marra-visuals {
       width: 100%;
       min-width: 0;
@@ -155,9 +225,12 @@
       animation: none;
     }
 
-    /* Cropped, full-width Marra wordmark */
-    .site-container > .site-header,
-    .site-container > .site-header.dimmed {
+    /* ========================================
+       CROPPED MARRA WORDMARK
+    ======================================== */
+
+    .marra-page .site-container > .site-header,
+    .marra-page .site-container > .site-header.dimmed {
       position: fixed !important;
       inset: auto 0 0 0 !important;
       z-index: 30;
@@ -175,7 +248,7 @@
       background: transparent !important;
     }
 
-    .site-header a.site-title {
+    .marra-page .site-header a.site-title {
       position: absolute;
       inset: 0 auto auto 0;
 
@@ -204,12 +277,16 @@
 
     .marra-name-svg text {
       fill: #000000;
+
       font-family: "ApercuMono", monospace;
       font-size: 110px;
       font-weight: 400;
     }
 
-    /* Mobile */
+    /* ========================================
+       MOBILE
+    ======================================== */
+
     @media (max-width: 768px) {
       #tab-marra {
         grid-template-columns: minmax(0, 1fr);
@@ -229,9 +306,24 @@
         aspect-ratio: 1;
       }
     }
+
+    @media (max-width: 600px) {
+      .marra-page .top-nav {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 12px 20px;
+
+        margin-bottom: 24px;
+      }
+
+      .marra-page .top-nav .nav-tab {
+        font-size: 0.75rem;
+      }
+    }
   </style>
 </head>
-<body>
+
+<body class="marra-page">
 
   <div class="site-container">
 
@@ -298,9 +390,11 @@
             <a href="mailto:marraroofing@gmail.com">
               marraroofing@gmail.com
             </a>
+
             <a href="tel:+18018332752">
               +1 801.833.2752
             </a>
+
             <a href="tel:+18017830184">
               +1 801.783.0184
             </a>
