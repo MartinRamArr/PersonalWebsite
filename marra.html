@@ -38,13 +38,13 @@
         !important;
     }
 
-    /* Navigation starts at the top, with no name above it. */
+    /* Navigation */
     .top-nav {
       margin-top: 0;
       margin-bottom: clamp(24px, 5vh, 65px);
     }
 
-    /* Two equal halves. */
+    /* Equal left and right halves */
     #tab-marra {
       display: grid !important;
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -53,6 +53,7 @@
       width: 100%;
     }
 
+    /* Justified text */
     #tab-marra > .text-block {
       width: 100% !important;
       max-width: 100% !important;
@@ -79,11 +80,36 @@
       hyphens: auto;
     }
 
-    #tab-marra .text-block p:last-child {
-      margin-bottom: 0;
+    /* Contact details: one per line */
+    #tab-marra .marra-contact {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+
+      margin: 28px 0 0;
+
+      font-family: "NudistaMedium", Arial, sans-serif;
+      font-weight: 500;
+      font-style: normal;
+      line-height: 1.5;
+
+      text-align: left;
     }
 
-    /* Photographs remain within the right half. */
+    #tab-marra .marra-contact a {
+      display: block;
+      color: inherit;
+      text-decoration: none;
+      overflow-wrap: anywhere;
+    }
+
+    #tab-marra .marra-contact a:hover {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    /* Photographs in the right half */
     .marra-visuals {
       width: 100%;
       min-width: 0;
@@ -129,7 +155,7 @@
       animation: none;
     }
 
-    /* Cropped, full-width Marra wordmark. */
+    /* Cropped, full-width Marra wordmark */
     .site-container > .site-header,
     .site-container > .site-header.dimmed {
       position: fixed !important;
@@ -183,6 +209,7 @@
       font-weight: 400;
     }
 
+    /* Mobile */
     @media (max-width: 768px) {
       #tab-marra {
         grid-template-columns: minmax(0, 1fr);
@@ -266,6 +293,18 @@
             tradespeople, specialists, and suppliers as their
             projects require.
           </p>
+
+          <address class="marra-contact">
+            <a href="mailto:marraroofing@gmail.com">
+              marraroofing@gmail.com
+            </a>
+            <a href="tel:+18018332752">
+              +1 801.833.2752
+            </a>
+            <a href="tel:+18017830184">
+              +1 801.783.0184
+            </a>
+          </address>
         </div>
 
         <div class="marra-visuals">
