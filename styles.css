@@ -51,8 +51,10 @@ body {
   min-height: 100vh;
   margin: 0;
   padding: 0;
+
   background: var(--background);
   color: var(--text);
+
   font-family: var(--font-body);
   font-size: var(--body-size);
   font-weight: 300;
@@ -123,6 +125,7 @@ button:focus-visible {
   min-height: 100vh;
   margin: 0;
   padding: 3vh 40px 30px 120px;
+
   background: var(--background);
   color: var(--text);
 }
@@ -133,11 +136,11 @@ button:focus-visible {
   min-width: 0;
 }
 
-/* Separate pages display their content immediately. */
 .tab-content {
   display: block;
   width: 100%;
   min-width: 0;
+
   opacity: 1;
   transform: none;
 }
@@ -267,18 +270,23 @@ button:focus-visible {
 
 
 /* ========================================
-   HOME
+   HOME AND MARRA LAYOUT
 ======================================== */
 
-#tab-home {
-  position: relative;
+#tab-home,
+#tab-marra {
+  display: grid;
+  grid-template-columns: minmax(0, 35fr) minmax(0, 65fr);
+  align-items: start;
+  gap: clamp(24px, 4vw, 70px);
+
   width: 100%;
 }
 
 .about-text {
   display: block;
-  width: 35%;
-  max-width: 35%;
+  width: 100%;
+  min-width: 0;
   padding: 20px;
 
   color: #ffffff;
@@ -293,6 +301,7 @@ button:focus-visible {
   font-size: 0.85rem;
   font-weight: 300;
   line-height: 1.45;
+
   text-align: justify;
   overflow-wrap: break-word;
 }
@@ -301,78 +310,100 @@ button:focus-visible {
   margin-bottom: 0;
 }
 
-.homepage-artwork-container {
-  position: absolute;
-  right: 40px;
-  bottom: 0;
-  z-index: 1;
+.text-block {
+  width: 100%;
+  max-width: 35%;
+  min-width: 0;
 
-  width: 280px;
-  height: 280px;
+  color: #000000;
+  overflow-wrap: break-word;
 }
 
-.artwork-frame {
-  position: relative;
-  width: 100%;
-  height: 100%;
-
-  overflow: hidden;
-  border: 0;
-  background: transparent;
+#tab-marra > .text-block {
+  max-width: 100%;
 }
 
-.artwork-frame img {
-  display: block;
-  width: 100%;
-  height: 100%;
+#tab-marra h1 {
+  margin: 0 0 20px;
 
-  object-fit: cover;
-  border: 0;
-  outline: 0;
+  font-family: var(--font-heading);
+  font-size: var(--body-size);
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0.05em;
+
+  text-transform: uppercase;
+}
+
+#tab-marra p {
+  margin: 0 0 20px;
+}
+
+#tab-marra p:last-child {
+  margin-bottom: 0;
 }
 
 
 /* ========================================
-   HOMEPAGE ARTWORK EFFECTS
+   THREE-IMAGE COMPOSITIONS
 ======================================== */
 
-.artwork-frame.effect-photocopy img {
-  filter: grayscale(1) contrast(3.5) brightness(1);
+.random-composition {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-rows: repeat(6, minmax(0, 1fr));
+  gap: clamp(10px, 1.5vw, 24px);
+
+  width: 100%;
+  min-width: 0;
+  height: clamp(380px, 68vh, 720px);
 }
 
-.artwork-frame.effect-risograph img {
-  filter:
-    grayscale(1)
-    contrast(1.8)
-    sepia(1)
-    hue-rotate(-45deg)
-    saturate(3.5);
+.composition-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 0;
+  min-height: 0;
 }
 
-.artwork-frame.effect-grain img {
-  filter: url("#svg-noise-filter") contrast(1.1);
+.composition-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+
+  border: 0;
+  box-shadow: none;
+  filter: none;
+  transform: none;
+  animation: none;
 }
 
-.artwork-frame.effect-halftone {
-  filter: contrast(2.5) grayscale(1);
+
+/* ========================================
+   MARRA CONTACT
+======================================== */
+
+.marra-contact {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+
+  margin-top: 40px;
 }
 
-.artwork-frame.effect-halftone::after {
-  content: "";
-  position: absolute;
-  inset: 0;
+.marra-contact a {
+  display: block;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
 
-  background-image:
-    radial-gradient(
-      circle,
-      #000000 1.2px,
-      transparent 1.5px
-    );
-  background-size: 4px 4px;
-
-  mix-blend-mode: multiply;
-  opacity: 0.75;
-  pointer-events: none;
+.marra-contact a:hover {
+  text-decoration: underline;
 }
 
 
@@ -422,6 +453,7 @@ button:focus-visible {
 
   width: 100%;
   padding: 30px 0;
+
   border-bottom: 1px solid var(--line);
 }
 
@@ -436,11 +468,13 @@ button:focus-visible {
   font-size: 0.8rem;
   line-height: 1.55;
   letter-spacing: 0.08em;
+
   text-transform: uppercase;
 }
 
 .cv-content {
   min-width: 0;
+
   font-size: var(--body-size);
   line-height: 1.55;
   overflow-wrap: anywhere;
@@ -538,6 +572,7 @@ button:focus-visible {
 
 .scattered-canvas {
   position: relative;
+
   width: 100%;
   min-height: 80vh;
   margin-top: 40px;
@@ -547,6 +582,7 @@ button:focus-visible {
   position: absolute;
 
   max-width: 65%;
+
   border: 0;
   outline: 0;
   background: transparent;
@@ -610,6 +646,7 @@ button:focus-visible {
 
 .load-more-btn {
   display: block;
+
   width: fit-content;
   max-width: 100%;
   margin: 60px auto 40px;
@@ -641,58 +678,12 @@ button:focus-visible {
 
 
 /* ========================================
-   MARRA / GENERAL TEXT
-======================================== */
-
-.text-block {
-  width: 100%;
-  max-width: 35%;
-  color: #000000;
-  overflow-wrap: break-word;
-}
-
-#tab-marra h1 {
-  margin: 0 0 20px;
-
-  font-family: var(--font-heading);
-  font-size: var(--body-size);
-  font-weight: 400;
-  line-height: 1.55;
-  letter-spacing: 0.05em;
-
-  text-transform: uppercase;
-}
-
-#tab-marra p {
-  margin: 0 0 20px;
-}
-
-/* Optional contact block: each link gets its own line. */
-.marra-contact {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
-  margin-top: 40px;
-}
-
-.marra-contact a {
-  display: block;
-  text-decoration: none;
-  overflow-wrap: anywhere;
-}
-
-.marra-contact a:hover {
-  text-decoration: underline;
-}
-
-
-/* ========================================
    OPTIONAL CONTENT STYLES
 ======================================== */
 
 .section-label {
   display: inline-block;
+
   margin-bottom: 30px;
   padding-bottom: 5px;
 
@@ -702,6 +693,7 @@ button:focus-visible {
   font-family: var(--font-heading);
   font-size: var(--body-size);
   letter-spacing: 0.08em;
+
   text-transform: uppercase;
 }
 
@@ -747,7 +739,7 @@ button:focus-visible {
 
 
 /* ========================================
-   TABLET / SMALL LAPTOP
+   SMALL LAPTOP / TABLET
 ======================================== */
 
 @media (min-width: 769px) and (max-width: 1100px) {
@@ -755,18 +747,6 @@ button:focus-visible {
   .mario-portfolio-root {
     padding-right: 30px;
     padding-left: 105px;
-  }
-
-  .about-text,
-  .text-block {
-    width: 50%;
-    max-width: 50%;
-  }
-
-  .homepage-artwork-container {
-    right: 0;
-    width: 230px;
-    height: 230px;
   }
 
   .cv-row {
@@ -782,6 +762,24 @@ button:focus-visible {
   .cv-contact-grid,
   .cv-awards-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+
+/* ========================================
+   STACK HOME / MARRA ON SMALLER SCREENS
+======================================== */
+
+@media (max-width: 900px) {
+  #tab-home,
+  #tab-marra {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 30px;
+  }
+
+  .random-composition {
+    height: auto;
+    aspect-ratio: 1;
   }
 }
 
@@ -823,27 +821,15 @@ button:focus-visible {
     font-size: 2.1dvh;
   }
 
-  .about-text,
   .text-block {
-    width: 100%;
     max-width: 100%;
-  }
-
-  .homepage-artwork-container {
-    position: relative;
-    right: auto;
-    bottom: auto;
-
-    width: 100%;
-    height: auto;
-    aspect-ratio: 1;
-    margin-top: 40px;
   }
 
   .pdf-viewer-container {
     height: 80vh;
     height: 80dvh;
     min-height: 400px;
+
     margin-bottom: 20px;
   }
 
@@ -854,6 +840,7 @@ button:focus-visible {
   .cv-row {
     grid-template-columns: minmax(0, 1fr);
     gap: 15px;
+
     padding: 20px 0;
   }
 
@@ -877,6 +864,7 @@ button:focus-visible {
     flex-direction: column;
     align-items: flex-start;
     gap: 4px;
+
     padding: 10px 0;
   }
 
