@@ -1,18 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="icon" type="image/jpeg" href="mariofavicon.png">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Resume — Mario Martin Ramirez-Arrazola</title>
 
+  <link rel="icon" type="image/jpeg" href="mariofavicon.jpg">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="section-theme.css">
 
   <script src="site.js" defer></script>
   <script src="section-theme.js" defer></script>
+
+  <style>
+    /* ========================================
+       PORTRAIT
+    ======================================== */
+
+    .resume-intro {
+      display: grid;
+      grid-template-columns: 200px minmax(0, 1fr);
+      gap: 40px;
+
+      margin: 0 0 45px;
+    }
+
+    .resume-portrait {
+      grid-column: 2;
+      width: clamp(180px, 24vw, 350px);
+      max-width: 100%;
+      margin: 0;
+    }
+
+    .resume-portrait img {
+      display: block;
+      width: 100%;
+      height: auto;
+
+      border: 0;
+      background: #191919;
+
+      animation: portrait-color-cycle 28s linear infinite;
+      animation-delay: var(--portrait-delay, 0s);
+    }
+
+    /* A monochrome tint makes the effect work even
+       when the original headshot is black and white. */
+    @keyframes portrait-color-cycle {
+      from {
+        filter:
+          grayscale(1)
+          sepia(1)
+          saturate(3)
+          hue-rotate(0deg);
+      }
+
+      to {
+        filter:
+          grayscale(1)
+          sepia(1)
+          saturate(3)
+          hue-rotate(360deg);
+      }
+    }
+
+    @media (min-width: 769px) and (max-width: 1100px) {
+      .resume-intro {
+        grid-template-columns: 140px minmax(0, 1fr);
+        gap: 25px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .resume-intro {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0;
+        margin-bottom: 30px;
+      }
+
+      .resume-portrait {
+        grid-column: 1;
+        width: min(62vw, 280px);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .resume-portrait img {
+        animation: none;
+        filter: none;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
   <div class="site-container">
@@ -20,21 +101,31 @@
     <nav class="top-nav" aria-label="Main navigation">
       <a href="index.html" class="nav-tab">Home</a>
       <a href="portfolio.html" class="nav-tab">Portfolio</a>
-      <a href="resume.html" class="nav-tab active" aria-current="page">
+      <a
+        href="resume.html"
+        class="nav-tab active"
+        aria-current="page">
         Resume
       </a>
       <a href="images.html" class="nav-tab">Images</a>
       <a href="marra.html" class="nav-tab">Marra</a>
     </nav>
 
-    <header class="site-header">
-      <a href="index.html" class="site-title">
-        Mario Martin Ramirez-Arrazola
-      </a>
-    </header>
-
     <main class="content-wrapper">
       <div id="tab-resume" class="tab-content active visible">
+
+        <!-- RANDOM HEADSHOT -->
+        <div class="resume-intro">
+          <figure class="resume-portrait">
+            <img
+              id="resume-headshot"
+              src="MarioHeadshot1.png"
+              alt="Portrait of Mario Martin Ramirez-Arrazola"
+              decoding="async"
+              fetchpriority="high">
+          </figure>
+        </div>
+
         <div class="cv-container">
 
           <!-- CONTACT -->
@@ -45,7 +136,7 @@
                 <div>marioramirezarrazola.com</div>
                 <div>marioramirezarrazola@gmail.com</div>
                 <div>+1 801 - 833 - 2752</div>
-                <div>Salt Lake City, UT | Los Angeles, CA</div>
+                <div>Los Angeles, CA</div>
               </div>
             </div>
           </div>
@@ -57,7 +148,9 @@
 
               <div class="cv-item">
                 <div class="cv-item-header">
-                  <span class="cv-item-title">Columbia University GSAPP</span>
+                  <span class="cv-item-title">
+                    Columbia University GSAPP
+                  </span>
                   <span class="cv-item-meta">M.Arch</span>
                 </div>
                 <div class="cv-item-date">2023 — 2026</div>
@@ -65,15 +158,21 @@
 
               <div class="cv-item">
                 <div class="cv-item-header">
-                  <span class="cv-item-title">University of Oklahoma</span>
-                  <span class="cv-item-meta">M.A. History of Technology</span>
+                  <span class="cv-item-title">
+                    University of Oklahoma
+                  </span>
+                  <span class="cv-item-meta">
+                    M.A. History of Technology
+                  </span>
                 </div>
                 <div class="cv-item-date">2021 — 2023</div>
               </div>
 
               <div class="cv-item">
                 <div class="cv-item-header">
-                  <span class="cv-item-title">University of Utah</span>
+                  <span class="cv-item-title">
+                    University of Utah
+                  </span>
                   <span class="cv-item-meta">B.S. Economics</span>
                 </div>
                 <div class="cv-item-date">2018 — 2021</div>
@@ -112,8 +211,12 @@
 
               <div class="cv-item">
                 <div class="cv-item-header">
-                  <span class="cv-item-title">Montclair State University</span>
-                  <span class="cv-item-meta">Adjunct Instructor in History</span>
+                  <span class="cv-item-title">
+                    Montclair State University
+                  </span>
+                  <span class="cv-item-meta">
+                    Adjunct Instructor in History
+                  </span>
                 </div>
                 <div class="cv-item-date">2023 — 2026</div>
                 <div class="cv-item-desc">
@@ -179,47 +282,73 @@
 
               <div class="cv-list-item">
                 <span>Founder, Non-Background at GSAPP</span>
-                <span class="cv-list-meta">Fall 2025 — Spring 2026</span>
+                <span class="cv-list-meta">
+                  Fall 2025 — Spring 2026
+                </span>
               </div>
 
               <div class="cv-list-item">
-                <span>Student Council President, Columbia University GSAPP</span>
-                <span class="cv-list-meta">Fall 2024 — Spring 2026</span>
+                <span>
+                  Student Council President, Columbia University GSAPP
+                </span>
+                <span class="cv-list-meta">
+                  Fall 2024 — Spring 2026
+                </span>
               </div>
 
               <div class="cv-list-item">
                 <span>Chair, GSAPP Health and Wellness Committee</span>
-                <span class="cv-list-meta">Fall 2024 — Spring 2026</span>
+                <span class="cv-list-meta">
+                  Fall 2024 — Spring 2026
+                </span>
               </div>
 
               <div class="cv-list-item">
                 <span>Mentor, Barnard + Columbia Architecture Society</span>
-                <span class="cv-list-meta">Fall 2023 — Spring 2026</span>
+                <span class="cv-list-meta">
+                  Fall 2023 — Spring 2026
+                </span>
               </div>
 
               <div class="cv-list-item">
                 <span>Editor, Aster Review, University of Oklahoma</span>
-                <span class="cv-list-meta">Fall 2021 — Spring 2023</span>
+                <span class="cv-list-meta">
+                  Fall 2021 — Spring 2023
+                </span>
               </div>
 
               <div class="cv-list-item">
-                <span>Representative, History of Science Association at OU</span>
-                <span class="cv-list-meta">Fall 2021 — Spring 2023</span>
+                <span>
+                  Representative, History of Science Association at OU
+                </span>
+                <span class="cv-list-meta">
+                  Fall 2021 — Spring 2023
+                </span>
               </div>
 
               <div class="cv-list-item">
                 <span>Educational Volunteer Member, AmeriCorps</span>
-                <span class="cv-list-meta">Fall 2020 — Spring 2021</span>
+                <span class="cv-list-meta">
+                  Fall 2020 — Spring 2021
+                </span>
               </div>
 
               <div class="cv-list-item">
-                <span>Historian, Latinos in Action at the University of Utah</span>
-                <span class="cv-list-meta">Fall 2020 — Spring 2021</span>
+                <span>
+                  Historian, Latinos in Action at the University of Utah
+                </span>
+                <span class="cv-list-meta">
+                  Fall 2020 — Spring 2021
+                </span>
               </div>
 
               <div class="cv-list-item">
-                <span>Board Chair, Associated Students of the University of Utah</span>
-                <span class="cv-list-meta">Fall 2020 — Fall 2021</span>
+                <span>
+                  Board Chair, Associated Students of the University of Utah
+                </span>
+                <span class="cv-list-meta">
+                  Fall 2020 — Fall 2021
+                </span>
               </div>
 
             </div>
@@ -407,6 +536,29 @@
     </main>
 
   </div>
+
+  <script>
+    (() => {
+      const portrait = document.getElementById("resume-headshot");
+
+      const headshots = [
+        "MarioHeadshot1.png",
+        "MarioHeadshot2.png"
+      ];
+
+      const selected = headshots[
+        Math.floor(Math.random() * headshots.length)
+      ];
+
+      // Start at a random point in the continuous color cycle.
+      portrait.style.setProperty(
+        "--portrait-delay",
+        `${-Math.random() * 28}s`
+      );
+
+      portrait.src = selected;
+    })();
+  </script>
 
 </body>
 </html>
