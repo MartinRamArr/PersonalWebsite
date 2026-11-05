@@ -10,19 +10,12 @@
     const style = document.createElement("style");
 
     style.textContent = `
-      body.section-theme {
-        position: relative;
-      }
-
       #floating-portraits {
-        position: absolute;
-        top: 0;
-        left: 0;
+        position: fixed;
+        inset: 0;
         z-index: 10;
 
-        width: 100%;
         overflow: hidden;
-
         pointer-events: none;
       }
 
@@ -35,7 +28,6 @@
         margin: 0;
         padding: 0;
 
-        isolation: isolate;
         background: transparent;
         pointer-events: none;
 
@@ -52,9 +44,6 @@
         padding: 0;
 
         background: transparent;
-
-        /* Normal blending makes the front/back exchange visible. */
-        mix-blend-mode: normal;
         pointer-events: none;
       }
 
@@ -72,7 +61,12 @@
 
         pointer-events: none;
 
-        animation: paired-portrait-color 24s linear infinite;
+        animation:
+          paired-portrait-color
+          32s
+          linear
+          infinite;
+
         animation-delay: var(--color-delay, 0s);
       }
 
@@ -121,7 +115,7 @@
       ? ["MarioHeadshot1.png", "MarioHeadshot2.png"]
       : ["MarioHeadshot2.png", "MarioHeadshot1.png"];
 
-    const faces = sources.map(source => {
+    const faces = sources.map((source, index) => {
       const wrapper = document.createElement("div");
       wrapper.className = "portrait-face";
 
@@ -134,288 +128,314 @@
       wrapper.appendChild(image);
       pair.appendChild(wrapper);
 
-      return { wrapper, image, source };
+      return { wrapper, image, source, index };
     });
 
     layer.appendChild(pair);
     document.body.appendChild(layer);
 
-    const reducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    );
+    const offsetX = 18 + Math.random() * 24;
+    const offsetY = 12 + Math.random() * 20;
 
-    const offsetX = 22 + Math.random() * 20;
-    const offsetY = 14 + Math.random() * 18;
-    const colorStart = Math.random() * 24;
+    faces[1].wrapper.style.transform =
+      `translate(${offsetX}px, ${offsetY}px)`;
+
+    const colorStart = Math.random() * 32;
 
     faces.forEach((face, index) => {
       face.image.style.setProperty(
         "--color-delay",
-        `${-(colorStart + index * 8)}s`
+        `${-(colorStart + index * 10)}s`
       );
     });
 
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    );
+
+    let movement = null;
+    let exchangeAnimations = [];
+    let generation = 0;
     let ready = false;
-    let frame = null;
-    let previousTime = null;
-    let exchangeTime = Math.random() * 6;
-
-    let pageWidth = 0;
-    let pageHeight = 0;
-    let portraitWidth = 0;
-    let portraitHeight = 0;
-
-    let position = null;
-    let target = null;
-    let angle = 0;
-    let targetAngle = 0;
-
-    let layoutFrame = null;
+    let resizeTimer = null;
 
     function randomBetween(minimum, maximum) {
       return minimum + Math.random() * (maximum - minimum);
     }
 
     /* ========================================
-       FULL DOCUMENT DIMENSIONS
+       GRADUALLY EXCHANGE THE FRONT PORTRAIT
     ======================================== */
 
-    function measurePage() {
-      const container = document.querySelector(".site-container");
+    function animateExchange() {
+      exchangeAnimations.forEach(animation => animation.cancel());
+      exchangeAnimations = [];
 
-      pageWidth = document.documentElement.clientWidth;
+      const mobile = window.innerWidth <= 600;
 
-      const contentBottom = container
-        ? container.getBoundingClientRect().bottom + window.scrollY
-        : document.body.offsetHeight;
+      const strongOpacity = mobile ? 0.54 : 0.62;
+      const softOpacity = mobile ? 0.24 : 0.28;
 
-      pageHeight = Math.ceil(
-        Math.max(
-          document.documentElement.clientHeight,
-          document.body.offsetHeight,
-          contentBottom
-        )
+      faces[0].wrapper.style.opacity = strongOpacity;
+      faces[0].wrapper.style.zIndex = "2";
+
+      faces[1].wrapper.style.opacity = softOpacity;
+      faces[1].wrapper.style.zIndex = "1";
+
+      if (reducedMotion.matches) return;
+
+      /*
+       * Each portrait fades fully back before its stacking
+       * order changes, avoiding a visible layer-switch jump.
+       */
+      const firstOpacity = faces[0].wrapper.animate(
+        [
+          { opacity: strongOpacity, offset: 0 },
+          { opacity: strongOpacity, offset: 0.18 },
+          { opacity: 0, offset: 0.42 },
+          { opacity: 0, offset: 0.48 },
+          { opacity: softOpacity, offset: 0.62 },
+          { opacity: softOpacity, offset: 0.78 },
+          { opacity: strongOpacity, offset: 1 }
+        ],
+        {
+          duration: 24000,
+          iterations: Infinity,
+          easing: "linear"
+        }
       );
 
-      layer.style.height = `${pageHeight}px`;
+      const secondOpacity = faces[1].wrapper.animate(
+        [
+          { opacity: softOpacity, offset: 0 },
+          { opacity: softOpacity, offset: 0.18 },
+          { opacity: strongOpacity, offset: 0.42 },
+          { opacity: strongOpacity, offset: 0.62 },
+          { opacity: 0, offset: 0.84 },
+          { opacity: 0, offset: 0.9 },
+          { opacity: softOpacity, offset: 1 }
+        ],
+        {
+          duration: 24000,
+          iterations: Infinity,
+          easing: "linear"
+        }
+      );
 
+      const firstStack = faces[0].wrapper.animate(
+        [
+          { zIndex: 2, offset: 0 },
+          { zIndex: 2, offset: 0.4499 },
+          { zIndex: 1, offset: 0.45 },
+          { zIndex: 1, offset: 0.8699 },
+          { zIndex: 2, offset: 0.87 },
+          { zIndex: 2, offset: 1 }
+        ],
+        {
+          duration: 24000,
+          iterations: Infinity,
+          easing: "linear"
+        }
+      );
+
+      const secondStack = faces[1].wrapper.animate(
+        [
+          { zIndex: 1, offset: 0 },
+          { zIndex: 1, offset: 0.4499 },
+          { zIndex: 2, offset: 0.45 },
+          { zIndex: 2, offset: 0.8699 },
+          { zIndex: 1, offset: 0.87 },
+          { zIndex: 1, offset: 1 }
+        ],
+        {
+          duration: 24000,
+          iterations: Infinity,
+          easing: "linear"
+        }
+      );
+
+      exchangeAnimations = [
+        firstOpacity,
+        secondOpacity,
+        firstStack,
+        secondStack
+      ];
+
+      // Keep all four animations on precisely the same clock.
+      const startTime = document.timeline.currentTime;
+
+      exchangeAnimations.forEach(animation => {
+        animation.startTime = startTime;
+      });
+    }
+
+    /* ========================================
+       PAIR MOVEMENT
+    ======================================== */
+
+    function transformAt(point, rotation) {
+      return (
+        `translate3d(${point.x}px, ${point.y}px, 0) ` +
+        `rotate(${rotation}deg)`
+      );
+    }
+
+    function outsidePoint(edge, width, height, imageWidth, imageHeight) {
+      const margin = 100;
+
+      switch (edge) {
+        case 0:
+          return {
+            x: randomBetween(-imageWidth * 0.5, width),
+            y: -imageHeight - margin
+          };
+
+        case 1:
+          return {
+            x: width + margin,
+            y: randomBetween(-imageHeight * 0.5, height)
+          };
+
+        case 2:
+          return {
+            x: randomBetween(-imageWidth * 0.5, width),
+            y: height + margin
+          };
+
+        default:
+          return {
+            x: -imageWidth - margin,
+            y: randomBetween(-imageHeight * 0.5, height)
+          };
+      }
+    }
+
+    function sizePair() {
       const imageWidth = pair.clientWidth;
 
       const heights = faces.map(face => {
         const image = face.image;
 
-        return image.naturalWidth > 0
+        return image.naturalWidth
           ? imageWidth * image.naturalHeight / image.naturalWidth
           : 0;
       });
 
-      portraitWidth = imageWidth + offsetX + 16;
-      portraitHeight =
-        Math.max(heights[0], heights[1] + offsetY) + 16;
-
-      pair.style.height = `${portraitHeight}px`;
+      pair.style.height =
+        `${Math.max(heights[0], heights[1] + offsetY)}px`;
     }
 
-    /* ========================================
-       PORTRAIT EXCHANGE
-
-       One becomes stronger as the other recedes.
-       Neither disappears or holds a clear pose.
-
-       Layer order switches through a brief blur
-       while their opacities are equal.
-    ======================================== */
-
-    function updateExchange(delta) {
-      exchangeTime += delta;
-
-      const phase = exchangeTime / 6 * Math.PI * 2;
-      const wave = Math.sin(phase);
-      const dominance = (wave + 1) / 2;
-
-      const lowOpacity = 0.24;
-      const highOpacity = window.innerWidth <= 600 ? 0.54 : 0.60;
-
-      faces[0].wrapper.style.opacity =
-        lowOpacity + dominance * (highOpacity - lowOpacity);
-
-      faces[1].wrapper.style.opacity =
-        lowOpacity + (1 - dominance) * (highOpacity - lowOpacity);
-
-      faces[0].wrapper.style.zIndex = wave >= 0 ? "2" : "1";
-      faces[1].wrapper.style.zIndex = wave >= 0 ? "1" : "2";
-
-      // Briefly soften the precise moment of the stacking change.
-      const exchangeBlur =
-        0.8 + 2 * Math.exp(-Math.pow(wave / 0.22, 2));
-
-      faces[0].wrapper.style.filter =
-        `blur(${exchangeBlur}px)`;
-
-      faces[1].wrapper.style.filter =
-        `blur(${exchangeBlur + 0.3}px)`;
-
-      // Keep the two images connected, but slightly unsettled.
-      const shiftX = Math.sin(phase * 0.5) * 7;
-      const shiftY = Math.cos(phase * 0.5) * 5;
-
-      faces[0].wrapper.style.transform =
-        `translate(${shiftX}px, ${shiftY}px)`;
-
-      faces[1].wrapper.style.transform =
-        `translate(${offsetX - shiftX}px, ${offsetY - shiftY}px)`;
-    }
-
-    /* ========================================
-       MOVEMENT THROUGH THE PAGE
-
-       Alternates between distant left/right
-       destinations at different document heights.
-    ======================================== */
-
-    function chooseTarget() {
-      const currentCenterX = position.x + portraitWidth / 2;
-      const headingRight = currentCenterX < pageWidth / 2;
-
-      const targetX = headingRight
-        ? randomBetween(pageWidth * 0.7, pageWidth + 50)
-        : randomBetween(-portraitWidth - 50, pageWidth * 0.15);
-
-      const maxY = Math.max(0, pageHeight - portraitHeight);
-
-      // Choose a noticeably different vertical position.
-      let targetY = randomBetween(0, maxY);
-
-      for (let attempt = 0; attempt < 12; attempt++) {
-        if (Math.abs(targetY - position.y) > maxY * 0.25) {
-          break;
-        }
-
-        targetY = randomBetween(0, maxY);
-      }
-
-      target = {
-        x: targetX,
-        y: targetY
-      };
-
-      targetAngle = randomBetween(-12, 12);
-    }
-
-    function startingPosition() {
-      const maxY = Math.max(0, pageHeight - portraitHeight);
-
-      // Start near the upper portion of the document,
-      // entering from either side.
-      const initialY = randomBetween(
-        60,
-        Math.max(
-          60,
-          Math.min(maxY, window.innerHeight * 0.65)
-        )
-      );
-
-      position = {
-        x: Math.random() < 0.5
-          ? -portraitWidth - 30
-          : pageWidth + 30,
-        y: Math.min(initialY, maxY)
-      };
-
-      angle = randomBetween(-8, 8);
-      chooseTarget();
-    }
-
-    function paintPosition() {
-      pair.style.transform =
-        `translate3d(${position.x}px, ${position.y}px, 0) ` +
-        `rotate(${angle}deg)`;
-    }
-
-    function animate(time) {
-      frame = null;
-
-      if (!ready || reducedMotion.matches) return;
-
-      const delta = previousTime === null
-        ? 0
-        : Math.min((time - previousTime) / 1000, 0.05);
-
-      previousTime = time;
-
-      updateExchange(delta);
-
-      const dx = target.x - position.x;
-      const dy = target.y - position.y;
-      const distance = Math.hypot(dx, dy);
-
-      // Faster on a longer page so the pair covers more ground.
-      const speed = Math.min(
-        210,
-        Math.max(100, pageHeight / 24)
-      );
-
-      const travel = speed * delta;
-
-      if (distance <= travel || distance < 1) {
-        position.x = target.x;
-        position.y = target.y;
-
-        chooseTarget();
-      } else {
-        position.x += dx / distance * travel;
-        position.y += dy / distance * travel;
-      }
-
-      angle += (targetAngle - angle) * Math.min(1, delta * 0.7);
-
-      paintPosition();
-
-      frame = requestAnimationFrame(animate);
-    }
-
-    function startAnimation() {
+    async function startDrifting() {
       if (!ready) return;
 
-      if (frame !== null) {
-        cancelAnimationFrame(frame);
-        frame = null;
-      }
+      const currentGeneration = ++generation;
 
-      previousTime = null;
-      measurePage();
+      movement?.cancel();
+      sizePair();
 
-      if (!position) {
-        startingPosition();
-      }
+      const width = layer.clientWidth;
+      const height = layer.clientHeight;
+
+      const imageWidth = pair.offsetWidth + offsetX;
+      const imageHeight = pair.offsetHeight;
 
       if (reducedMotion.matches) {
-        faces[0].wrapper.style.opacity = "0.42";
-        faces[1].wrapper.style.opacity = "0.36";
+        pair.style.transform = transformAt(
+          {
+            x: width * 0.6 - imageWidth * 0.5,
+            y: height * 0.4 - imageHeight * 0.5
+          },
+          -4
+        );
 
-        faces[0].wrapper.style.zIndex = "2";
-        faces[1].wrapper.style.zIndex = "1";
-
-        faces[0].wrapper.style.filter = "blur(0.8px)";
-        faces[1].wrapper.style.filter = "blur(1px)";
-
-        faces[0].wrapper.style.transform = "translate(0, 0)";
-        faces[1].wrapper.style.transform =
-          `translate(${offsetX}px, ${offsetY}px)`;
-
-        position = {
-          x: Math.max(0, pageWidth * 0.6 - portraitWidth / 2),
-          y: Math.max(50, window.innerHeight * 0.3)
-        };
-
-        angle = -4;
-        paintPosition();
-      } else {
-        chooseTarget();
-        frame = requestAnimationFrame(animate);
+        pair.style.visibility = "visible";
+        return;
       }
 
+      let edge = Math.floor(Math.random() * 4);
+
+      let start = outsidePoint(
+        edge,
+        width,
+        height,
+        imageWidth,
+        imageHeight
+      );
+
+      let rotation = randomBetween(-8, 8);
+      let firstPass = true;
+
+      pair.style.transform = transformAt(start, rotation);
       pair.style.visibility = "visible";
+
+      while (currentGeneration === generation) {
+        const exitEdge = (
+          edge + 1 + Math.floor(Math.random() * 3)
+        ) % 4;
+
+        const end = outsidePoint(
+          exitEdge,
+          width,
+          height,
+          imageWidth,
+          imageHeight
+        );
+
+        const middle = {
+          x: randomBetween(
+            width * 0.15 - imageWidth * 0.5,
+            width * 0.85 - imageWidth * 0.5
+          ),
+          y: randomBetween(
+            height * 0.2 - imageHeight * 0.5,
+            height * 0.8 - imageHeight * 0.5
+          )
+        };
+
+        const endRotation = randomBetween(-8, 8);
+
+        movement = pair.animate(
+          [
+            {
+              transform: transformAt(start, rotation),
+              offset: 0
+            },
+            {
+              transform: transformAt(
+                middle,
+                (rotation + endRotation) / 2
+              ),
+              offset: 0.5
+            },
+            {
+              transform: transformAt(end, endRotation),
+              offset: 1
+            }
+          ],
+          {
+            // Slightly faster than the previous 55–85 seconds.
+            duration: randomBetween(42000, 65000),
+            delay: firstPass
+              ? randomBetween(0, 4000)
+              : randomBetween(1000, 3000),
+            easing: "linear",
+            fill: "both"
+          }
+        );
+
+        try {
+          await movement.finished;
+        } catch {
+          return;
+        }
+
+        if (currentGeneration !== generation) return;
+
+        start = end;
+        edge = exitEdge;
+        rotation = endRotation;
+        firstPass = false;
+      }
     }
 
     /* ========================================
@@ -449,65 +469,27 @@
       }
 
       ready = true;
-      startAnimation();
+
+      animateExchange();
+      startDrifting();
     });
 
-    /* ========================================
-       LAYOUT CHANGES
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
 
-       Scrolling does not reposition the pair.
-    ======================================== */
-
-    function scheduleMeasurement() {
-      if (layoutFrame !== null) {
-        cancelAnimationFrame(layoutFrame);
-      }
-
-      layoutFrame = requestAnimationFrame(() => {
-        layoutFrame = null;
-
+      resizeTimer = setTimeout(() => {
         if (!ready) return;
 
-        const oldWidth = pageWidth;
-        const oldHeight = pageHeight;
+        animateExchange();
+        startDrifting();
+      }, 180);
+    });
 
-        measurePage();
+    reducedMotion.addEventListener("change", () => {
+      if (!ready) return;
 
-        if (
-          oldWidth !== pageWidth ||
-          oldHeight !== pageHeight
-        ) {
-          chooseTarget();
-        }
-      });
-    }
-
-    window.addEventListener("resize", scheduleMeasurement);
-
-    const container = document.querySelector(".site-container");
-
-    if (container && "ResizeObserver" in window) {
-      const observer = new ResizeObserver(scheduleMeasurement);
-      observer.observe(container);
-    }
-
-    if (document.fonts) {
-      document.fonts.ready.then(scheduleMeasurement);
-    }
-
-    reducedMotion.addEventListener("change", startAnimation);
-
-    document.addEventListener("visibilitychange", () => {
-      if (document.hidden) {
-        if (frame !== null) {
-          cancelAnimationFrame(frame);
-          frame = null;
-        }
-
-        previousTime = null;
-      } else if (ready && !reducedMotion.matches && frame === null) {
-        frame = requestAnimationFrame(animate);
-      }
+      animateExchange();
+      startDrifting();
     });
   }
 
