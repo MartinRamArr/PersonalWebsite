@@ -10,12 +10,19 @@
     const style = document.createElement("style");
 
     style.textContent = `
+      body.section-theme {
+        position: relative;
+      }
+
       #floating-portraits {
-        position: fixed;
-        inset: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
         z-index: 10;
 
+        width: 100%;
         overflow: hidden;
+
         pointer-events: none;
       }
 
@@ -44,6 +51,7 @@
         padding: 0;
 
         background: transparent;
+        mix-blend-mode: screen;
         pointer-events: none;
       }
 
@@ -115,7 +123,7 @@
       ? ["MarioHeadshot1.png", "MarioHeadshot2.png"]
       : ["MarioHeadshot2.png", "MarioHeadshot1.png"];
 
-    const faces = sources.map((source, index) => {
+    const faces = sources.map(source => {
       const wrapper = document.createElement("div");
       wrapper.className = "portrait-face";
 
@@ -128,18 +136,14 @@
       wrapper.appendChild(image);
       pair.appendChild(wrapper);
 
-      return { wrapper, image, source, index };
+      return { wrapper, image, source };
     });
 
     layer.appendChild(pair);
     document.body.appendChild(layer);
 
-    const offsetX = 18 + Math.random() * 24;
-    const offsetY = 12 + Math.random() * 20;
-
-    faces[1].wrapper.style.transform =
-      `translate(${offsetX}px, ${offsetY}px)`;
-
+    const offsetX = 20 + Math.random() * 22;
+    const offsetY = 14 + Math.random() * 18;
     const colorStart = Math.random() * 32;
 
     faces.forEach((face, index) => {
@@ -157,14 +161,53 @@
     let exchangeAnimations = [];
     let generation = 0;
     let ready = false;
-    let resizeTimer = null;
+
+    let previousWidth = 0;
+    let previousHeight = 0;
+    let layoutFrame = null;
 
     function randomBetween(minimum, maximum) {
       return minimum + Math.random() * (maximum - minimum);
     }
 
     /* ========================================
-       GRADUALLY EXCHANGE THE FRONT PORTRAIT
+       DOCUMENT SIZE
+
+       The overlay is sized from the page content,
+       not the visible browser window.
+    ======================================== */
+
+    function updatePageSize() {
+      const container = document.querySelector(".site-container");
+
+      const width = document.documentElement.clientWidth;
+
+      const containerBottom = container
+        ? container.getBoundingClientRect().bottom + window.scrollY
+        : document.body.offsetHeight;
+
+      const height = Math.ceil(
+        Math.max(
+          document.documentElement.clientHeight,
+          document.body.offsetHeight,
+          containerBottom
+        )
+      );
+
+      layer.style.height = `${height}px`;
+
+      const changed =
+        width !== previousWidth ||
+        height !== previousHeight;
+
+      previousWidth = width;
+      previousHeight = height;
+
+      return changed;
+    }
+
+    /* ========================================
+       ABSTRACT IMAGE EXCHANGE
     ======================================== */
 
     function animateExchange() {
@@ -173,95 +216,122 @@
 
       const mobile = window.innerWidth <= 600;
 
-      const strongOpacity = mobile ? 0.54 : 0.62;
-      const softOpacity = mobile ? 0.24 : 0.28;
+      const low = mobile ? 0.30 : 0.34;
+      const high = mobile ? 0.44 : 0.48;
+      const middle = (low + high) / 2;
 
-      faces[0].wrapper.style.opacity = strongOpacity;
-      faces[0].wrapper.style.zIndex = "2";
+      faces.forEach((face, index) => {
+        face.wrapper.style.opacity = middle;
+        face.wrapper.style.zIndex = index === 0 ? "2" : "1";
+        face.wrapper.style.filter = "blur(0.8px)";
+      });
 
-      faces[1].wrapper.style.opacity = softOpacity;
-      faces[1].wrapper.style.zIndex = "1";
+      faces[0].wrapper.style.transform = "translate(0, 0)";
+
+      faces[1].wrapper.style.transform =
+        `translate(${offsetX}px, ${offsetY}px)`;
 
       if (reducedMotion.matches) return;
 
-      /*
-       * Each portrait fades fully back before its stacking
-       * order changes, avoiding a visible layer-switch jump.
-       */
-      const firstOpacity = faces[0].wrapper.animate(
-        [
-          { opacity: strongOpacity, offset: 0 },
-          { opacity: strongOpacity, offset: 0.18 },
-          { opacity: 0, offset: 0.42 },
-          { opacity: 0, offset: 0.48 },
-          { opacity: softOpacity, offset: 0.62 },
-          { opacity: softOpacity, offset: 0.78 },
-          { opacity: strongOpacity, offset: 1 }
-        ],
-        {
-          duration: 24000,
-          iterations: Infinity,
-          easing: "linear"
-        }
+      const timing = {
+        duration: 10000,
+        iterations: Infinity,
+        easing: "linear"
+      };
+
+      exchangeAnimations.push(
+        faces[0].wrapper.animate(
+          [
+            { opacity: high, offset: 0 },
+            { opacity: middle, offset: 0.25 },
+            { opacity: low, offset: 0.5 },
+            { opacity: middle, offset: 0.75 },
+            { opacity: high, offset: 1 }
+          ],
+          timing
+        ),
+
+        faces[1].wrapper.animate(
+          [
+            { opacity: low, offset: 0 },
+            { opacity: middle, offset: 0.25 },
+            { opacity: high, offset: 0.5 },
+            { opacity: middle, offset: 0.75 },
+            { opacity: low, offset: 1 }
+          ],
+          timing
+        ),
+
+        faces[0].wrapper.animate(
+          [
+            { zIndex: 2, offset: 0 },
+            { zIndex: 2, offset: 0.2499 },
+            { zIndex: 1, offset: 0.25 },
+            { zIndex: 1, offset: 0.7499 },
+            { zIndex: 2, offset: 0.75 },
+            { zIndex: 2, offset: 1 }
+          ],
+          timing
+        ),
+
+        faces[1].wrapper.animate(
+          [
+            { zIndex: 1, offset: 0 },
+            { zIndex: 1, offset: 0.2499 },
+            { zIndex: 2, offset: 0.25 },
+            { zIndex: 2, offset: 0.7499 },
+            { zIndex: 1, offset: 0.75 },
+            { zIndex: 1, offset: 1 }
+          ],
+          timing
+        ),
+
+        faces[0].wrapper.animate(
+          [
+            {
+              transform: "translate(-4px, 2px)",
+              filter: "blur(0.6px)",
+              offset: 0
+            },
+            {
+              transform: "translate(5px, -3px)",
+              filter: "blur(1.2px)",
+              offset: 0.5
+            },
+            {
+              transform: "translate(-4px, 2px)",
+              filter: "blur(0.6px)",
+              offset: 1
+            }
+          ],
+          timing
+        ),
+
+        faces[1].wrapper.animate(
+          [
+            {
+              transform:
+                `translate(${offsetX + 5}px, ${offsetY - 3}px)`,
+              filter: "blur(1.2px)",
+              offset: 0
+            },
+            {
+              transform:
+                `translate(${offsetX - 5}px, ${offsetY + 4}px)`,
+              filter: "blur(0.6px)",
+              offset: 0.5
+            },
+            {
+              transform:
+                `translate(${offsetX + 5}px, ${offsetY - 3}px)`,
+              filter: "blur(1.2px)",
+              offset: 1
+            }
+          ],
+          timing
+        )
       );
 
-      const secondOpacity = faces[1].wrapper.animate(
-        [
-          { opacity: softOpacity, offset: 0 },
-          { opacity: softOpacity, offset: 0.18 },
-          { opacity: strongOpacity, offset: 0.42 },
-          { opacity: strongOpacity, offset: 0.62 },
-          { opacity: 0, offset: 0.84 },
-          { opacity: 0, offset: 0.9 },
-          { opacity: softOpacity, offset: 1 }
-        ],
-        {
-          duration: 24000,
-          iterations: Infinity,
-          easing: "linear"
-        }
-      );
-
-      const firstStack = faces[0].wrapper.animate(
-        [
-          { zIndex: 2, offset: 0 },
-          { zIndex: 2, offset: 0.4499 },
-          { zIndex: 1, offset: 0.45 },
-          { zIndex: 1, offset: 0.8699 },
-          { zIndex: 2, offset: 0.87 },
-          { zIndex: 2, offset: 1 }
-        ],
-        {
-          duration: 24000,
-          iterations: Infinity,
-          easing: "linear"
-        }
-      );
-
-      const secondStack = faces[1].wrapper.animate(
-        [
-          { zIndex: 1, offset: 0 },
-          { zIndex: 1, offset: 0.4499 },
-          { zIndex: 2, offset: 0.45 },
-          { zIndex: 2, offset: 0.8699 },
-          { zIndex: 1, offset: 0.87 },
-          { zIndex: 1, offset: 1 }
-        ],
-        {
-          duration: 24000,
-          iterations: Infinity,
-          easing: "linear"
-        }
-      );
-
-      exchangeAnimations = [
-        firstOpacity,
-        secondOpacity,
-        firstStack,
-        secondStack
-      ];
-
-      // Keep all four animations on precisely the same clock.
       const startTime = document.timeline.currentTime;
 
       exchangeAnimations.forEach(animation => {
@@ -270,7 +340,7 @@
     }
 
     /* ========================================
-       PAIR MOVEMENT
+       MOVEMENT ACROSS THE FULL PAGE
     ======================================== */
 
     function transformAt(point, rotation) {
@@ -293,7 +363,7 @@
         case 1:
           return {
             x: width + margin,
-            y: randomBetween(-imageHeight * 0.5, height)
+            y: randomBetween(0, Math.max(0, height - imageHeight))
           };
 
         case 2:
@@ -305,7 +375,7 @@
         default:
           return {
             x: -imageWidth - margin,
-            y: randomBetween(-imageHeight * 0.5, height)
+            y: randomBetween(0, Math.max(0, height - imageHeight))
           };
       }
     }
@@ -313,16 +383,18 @@
     function sizePair() {
       const imageWidth = pair.clientWidth;
 
-      const heights = faces.map(face => {
-        const image = face.image;
-
-        return image.naturalWidth
-          ? imageWidth * image.naturalHeight / image.naturalWidth
-          : 0;
-      });
+      const heights = faces.map(face =>
+        imageWidth *
+        face.image.naturalHeight /
+        face.image.naturalWidth
+      );
 
       pair.style.height =
-        `${Math.max(heights[0], heights[1] + offsetY)}px`;
+        `${Math.max(heights[0], heights[1] + offsetY) + 10}px`;
+    }
+
+    function distance(a, b) {
+      return Math.hypot(b.x - a.x, b.y - a.y);
     }
 
     async function startDrifting() {
@@ -331,19 +403,24 @@
       const currentGeneration = ++generation;
 
       movement?.cancel();
+
+      updatePageSize();
       sizePair();
 
       const width = layer.clientWidth;
       const height = layer.clientHeight;
 
-      const imageWidth = pair.offsetWidth + offsetX;
+      const imageWidth = pair.offsetWidth + offsetX + 10;
       const imageHeight = pair.offsetHeight;
 
       if (reducedMotion.matches) {
         pair.style.transform = transformAt(
           {
             x: width * 0.6 - imageWidth * 0.5,
-            y: height * 0.4 - imageHeight * 0.5
+            y: Math.min(
+              height - imageHeight,
+              window.innerHeight * 0.4
+            )
           },
           -4
         );
@@ -387,10 +464,28 @@
             width * 0.85 - imageWidth * 0.5
           ),
           y: randomBetween(
-            height * 0.2 - imageHeight * 0.5,
-            height * 0.8 - imageHeight * 0.5
+            0,
+            Math.max(0, height - imageHeight)
           )
         };
+
+        const firstDistance = distance(start, middle);
+        const secondDistance = distance(middle, end);
+        const totalDistance = firstDistance + secondDistance;
+
+        // Keep a similar drifting speed even on a long résumé.
+        const speed = randomBetween(30, 42);
+        const duration = Math.max(
+          24000,
+          totalDistance / speed * 1000
+        );
+
+        const middleOffset = totalDistance > 0
+          ? Math.max(
+              0.01,
+              Math.min(0.99, firstDistance / totalDistance)
+            )
+          : 0.5;
 
         const endRotation = randomBetween(-8, 8);
 
@@ -403,9 +498,10 @@
             {
               transform: transformAt(
                 middle,
-                (rotation + endRotation) / 2
+                rotation +
+                  (endRotation - rotation) * middleOffset
               ),
-              offset: 0.5
+              offset: middleOffset
             },
             {
               transform: transformAt(end, endRotation),
@@ -413,8 +509,7 @@
             }
           ],
           {
-            // Slightly faster than the previous 55–85 seconds.
-            duration: randomBetween(42000, 65000),
+            duration,
             delay: firstPass
               ? randomBetween(0, 4000)
               : randomBetween(1000, 3000),
@@ -439,7 +534,7 @@
     }
 
     /* ========================================
-       IMAGE LOADING
+       LOAD BOTH PORTRAITS
     ======================================== */
 
     function loadImage(image, source) {
@@ -469,21 +564,41 @@
       }
 
       ready = true;
-
       animateExchange();
       startDrifting();
     });
 
-    window.addEventListener("resize", () => {
-      clearTimeout(resizeTimer);
+    /* Update only when document dimensions change.
+       Scrolling does not move or restart the portraits. */
 
-      resizeTimer = setTimeout(() => {
-        if (!ready) return;
+    function scheduleLayoutCheck() {
+      if (layoutFrame !== null) {
+        cancelAnimationFrame(layoutFrame);
+      }
 
-        animateExchange();
-        startDrifting();
-      }, 180);
-    });
+      layoutFrame = requestAnimationFrame(() => {
+        layoutFrame = null;
+
+        const changed = updatePageSize();
+
+        if (changed && ready) {
+          startDrifting();
+        }
+      });
+    }
+
+    window.addEventListener("resize", scheduleLayoutCheck);
+
+    const container = document.querySelector(".site-container");
+
+    if (container && "ResizeObserver" in window) {
+      const observer = new ResizeObserver(scheduleLayoutCheck);
+      observer.observe(container);
+    }
+
+    if (document.fonts) {
+      document.fonts.ready.then(scheduleLayoutCheck);
+    }
 
     reducedMotion.addEventListener("change", () => {
       if (!ready) return;
@@ -491,6 +606,8 @@
       animateExchange();
       startDrifting();
     });
+
+    updatePageSize();
   }
 
   if (document.readyState === "loading") {
