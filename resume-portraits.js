@@ -5,7 +5,6 @@
     if (!document.getElementById("tab-resume")) return;
     if (document.getElementById("floating-portraits")) return;
 
-    // Remove the previous single-portrait layout.
     document.querySelector(".resume-intro")?.remove();
 
     const style = document.createElement("style");
@@ -20,12 +19,27 @@
         pointer-events: none;
       }
 
-      .floating-portrait {
+      .portrait-pair {
         position: absolute;
         top: 0;
         left: 0;
 
-        width: clamp(150px, 25vw, 380px);
+        width: clamp(170px, 27vw, 410px);
+        margin: 0;
+        padding: 0;
+
+        background: transparent;
+        pointer-events: none;
+
+        visibility: hidden;
+        will-change: transform;
+      }
+
+      .portrait-pair img {
+        display: block;
+        width: 100%;
+        height: auto;
+
         margin: 0;
         padding: 0;
 
@@ -33,32 +47,40 @@
         border: 0;
         box-shadow: none;
 
-        opacity: 0.56;
-        mix-blend-mode: screen;
         pointer-events: none;
 
-        will-change: transform;
-      }
-
-      .floating-portrait img {
-        display: block;
-        width: 100%;
-        height: auto;
-
-        background: transparent !important;
-        border: 0;
-        box-shadow: none;
-
         animation:
-          floating-portrait-color
-          var(--color-duration, 30s)
+          paired-portrait-color
+          var(--color-duration, 32s)
           linear
           infinite;
 
         animation-delay: var(--color-delay, 0s);
       }
 
-      @keyframes floating-portrait-color {
+      .portrait-pair .portrait-shadow {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 0;
+
+        opacity: 0.3;
+
+        transform:
+          translate(
+            var(--shadow-x, 24px),
+            var(--shadow-y, 18px)
+          );
+      }
+
+      .portrait-pair .portrait-main {
+        position: relative;
+        z-index: 1;
+
+        opacity: 0.62;
+      }
+
+      @keyframes paired-portrait-color {
         from {
           filter:
             grayscale(1)
@@ -77,14 +99,21 @@
       }
 
       @media (max-width: 600px) {
-        .floating-portrait {
-          width: clamp(130px, 44vw, 210px);
-          opacity: 0.48;
+        .portrait-pair {
+          width: clamp(160px, 48vw, 240px);
+        }
+
+        .portrait-pair .portrait-main {
+          opacity: 0.54;
+        }
+
+        .portrait-pair .portrait-shadow {
+          opacity: 0.27;
         }
       }
 
       @media (prefers-reduced-motion: reduce) {
-        .floating-portrait img {
+        .portrait-pair img {
           animation: none;
         }
       }
@@ -97,162 +126,260 @@
     layer.id = "floating-portraits";
     layer.setAttribute("aria-hidden", "true");
 
-    document.body.appendChild(layer);
+    const pair = document.createElement("div");
+    pair.className = "portrait-pair";
 
-    const sources = [
-      "MarioHeadshot1.png",
-      "MarioHeadshot2.png"
-    ];
+    const sources = Math.random() < 0.5
+      ? ["MarioHeadshot1.png", "MarioHeadshot2.png"]
+      : ["MarioHeadshot2.png", "MarioHeadshot1.png"];
+
+    const main = document.createElement("img");
+    main.className = "portrait-main";
+    main.alt = "";
+    main.draggable = false;
+    main.decoding = "async";
+
+    const shadow = document.createElement("img");
+    shadow.className = "portrait-shadow";
+    shadow.alt = "";
+    shadow.draggable = false;
+    shadow.decoding = "async";
+
+    pair.style.setProperty(
+      "--shadow-x",
+      `${18 + Math.random() * 24}px`
+    );
+
+    pair.style.setProperty(
+      "--shadow-y",
+      `${12 + Math.random() * 20}px`
+    );
+
+    const colorStart = Math.random() * 32;
+
+    main.style.setProperty("--color-duration", "32s");
+    shadow.style.setProperty("--color-duration", "32s");
+
+    main.style.setProperty(
+      "--color-delay",
+      `${-colorStart}s`
+    );
+
+    // A different tint, moving at the same rate.
+    shadow.style.setProperty(
+      "--color-delay",
+      `${-(colorStart + 10)}s`
+    );
+
+    pair.append(shadow, main);
+    layer.appendChild(pair);
+    document.body.appendChild(layer);
 
     const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     );
 
-    const portraits = sources.map((source, index) => {
-      const wrapper = document.createElement("div");
-      wrapper.className = "floating-portrait";
+    let animation = null;
+    let generation = 0;
+    let ready = false;
+    let resizeTimer = null;
 
-      const image = document.createElement("img");
+    function randomBetween(minimum, maximum) {
+      return minimum + Math.random() * (maximum - minimum);
+    }
 
-      image.alt = "";
-      image.decoding = "async";
-      image.draggable = false;
-
-      wrapper.style.setProperty(
-        "--color-duration",
-        index === 0 ? "28s" : "36s"
+    function transformAt(point, rotation) {
+      return (
+        `translate3d(${point.x}px, ${point.y}px, 0) ` +
+        `rotate(${rotation}deg)`
       );
+    }
 
-      wrapper.style.setProperty(
-        "--color-delay",
-        `${-Math.random() * 30}s`
-      );
+    function outsidePoint(edge, width, height, imageWidth, imageHeight) {
+      const margin = 100;
 
-      wrapper.appendChild(image);
-      layer.appendChild(wrapper);
+      switch (edge) {
+        case 0:
+          return {
+            x: randomBetween(-imageWidth * 0.5, width),
+            y: -imageHeight - margin
+          };
 
-      const portrait = {
-        wrapper,
-        animation: null,
-        index
-      };
+        case 1:
+          return {
+            x: width + margin,
+            y: randomBetween(-imageHeight * 0.5, height)
+          };
 
-      image.addEventListener("load", () => {
-        animatePortrait(portrait);
-      });
+        case 2:
+          return {
+            x: randomBetween(-imageWidth * 0.5, width),
+            y: height + margin
+          };
 
-      image.src = source;
+        default:
+          return {
+            x: -imageWidth - margin,
+            y: randomBetween(-imageHeight * 0.5, height)
+          };
+      }
+    }
 
-      return portrait;
-    });
+    async function startDrifting() {
+      if (!ready) return;
 
-    function animatePortrait(portrait) {
-      const { wrapper, index } = portrait;
+      const currentGeneration = ++generation;
 
-      portrait.animation?.cancel();
+      animation?.cancel();
 
       const width = layer.clientWidth;
       const height = layer.clientHeight;
 
-      const portraitWidth = wrapper.offsetWidth;
-      const portraitHeight = wrapper.offsetHeight;
-
-      const navigation = document.querySelector(".top-nav");
-      const navBottom = navigation
-        ? navigation.getBoundingClientRect().bottom
-        : 0;
-
-      // Keep the portraits below the navigation when possible.
-      const minY = Math.max(10, navBottom + 15);
-      const maxX = Math.max(0, width - portraitWidth);
-      const maxY = Math.max(0, height - portraitHeight);
-
-      const startY = Math.min(minY, maxY);
-
-      function position(xFraction, yFraction, rotation) {
-        const x = xFraction * maxX;
-        const y = startY + yFraction * (maxY - startY);
-
-        return {
-          transform:
-            `translate3d(${x}px, ${y}px, 0) ` +
-            `rotate(${rotation}deg)`
-        };
-      }
+      const imageWidth = pair.offsetWidth;
+      const imageHeight = pair.offsetHeight;
 
       if (reducedMotion.matches) {
-        wrapper.style.transform = position(
-          index === 0 ? 0.45 : 0.62,
-          index === 0 ? 0.3 : 0.45,
-          index === 0 ? -5 : 6
-        ).transform;
+        pair.style.transform = transformAt(
+          {
+            x: width * 0.6 - imageWidth * 0.5,
+            y: height * 0.4 - imageHeight * 0.5
+          },
+          -4
+        );
 
+        pair.style.visibility = "visible";
         return;
       }
 
-      const random = () => Math.random();
+      let edge = Math.floor(Math.random() * 4);
 
-      // Both paths pass through the middle, allowing overlap.
-      const points = [
-        position(
-          index === 0 ? 0.08 : 0.88,
-          index === 0 ? 0.12 : 0.7,
-          index === 0 ? -8 : 8
-        ),
+      let start = outsidePoint(
+        edge,
+        width,
+        height,
+        imageWidth,
+        imageHeight
+      );
 
-        position(0.35 + random() * 0.2, 0.3, -4),
+      let rotation = randomBetween(-8, 8);
+      let firstPass = true;
 
-        position(0.45 + random() * 0.15, 0.45, 5),
+      pair.style.transform = transformAt(start, rotation);
+      pair.style.visibility = "visible";
 
-        position(
-          index === 0 ? 0.9 : 0.12,
-          0.65 + random() * 0.2,
-          index === 0 ? 10 : -10
-        ),
+      while (currentGeneration === generation) {
+        // Exit through another edge.
+        const exitEdge = (
+          edge + 1 + Math.floor(Math.random() * 3)
+        ) % 4;
 
-        position(0.35 + random() * 0.3, 0.5, -5),
+        const end = outsidePoint(
+          exitEdge,
+          width,
+          height,
+          imageWidth,
+          imageHeight
+        );
 
-        position(
-          index === 0 ? 0.08 : 0.88,
-          index === 0 ? 0.12 : 0.7,
-          index === 0 ? -8 : 8
-        )
-      ];
+        const middle = {
+          x: randomBetween(
+            width * 0.15 - imageWidth * 0.5,
+            width * 0.85 - imageWidth * 0.5
+          ),
+          y: randomBetween(
+            height * 0.2 - imageHeight * 0.5,
+            height * 0.8 - imageHeight * 0.5
+          )
+        };
 
-      portrait.animation = wrapper.animate(points, {
-        duration: index === 0 ? 52000 : 61000,
-        iterations: Infinity,
-        easing: "linear"
+        const endRotation = randomBetween(-8, 8);
+
+        animation = pair.animate(
+          [
+            {
+              transform: transformAt(start, rotation),
+              offset: 0
+            },
+            {
+              transform: transformAt(
+                middle,
+                (rotation + endRotation) / 2
+              ),
+              offset: 0.5
+            },
+            {
+              transform: transformAt(end, endRotation),
+              offset: 1
+            }
+          ],
+          {
+            duration: randomBetween(55000, 85000),
+            delay: firstPass
+              ? randomBetween(0, 7000)
+              : randomBetween(1500, 5000),
+            easing: "linear",
+            fill: "both"
+          }
+        );
+
+        try {
+          await animation.finished;
+        } catch {
+          return;
+        }
+
+        if (currentGeneration !== generation) return;
+
+        // The next pass begins where the pair just left.
+        start = end;
+        edge = exitEdge;
+        rotation = endRotation;
+        firstPass = false;
+      }
+    }
+
+    function loadImage(image, source) {
+      return new Promise(resolve => {
+        image.addEventListener(
+          "load",
+          () => resolve(true),
+          { once: true }
+        );
+
+        image.addEventListener(
+          "error",
+          () => resolve(false),
+          { once: true }
+        );
+
+        image.src = source;
       });
     }
 
-    let resizeFrame = null;
-
-    function updatePortraits() {
-      if (resizeFrame !== null) {
-        cancelAnimationFrame(resizeFrame);
+    Promise.all([
+      loadImage(main, sources[0]),
+      loadImage(shadow, sources[1])
+    ]).then(results => {
+      if (!results[0]) {
+        layer.remove();
+        return;
       }
 
-      resizeFrame = requestAnimationFrame(() => {
-        resizeFrame = null;
+      if (!results[1]) {
+        shadow.remove();
+      }
 
-        portraits.forEach(portrait => {
-          const image = portrait.wrapper.querySelector("img");
+      ready = true;
+      startDrifting();
+    });
 
-          if (image.complete && image.naturalWidth > 0) {
-            animatePortrait(portrait);
-          }
-        });
-      });
-    }
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
 
-    window.addEventListener("resize", updatePortraits);
+      resizeTimer = setTimeout(startDrifting, 180);
+    });
 
-    reducedMotion.addEventListener("change", updatePortraits);
-
-    if (document.fonts) {
-      document.fonts.ready.then(updatePortraits);
-    }
+    reducedMotion.addEventListener("change", startDrifting);
   }
 
   if (document.readyState === "loading") {
