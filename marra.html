@@ -8,7 +8,7 @@
 
   <meta
     name="description"
-    content="Family-owned. Forward-looking. Marra brings design and construction together for residential repairs, renovations, additions, and ADUs."
+    content="Family-owned construction since March 2019. Over 250 roofing projects completed, with a new chapter in residential design, construction, additions, and ADUs."
   >
 
   <meta name="theme-color" content="#bdf226">
@@ -35,15 +35,13 @@
     }
 
     :root {
-      --white: #ffffff;
-      --black: #111111;
+      --white: #fff;
+      --black: #111;
       --accent: #bdf226;
       --muted: #646464;
       --line: #d7d7d7;
-
       --gutter: clamp(20px, 4vw, 76px);
       --space: clamp(75px, 10vw, 150px);
-
       --body-font: "Akzidenz", Arial, sans-serif;
       --mono-font: "ApercuMono", monospace;
     }
@@ -54,7 +52,7 @@
 
     html {
       scroll-behavior: smooth;
-      scroll-padding-top: 110px;
+      scroll-padding-top: 115px;
     }
 
     body {
@@ -81,8 +79,8 @@
       font: inherit;
     }
 
-    button,
-    a {
+    a,
+    button {
       -webkit-tap-highlight-color: transparent;
     }
 
@@ -102,13 +100,15 @@
     h1,
     h2,
     h3,
+    h4,
     p {
       margin: 0;
     }
 
     h1,
     h2,
-    h3 {
+    h3,
+    h4 {
       font-weight: 400;
     }
 
@@ -132,8 +132,8 @@
     }
 
     .body-copy {
-      font-size: clamp(18px, 1.7vw, 25px);
-      line-height: 1.45;
+      font-size: clamp(18px, 1.6vw, 24px);
+      line-height: 1.48;
     }
 
     .body-copy p + p {
@@ -150,8 +150,8 @@
       margin-bottom: 45px;
     }
 
-    .section-top > p:last-child {
-      max-width: 350px;
+    .section-top > :last-child {
+      max-width: 380px;
     }
 
     .text-link {
@@ -217,11 +217,10 @@
     }
 
     .brand-description {
-      max-width: 300px;
+      max-width: 330px;
       font-family: var(--mono-font);
       font-size: 10px;
       line-height: 1.5;
-      text-wrap: balance;
     }
 
     .nav {
@@ -257,20 +256,19 @@
 
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.45fr 0.55fr;
+      grid-template-columns: 1.3fr 0.7fr;
       align-items: end;
-      gap: 6vw;
+      gap: 5vw;
       margin-bottom: clamp(45px, 6vw, 90px);
     }
 
     .hero h1 {
-      font-size: clamp(62px, 8.8vw, 150px);
-      line-height: 0.91;
+      font-size: clamp(62px, 8.2vw, 140px);
+      line-height: 0.93;
       letter-spacing: -0.065em;
     }
 
     .hero h1 span {
-      display: inline;
       background-image: linear-gradient(
         transparent 78%,
         var(--accent) 78%,
@@ -282,13 +280,20 @@
     }
 
     .hero-intro {
-      max-width: 360px;
+      max-width: 500px;
     }
 
     .hero-intro p {
-      font-size: clamp(19px, 1.7vw, 25px);
-      line-height: 1.4;
-      margin-bottom: 25px;
+      font-size: clamp(18px, 1.5vw, 23px);
+      line-height: 1.45;
+    }
+
+    .hero-intro p + p {
+      margin-top: 1em;
+    }
+
+    .hero-intro .text-link {
+      margin-top: 22px;
     }
 
     .hero-image {
@@ -300,30 +305,46 @@
       aspect-ratio: 1.95;
       object-fit: cover;
       filter: grayscale(1);
+      transition: filter 350ms ease;
+    }
+
+    .hero-image:hover > img {
+      filter: grayscale(0);
     }
 
     .hero-stamp {
       position: absolute;
       right: 4%;
       bottom: -45px;
-      display: grid;
-      place-items: center;
-      width: clamp(125px, 13vw, 190px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 12px;
+      width: clamp(185px, 17vw, 250px);
       aspect-ratio: 1;
-      padding: 25px;
+      padding: 28px;
       border-radius: 50%;
       background: var(--accent);
-      font-family: var(--mono-font);
-      font-size: clamp(11px, 1.1vw, 15px);
-      line-height: 1.35;
       text-align: center;
-      transform: rotate(9deg);
+      transform: rotate(7deg);
+    }
+
+    .stamp-heading {
+      font-family: var(--mono-font);
+      font-size: clamp(12px, 1vw, 15px);
+      line-height: 1.25;
+    }
+
+    .stamp-copy {
+      font-family: var(--body-font);
+      font-size: clamp(14px, 1.15vw, 18px);
+      line-height: 1.2;
     }
 
     /* INTRODUCTION */
 
     .intro {
-      padding-top: calc(var(--space) + 25px);
+      padding-top: calc(var(--space) + 35px);
     }
 
     .intro-grid {
@@ -333,15 +354,29 @@
     }
 
     .intro-copy {
-      max-width: 680px;
+      max-width: 700px;
     }
 
-    /* ORGANIC SPEECH BUBBLES */
+    .dated-note {
+      display: inline-block;
+      padding: 7px 10px;
+      margin-bottom: 20px;
+      background: var(--accent);
+      font-family: var(--mono-font);
+      font-size: 11px;
+      line-height: 1.4;
+      text-transform: uppercase;
+    }
+
+    /* SPEECH BUBBLES */
 
     .bubble-row {
+      position: relative;
+      z-index: 2;
       display: flex;
       justify-content: center;
-      padding-bottom: 35px;
+      padding: 0;
+      margin-bottom: -22px;
     }
 
     .speech-bubble {
@@ -386,14 +421,14 @@
     /* LANDSCAPE CREW */
 
     .crew-landscape {
-      padding-top: clamp(65px, 8vw, 115px);
-      padding-bottom: clamp(50px, 7vw, 100px);
+      padding-top: clamp(65px, 8vw, 110px);
+      padding-bottom: clamp(55px, 7vw, 100px);
     }
 
     .crew-stage {
       position: relative;
       isolation: isolate;
-      padding-top: 25px;
+      padding-top: 0;
     }
 
     .crew-stage::before {
@@ -421,7 +456,7 @@
       }
 
       50% {
-        transform: translateY(-10px) rotate(0.7deg);
+        transform: translateY(-7px) rotate(0.7deg);
       }
     }
 
@@ -431,15 +466,25 @@
       padding-bottom: var(--space);
     }
 
+    .services-heading {
+      max-width: 1000px;
+      margin-bottom: 35px;
+    }
+
+    .services-intro {
+      max-width: 850px;
+      margin-bottom: 50px;
+    }
+
     .service-list {
       border-top: 1px solid var(--line);
     }
 
     .service-row {
       display: grid;
-      grid-template-columns: 60px 1fr 1fr;
+      grid-template-columns: 55px 1fr 1.15fr;
       gap: 30px;
-      padding-block: 30px;
+      padding-block: 32px;
       border-bottom: 1px solid var(--line);
     }
 
@@ -450,15 +495,27 @@
     }
 
     .service-row h3 {
-      font-size: clamp(29px, 3.5vw, 54px);
+      font-size: clamp(28px, 3vw, 48px);
       line-height: 1.05;
       letter-spacing: -0.045em;
     }
 
     .service-row p {
-      max-width: 600px;
-      font-size: clamp(17px, 1.45vw, 21px);
-      line-height: 1.45;
+      max-width: 660px;
+      font-size: clamp(17px, 1.4vw, 21px);
+      line-height: 1.48;
+    }
+
+    .service-row p + p {
+      margin-top: 12px;
+    }
+
+    .scope-note {
+      max-width: 900px;
+      margin-top: 25px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.5;
     }
 
     /* WORK */
@@ -510,22 +567,17 @@
       margin-top: 12px;
     }
 
-    /* OFFICE */
+    /* OFFICE — WHITE */
 
     .office {
-      padding-block: var(--space);
-      background: var(--black);
-      color: var(--white);
-    }
-
-    .office .section-top {
-      border-color: #484848;
-      color: var(--accent);
+      padding-bottom: var(--space);
+      background: var(--white);
+      color: var(--black);
     }
 
     .office-heading {
       max-width: 950px;
-      margin-bottom: clamp(50px, 7vw, 100px);
+      margin-bottom: clamp(45px, 6vw, 85px);
     }
 
     .office-grid {
@@ -564,12 +616,11 @@
     }
 
     .office-copy {
-      max-width: 650px;
+      max-width: 700px;
     }
 
     .office-copy .text-link {
-      margin-top: 30px;
-      color: var(--accent);
+      margin-top: 25px;
     }
 
     @keyframes office-rock {
@@ -582,58 +633,122 @@
       }
     }
 
-    /* PROCESS */
+    /* PROCESS AND PAYMENT */
 
     .process {
-      padding-top: var(--space);
       padding-bottom: var(--space);
     }
 
     .process-heading {
-      max-width: 800px;
+      max-width: 1000px;
+      margin-bottom: 35px;
+    }
+
+    .process-intro {
+      max-width: 900px;
       margin-bottom: 55px;
     }
 
-    .process-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 40px;
+    .process-subheading {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 25px;
+      margin-bottom: 25px;
     }
 
-    .process-step {
-      padding-top: 25px;
-      border-top: 1px solid var(--line);
-    }
-
-    .step-number {
-      display: grid;
-      place-items: center;
-      width: 45px;
-      height: 45px;
-      margin-bottom: 35px;
-      border-radius: 50%;
-      background: var(--accent);
-      font-family: var(--mono-font);
-      font-size: 13px;
-    }
-
-    .process-step h3 {
-      margin-bottom: 18px;
-      font-size: clamp(28px, 2.8vw, 42px);
+    .process-subheading h3 {
+      font-size: clamp(30px, 3.3vw, 50px);
+      line-height: 1.05;
       letter-spacing: -0.04em;
     }
 
-    .process-step p {
-      max-width: 420px;
+    .phase-list {
+      border-top: 1px solid var(--line);
+    }
+
+    .phase-row {
+      display: grid;
+      grid-template-columns: 60px 0.85fr 1.3fr 130px;
+      gap: 25px;
+      padding-block: 25px;
+      border-bottom: 1px solid var(--line);
+      align-items: start;
+    }
+
+    .phase-code,
+    .phase-fee {
+      font-family: var(--mono-font);
+      font-size: 12px;
+      line-height: 1.5;
+      padding-top: 5px;
+    }
+
+    .phase-fee {
+      text-align: right;
+    }
+
+    .phase-row h4 {
+      font-size: clamp(23px, 2vw, 31px);
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+    }
+
+    .phase-row p {
+      font-size: 17px;
+      line-height: 1.48;
+    }
+
+    .payment-note {
+      max-width: 950px;
+      margin-top: 22px;
+      font-size: 15px;
+      line-height: 1.5;
+      color: var(--muted);
+    }
+
+    .construction-process {
+      margin-top: 65px;
+    }
+
+    .payment-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+      margin-top: 30px;
+    }
+
+    .payment-card {
+      padding: clamp(25px, 3vw, 45px);
+      border: 1px solid var(--line);
+    }
+
+    .payment-percent {
+      display: inline-block;
+      margin-bottom: 25px;
+      padding: 9px 12px;
+      background: var(--accent);
+      font-family: var(--mono-font);
+      font-size: 22px;
+    }
+
+    .payment-card h4 {
+      font-size: clamp(25px, 2.5vw, 38px);
+      letter-spacing: -0.035em;
+      margin-bottom: 15px;
+    }
+
+    .payment-card p {
       font-size: 18px;
       line-height: 1.45;
+      max-width: 570px;
     }
 
     /* FAQ */
 
     .faq {
       display: grid;
-      grid-template-columns: 0.8fr 1.2fr;
+      grid-template-columns: 0.7fr 1.3fr;
       gap: 8vw;
       padding-bottom: var(--space);
     }
@@ -657,6 +772,7 @@
       gap: 25px;
       padding-block: 23px;
       font-size: clamp(19px, 1.8vw, 25px);
+      line-height: 1.3;
       cursor: pointer;
       list-style: none;
     }
@@ -676,11 +792,45 @@
     }
 
     .faq-answer {
-      max-width: 650px;
+      max-width: 750px;
       padding-bottom: 25px;
       font-size: 18px;
       line-height: 1.5;
       color: var(--muted);
+    }
+
+    .faq-answer p + p {
+      margin-top: 16px;
+    }
+
+    .faq-answer a {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .cost-table {
+      width: 100%;
+      margin-block: 20px;
+      border-collapse: collapse;
+      font-size: 16px;
+      text-align: left;
+    }
+
+    .cost-table th,
+    .cost-table td {
+      padding: 12px 8px 12px 0;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+
+    .cost-table th {
+      color: var(--black);
+      font-weight: 400;
+    }
+
+    .source-note {
+      font-size: 13px;
+      line-height: 1.5;
     }
 
     /* CONTACT */
@@ -693,14 +843,14 @@
 
     .contact-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8vw;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 6vw;
       align-items: end;
     }
 
     .contact-heading {
-      font-size: clamp(60px, 8.2vw, 135px);
-      line-height: 0.93;
+      font-size: clamp(60px, 7.5vw, 125px);
+      line-height: 0.95;
       letter-spacing: -0.065em;
       margin-top: 25px;
     }
@@ -721,7 +871,7 @@
       align-items: flex-start;
       gap: 14px;
       font-style: normal;
-      font-size: clamp(19px, 2vw, 30px);
+      font-size: clamp(19px, 1.9vw, 29px);
       line-height: 1.3;
     }
 
@@ -735,7 +885,7 @@
     }
 
     .contact-note {
-      max-width: 640px;
+      max-width: 700px;
       margin-top: 45px;
       margin-bottom: 70px;
       font-size: 18px;
@@ -756,12 +906,15 @@
       text-underline-offset: 4px;
     }
 
-    /* SECOND NOTE ABOVE THE PEEKING CREW */
+    /* FOOTER NOTE SITS CLOSE TO THE CREW */
 
     .footer-crew-note {
+      position: relative;
+      z-index: 2;
       display: flex;
       justify-content: center;
-      padding: clamp(40px, 5vw, 75px) var(--gutter) 20px;
+      padding: clamp(45px, 5vw, 75px) var(--gutter) 0;
+      margin-bottom: clamp(-60px, -4vw, -25px);
     }
 
     .speech-bubble--crew {
@@ -782,18 +935,15 @@
       transform: rotate(2deg) translateY(-3px);
     }
 
-    /* FULL-WIDTH FOOTER ARTWORK */
-
     .footer-peeking {
       width: 100%;
-      margin: 15px 0 0;
+      margin: 0;
       padding: 0;
       overflow: hidden;
       line-height: 0;
     }
 
     .footer-peeking img {
-      display: block;
       width: 100%;
       max-width: none;
       height: auto;
@@ -842,19 +992,13 @@
 
     /* RESPONSIVE */
 
-    @media (min-width: 1500px) {
-      .office-art {
-        min-height: 500px;
-      }
-    }
-
-    @media (max-width: 1000px) {
+    @media (max-width: 1100px) {
       .header {
         gap: 20px;
       }
 
       .brand-description {
-        max-width: 210px;
+        max-width: 240px;
         font-size: 9px;
       }
 
@@ -863,12 +1007,11 @@
       }
 
       .hero-grid {
-        grid-template-columns: 1.2fr 0.8fr;
         gap: 35px;
       }
 
       .service-row {
-        grid-template-columns: 35px 1fr 1fr;
+        grid-template-columns: 35px 1fr 1.15fr;
         gap: 20px;
       }
 
@@ -876,21 +1019,17 @@
         gap: 40px;
       }
 
-      .office-art {
-        min-height: 300px;
-        padding: 10px;
-      }
-
-      .process-grid {
-        gap: 25px;
+      .phase-row {
+        grid-template-columns: 45px 0.8fr 1.2fr 100px;
+        gap: 18px;
       }
 
       .contact-grid {
-        gap: 40px;
+        gap: 35px;
       }
     }
 
-    @media (max-width: 760px) {
+    @media (max-width: 800px) {
       .hero-grid,
       .intro-grid,
       .office-grid,
@@ -899,68 +1038,61 @@
         grid-template-columns: 1fr;
       }
 
-      .hero-grid {
-        gap: 35px;
+      .hero h1 {
+        font-size: clamp(60px, 10.5vw, 95px);
       }
 
       .hero-intro {
-        max-width: 520px;
-      }
-
-      .hero-intro p {
-        max-width: 480px;
-      }
-
-      .hero h1 {
-        font-size: clamp(58px, 11vw, 90px);
+        max-width: 650px;
       }
 
       .intro-grid {
         gap: 35px;
       }
 
-      .intro-copy {
-        max-width: 100%;
-      }
-
       .office-grid {
-        gap: 50px;
+        gap: 45px;
       }
 
       .office-art {
         min-height: 0;
-        padding: 30px;
         max-width: 560px;
         width: 100%;
         margin-inline: auto;
-      }
-
-      .office-art::before {
-        width: 84%;
-      }
-
-      .office-copy {
-        max-width: none;
       }
 
       .faq {
         gap: 40px;
       }
 
-      .contact-grid {
-        gap: 40px;
+      .phase-row {
+        grid-template-columns: 45px 1fr 105px;
       }
 
-      .contact-note {
-        margin-bottom: 45px;
+      .phase-row > p:not(.phase-fee) {
+        grid-column: 2 / 4;
+        grid-row: 2;
+      }
+
+      .phase-fee {
+        grid-column: 3;
+        grid-row: 1;
       }
 
       .footer-meta {
         flex-wrap: wrap;
       }
+
+      .footer-crew-note {
+        margin-bottom: -20px;
+      }
     }
 
     @media (max-width: 650px) {
+      html {
+        scroll-padding-top: 165px;
+      }
+
       .header {
         flex-wrap: wrap;
         gap: 18px;
@@ -974,8 +1106,8 @@
       }
 
       .brand-description {
-        max-width: 230px;
-        font-size: 9px;
+        max-width: 220px;
+        font-size: 8px;
       }
 
       .brand-symbol {
@@ -1008,7 +1140,7 @@
         gap: 15px;
       }
 
-      .service-row p {
+      .service-row > div {
         grid-column: 2;
       }
 
@@ -1024,69 +1156,54 @@
         padding-top: 40px;
       }
 
-      .work-card figcaption {
-        font-size: 9px;
+      .process-subheading {
+        flex-direction: column;
+        gap: 12px;
       }
 
-      .process-grid {
+      .payment-grid {
         grid-template-columns: 1fr;
-        gap: 30px;
       }
 
-      .process-step {
-        display: grid;
-        grid-template-columns: 45px 1fr;
-        column-gap: 20px;
-      }
-
-      .step-number {
-        grid-row: 1 / 3;
-        margin-bottom: 0;
-      }
-
-      .process-step h3 {
-        margin-bottom: 12px;
-      }
-
-      .process-step p {
-        grid-column: 2;
-        max-width: none;
+      .contact-note {
+        margin-bottom: 45px;
       }
     }
 
     @media (max-width: 520px) {
-      html {
-        scroll-padding-top: 160px;
-      }
-
-      .brand-description {
-        max-width: 190px;
-        font-size: 8px;
-      }
-
       .hero-image > img {
         aspect-ratio: 1.2;
       }
 
       .hero-stamp {
-        right: 5%;
-        bottom: -35px;
-        width: 125px;
+        right: 3%;
+        bottom: -60px;
+        width: 180px;
+        gap: 10px;
+        padding: 24px;
+      }
+
+      .stamp-heading {
+        font-size: 12px;
+      }
+
+      .stamp-copy {
+        font-size: 14px;
+      }
+
+      .intro {
+        padding-top: calc(var(--space) + 60px);
       }
 
       .speech-bubble {
-        width: min(100%, 300px);
-        min-height: 135px;
-        padding: 28px 30px;
-        font-size: 17px;
+        width: min(100%, 290px);
+        min-height: 125px;
+        padding: 25px 28px;
+        font-size: 16px;
       }
 
       .bubble-row {
-        padding-bottom: 25px;
-      }
-
-      .crew-stage {
-        padding-top: 15px;
+        margin-bottom: -10px;
       }
 
       .crew-stage::before {
@@ -1102,16 +1219,25 @@
         padding-top: 0;
       }
 
-      .work-card figcaption {
-        font-size: 11px;
-      }
-
       .office-art {
         padding: 15px;
       }
 
+      .phase-row {
+        grid-template-columns: 35px 1fr 80px;
+        gap: 12px;
+      }
+
+      .phase-fee {
+        font-size: 10px;
+      }
+
+      .phase-row h4 {
+        font-size: 23px;
+      }
+
       .contact-heading {
-        font-size: clamp(62px, 15vw, 85px);
+        font-size: clamp(58px, 13vw, 78px);
       }
 
       .contact-details {
@@ -1124,11 +1250,12 @@
       }
 
       .footer-crew-note {
-        padding-top: 45px;
+        padding-top: 40px;
+        margin-bottom: -10px;
       }
 
-      .footer-peeking {
-        margin-top: 10px;
+      .cost-table {
+        font-size: 14px;
       }
     }
 
@@ -1164,7 +1291,7 @@
       </a>
 
       <p class="brand-description">
-        Family-owned. Forward-looking.<br>
+        Family-owned. Building our next chapter.<br>
         Residential design, construction &amp; ADUs.
       </p>
     </div>
@@ -1172,7 +1299,7 @@
     <nav class="nav" aria-label="Main navigation">
       <a href="#work">Work</a>
       <a href="#office">Office</a>
-      <a href="#contact" class="nav-contact">
+      <a class="nav-contact" href="#contact">
         Let’s talk <span aria-hidden="true">↗</span>
       </a>
     </nav>
@@ -1183,18 +1310,26 @@
     <section class="hero wrap" aria-labelledby="hero-heading">
       <div class="hero-grid">
         <h1 id="hero-heading">
-          Good bones.<br>
-          <span>New possibilities.</span>
+          Strong<br>
+          foundations.<br>
+          <span>Room to grow.</span>
         </h1>
 
         <div class="hero-intro">
           <p>
-            A father-and-son construction company with a growing ambition:
-            to bring good design and good building closer together.
+            We started Marra Roofing LLC in March 2019 as a father-and-son
+            team. More than 250 roofing projects later, we’ve grown
+            alongside the Salt Lake Valley—the place we call home.
+          </p>
+
+          <p>
+            Now we’re expanding into residential design and construction.
+            This is a new chapter for us, and an invitation to help shape
+            what comes next.
           </p>
 
           <a class="text-link" href="#contact">
-            Tell us what you have in mind
+            Let’s talk about your project
             <span aria-hidden="true">↗</span>
           </a>
         </div>
@@ -1203,48 +1338,70 @@
       <figure class="hero-image">
         <img
           src="marra1.jpg"
-          alt="A residential building photographed by Marra"
+          alt="A Salt Lake Valley home photographed by Marra"
           fetchpriority="high"
         >
 
         <figcaption class="hero-stamp">
-          Built on experience.<br>
-          Looking ahead.
+          <span class="stamp-heading">
+            Built on experience.<br>
+            Growing into design.
+          </span>
+
+          <span class="stamp-copy">
+            Over 250 roofing projects completed since March 2019.
+          </span>
         </figcaption>
       </figure>
     </section>
 
     <section class="intro wrap" aria-labelledby="intro-heading">
       <div class="section-top">
-        <p class="eyebrow">01 / A little about us</p>
-        <p class="eyebrow">
-          From the first conversation to the finishing touches.
-        </p>
+        <p class="eyebrow">01 / Where we started. Where we’re going.</p>
+        <p class="eyebrow">Salt Lake is home.</p>
       </div>
 
       <div class="intro-grid">
         <h2 class="section-heading" id="intro-heading">
-          A construction company.<br>
-          With more in mind.
+          The same people.<br>
+          A bigger undertaking.
         </h2>
 
         <div class="intro-copy body-copy">
+          <span class="dated-note">A new chapter / November 2026</span>
+
           <p>
             Marra began in roofing. It’s where we learned to pay attention:
-            to materials, to weather, to the details that keep a home
+            to materials, to weather, and to the details that keep a home
             working as it should.
           </p>
 
           <p>
-            Today, we’re building on that foundation. We work on residential
-            repairs, renovations, and improvements, while developing a broader
-            practice around additions, ADUs, and thoughtfully made homes.
+            Since March 2019, we’ve completed more than 250 roofing projects
+            and grown from a father-and-son operation into a company with
+            a wider crew and network of tradespeople. We’ve spent most of
+            our lives in the Salt Lake Valley, and we care about the homes
+            and people who make it what it is.
           </p>
 
           <p>
-            We’re a family-owned company with practical experience and new
-            ambitions. We like clear conversations, careful work, and finding
-            the right way forward together.
+            As of November 2026, we’re taking a more deliberate step toward
+            residential design and construction: small homes, townhouses,
+            additions, and ADUs. Our new look marks that change, but the
+            people behind it—and our dedication to the craft—remain the same.
+          </p>
+
+          <p>
+            We’ve worked with homeowners, contractors, and insurance agencies.
+            Whatever brings you to us, we want you to feel heard, understand
+            the work being proposed, and know who to call with a question.
+          </p>
+
+          <p>
+            This broader design practice is new territory for our company.
+            We’ll be open about that. We’re bringing our building experience
+            with us, and we’re looking for clients who are excited to
+            develop this next chapter together.
           </p>
         </div>
       </div>
@@ -1261,7 +1418,7 @@
           <img
             src="SVGMarraLandscapeCrew.svg"
             data-fallback="TransparentMarraLandscapeCrew.png"
-            alt="Marra’s interlocking crew of characters with design and construction tools"
+            alt="Marra’s interlocking crew of design and construction characters"
             loading="lazy"
             decoding="async"
           >
@@ -1271,60 +1428,112 @@
 
     <section class="services wrap" aria-labelledby="services-heading">
       <div class="section-top">
-        <h2 class="eyebrow" id="services-heading">02 / What we do</h2>
-        <p class="eyebrow">
-          A small repair. A bigger rethink. A place to begin.
-        </p>
+        <p class="eyebrow">02 / What we do</p>
+        <p class="eyebrow">Design, documents, permits, and building.</p>
       </div>
+
+      <h2 class="section-heading services-heading" id="services-heading">
+        From the first drawing<br>
+        to the work on site.
+      </h2>
+
+      <p class="services-intro body-copy">
+        We’re developing a practice around small-scale residential projects,
+        with the flexibility to help with design, construction, or both.
+        Here’s what that means in practical terms.
+      </p>
 
       <div class="service-list">
 
         <article class="service-row">
           <span class="service-number">01</span>
-          <h3>Repair &amp; renew.</h3>
-          <p>
-            Roofing, exterior improvements, and the repairs that keep
-            your home protected, useful, and ready for what comes next.
-          </p>
+          <h3>Homes, townhouses<br>&amp; additions.</h3>
+          <div>
+            <p>
+              Design and construction planning for one- and two-story homes,
+              townhouses, and additions. We begin with how you want to live,
+              what your site can accommodate, and what your budget can support.
+            </p>
+            <p>
+              This is a growing area of our practice. We welcome early
+              conversations and establish the team and scope around each project.
+            </p>
+          </div>
         </article>
 
         <article class="service-row">
           <span class="service-number">02</span>
-          <h3>Rethink &amp; renovate.</h3>
-          <p>
-            Interior renovations and residential improvements that make
-            better use of the home you already have.
-          </p>
+          <h3>ADUs, in their<br>different forms.</h3>
+          <div>
+            <p>
+              Detached backyard homes, attached additions, basement apartments,
+              garage conversions, and units above garages. We explore which
+              approach fits your property, household, and goals.
+            </p>
+            <p>
+              Our work can include site studies, layouts, construction
+              documents, permit coordination, and construction.
+            </p>
+          </div>
         </article>
 
         <article class="service-row">
           <span class="service-number">03</span>
-          <h3>Make room.</h3>
-          <p>
-            Additions, ADUs, and new residential possibilities. We’re growing
-            this side of our practice and welcome conversations about what
-            your property could become.
-          </p>
+          <h3>Drawings<br>&amp; permitting.</h3>
+          <div>
+            <p>
+              Concept studies, floor plans, elevations, sections, material
+              selections, and coordinated construction documents. We can help
+              prepare applications, communicate with local review agencies,
+              and respond to plan-review comments.
+            </p>
+            <p>
+              We coordinate with engineers, licensed architects, and other
+              specialists when the project requires their services.
+            </p>
+          </div>
         </article>
 
         <article class="service-row">
           <span class="service-number">04</span>
-          <h3>Think it through.</h3>
-          <p>
-            Early ideas, drawings, planning, and practical construction
-            input—so the decisions made on paper make sense on site.
-          </p>
+          <h3>Renovations<br>&amp; construction.</h3>
+          <div>
+            <p>
+              Residential renovations, interior and exterior improvements,
+              additions, and general construction. Bring your own plans,
+              work with us on the design, or start with a straightforward
+              construction conversation.
+            </p>
+          </div>
+        </article>
+
+        <article class="service-row">
+          <span class="service-number">05</span>
+          <h3>Roofing<br>&amp; repairs.</h3>
+          <div>
+            <p>
+              The work that started Marra remains part of what we do:
+              roof replacements, repairs, and related exterior work.
+              We continue to work with homeowners, contractors, and
+              insurance agencies on these projects.
+            </p>
+          </div>
         </article>
 
       </div>
+
+      <p class="scope-note">
+        We define responsibilities, consultant involvement, deliverables,
+        and fees before work begins. Services depend on the project,
+        applicable licensing, and local requirements; permit approvals
+        remain with the reviewing agencies.
+      </p>
     </section>
 
     <section class="work wrap" id="work" aria-labelledby="work-heading">
       <div class="section-top">
         <p class="eyebrow">03 / From the field</p>
-        <p class="eyebrow">
-          A few images from the work and the places around it.
-        </p>
+        <p class="eyebrow">A few images from our construction roots.</p>
       </div>
 
       <h2 class="section-heading work-heading" id="work-heading">
@@ -1332,7 +1541,6 @@
       </h2>
 
       <div class="work-grid">
-
         <figure class="work-card">
           <button
             class="photo-button"
@@ -1348,10 +1556,8 @@
               decoding="async"
             >
           </button>
-
           <figcaption class="eyebrow">
-            <span>Field image 01</span>
-            <span aria-hidden="true">↗</span>
+            <span>Field image 01</span><span aria-hidden="true">↗</span>
           </figcaption>
         </figure>
 
@@ -1370,10 +1576,8 @@
               decoding="async"
             >
           </button>
-
           <figcaption class="eyebrow">
-            <span>Field image 02</span>
-            <span aria-hidden="true">↗</span>
+            <span>Field image 02</span><span aria-hidden="true">↗</span>
           </figcaption>
         </figure>
 
@@ -1392,10 +1596,8 @@
               decoding="async"
             >
           </button>
-
           <figcaption class="eyebrow">
-            <span>Field image 03</span>
-            <span aria-hidden="true">↗</span>
+            <span>Field image 03</span><span aria-hidden="true">↗</span>
           </figcaption>
         </figure>
 
@@ -1414,22 +1616,17 @@
               decoding="async"
             >
           </button>
-
           <figcaption class="eyebrow">
-            <span>Field image 04</span>
-            <span aria-hidden="true">↗</span>
+            <span>Field image 04</span><span aria-hidden="true">↗</span>
           </figcaption>
         </figure>
-
       </div>
     </section>
 
     <section class="office wrap" id="office" aria-labelledby="office-heading">
       <div class="section-top">
         <p class="eyebrow">04 / The office</p>
-        <p class="eyebrow">
-          Family-owned. Forward-looking.
-        </p>
+        <p class="eyebrow">Family-owned. Building our next chapter.</p>
       </div>
 
       <h2 class="section-heading office-heading" id="office-heading">
@@ -1438,12 +1635,11 @@
       </h2>
 
       <div class="office-grid">
-
         <figure class="office-art">
           <img
             src="SVGMarraTwoMascots.svg"
             data-fallback="TransparentMarraTwoMascots.png"
-            alt="Two Marra mascots representing the company’s father-and-son partnership"
+            alt="Two Marra mascots representing our father-and-son partnership"
             loading="lazy"
             decoding="async"
           >
@@ -1451,77 +1647,181 @@
 
         <div class="office-copy body-copy">
           <p>
-            Marra was founded in 2019 by a father and son. One brings
-            decades of building experience. The other brings a background
-            in architectural design—and a lot of questions about what
-            we could make together.
+            We’re Mario and Martin, father and son. We founded Marra Roofing
+            LLC together in March 2019, building a business around work we
+            could take responsibility for ourselves.
           </p>
 
           <p>
-            Our roots are in roofing and hands-on construction. Our
-            ambitions reach further: toward homes, additions, ADUs,
-            and a practice where design and building inform each other.
+            Mario brings more than 25 years of experience in roofing and
+            general construction. His experience is grounded in the daily
+            work of building: understanding materials, organizing crews,
+            solving problems on site, and seeing a job through.
           </p>
 
           <p>
-            We’re still growing. What stays constant is our commitment
-            to being involved, working carefully, and treating the people
-            we work with honestly.
+            Martin graduated in 2026 with a Master of Architecture from
+            Columbia University GSAPP. He brings a design education focused
+            on space, materials, drawing, and the possibilities of a home.
+          </p>
+
+          <p>
+            After more than seven years in business and over 250 completed
+            roofing projects, we’re bringing those backgrounds into closer
+            conversation. Our next step is a more complete residential
+            practice, from early design decisions through construction.
+          </p>
+
+          <p>
+            We’re a small office. When you work with Marra, you work directly
+            with us, supported by our crew and the contractor partners
+            we bring to the project.
           </p>
 
           <a class="text-link" href="mailto:mario@marra.works">
-            Get in touch
+            Meet us over a conversation
             <span aria-hidden="true">↗</span>
           </a>
         </div>
-
       </div>
     </section>
 
     <section class="process wrap" aria-labelledby="process-heading">
       <div class="section-top">
-        <p class="eyebrow">05 / Working together</p>
-        <p class="eyebrow">A clear place to start.</p>
+        <p class="eyebrow">05 / Process &amp; payment</p>
+        <p class="eyebrow">Know what happens next—and what you’re paying for.</p>
       </div>
 
       <h2 class="section-heading process-heading" id="process-heading">
-        Let’s figure it out.
+        A clear process.<br>
+        An open conversation.
       </h2>
 
-      <div class="process-grid">
+      <div class="process-intro body-copy">
+        <p>
+          Our first conversation can be completely open. We’ll talk about
+          what you need, whether design is part of it, and how much help
+          makes sense before putting a scope and fee in writing.
+        </p>
+        <p>
+          We’re establishing this phased design service as a new part of
+          Marra. We bring construction experience and a recent architectural
+          education, and we’re eager to explore ideas with clients who want
+          a direct, collaborative relationship.
+        </p>
+      </div>
 
-        <article class="process-step">
-          <span class="step-number">01</span>
-          <h3>Start a conversation.</h3>
+      <div class="process-subheading">
+        <h3>For design projects.</h3>
+        <p class="eyebrow">An example of how a design fee can be divided</p>
+      </div>
+
+      <div class="phase-list">
+
+        <article class="phase-row">
+          <span class="phase-code">SD</span>
+          <h4>Schematic design</h4>
           <p>
-            Tell us what you’re thinking. A few photos, a rough idea,
-            or a problem you’re trying to solve is enough to begin.
+            Establish the brief, review the site, and explore layouts,
+            building form, and an initial budget direction. We compare
+            options and agree on a direction before developing it further.
           </p>
+          <span class="phase-fee">20% of fee</span>
         </article>
 
-        <article class="process-step">
-          <span class="step-number">02</span>
-          <h3>Make a plan.</h3>
+        <article class="phase-row">
+          <span class="phase-code">DD</span>
+          <h4>Design development</h4>
           <p>
-            We’ll talk through the scope, visit when appropriate,
-            and work toward a clear understanding of the next steps.
+            Refine the chosen scheme: dimensions, materials, windows,
+            major systems, and coordination with the project’s consultants.
+            We revisit the budget as decisions become more specific.
           </p>
+          <span class="phase-fee">20% of fee</span>
         </article>
 
-        <article class="process-step">
-          <span class="step-number">03</span>
-          <h3>Get to work.</h3>
+        <article class="phase-row">
+          <span class="phase-code">CD</span>
+          <h4>Construction documents</h4>
           <p>
-            With the scope and expectations agreed upon, we bring
-            the right people together and keep the conversation going.
+            Develop the drawings, details, and specifications needed for
+            pricing, permit review, and construction, with engineering
+            and other professional input as required.
           </p>
+          <span class="phase-fee">40% of fee</span>
         </article>
 
+        <article class="phase-row">
+          <span class="phase-code">PR</span>
+          <h4>Permit &amp; pricing coordination</h4>
+          <p>
+            Coordinate the submission, respond to review comments within
+            the agreed scope, and help clarify contractor pricing.
+            Agency review times and approval decisions are outside our control.
+          </p>
+          <span class="phase-fee">5% of fee</span>
+        </article>
+
+        <article class="phase-row">
+          <span class="phase-code">CA</span>
+          <h4>Construction administration</h4>
+          <p>
+            Provide agreed design support during construction: answer
+            drawing questions, review relevant submittals, make scheduled
+            site visits, and help resolve design details as work progresses.
+          </p>
+          <span class="phase-fee">15% of fee</span>
+        </article>
+
+      </div>
+
+      <p class="payment-note">
+        These percentages illustrate a possible allocation of the total
+        design fee—not a percentage of construction cost or a fixed rate
+        for every project. We agree on the actual fee, phase scope,
+        invoicing schedule, and any retainer before starting. Consultant
+        fees, surveys, permit fees, extra revisions, and other exclusions
+        are identified in the proposal. Construction is priced separately.
+      </p>
+
+      <div class="construction-process">
+        <div class="process-subheading">
+          <h3>For construction projects.</h3>
+          <p class="eyebrow">A simpler arrangement where the scope allows</p>
+        </div>
+
+        <div class="payment-grid">
+          <article class="payment-card">
+            <span class="payment-percent">50%</span>
+            <h4>Before work begins.</h4>
+            <p>
+              For suitable smaller projects, half of the agreed construction
+              price is paid up front to arrange materials, scheduling,
+              and mobilization.
+            </p>
+          </article>
+
+          <article class="payment-card">
+            <span class="payment-percent">50%</span>
+            <h4>When the work is finished.</h4>
+            <p>
+              The remaining half is paid at completion, following the agreed
+              walkthrough and completion requirements.
+            </p>
+          </article>
+        </div>
+
+        <p class="payment-note">
+          We can discuss other payment arrangements. Larger builds may use
+          progress payments tied to completed work or milestones rather
+          than a 50/50 split. Deposits, payment timing, changes, and completion
+          requirements are set out in the signed agreement and must comply
+          with applicable requirements.
+        </p>
       </div>
     </section>
 
     <section class="faq wrap" aria-labelledby="faq-heading">
-
       <div class="faq-heading">
         <p class="eyebrow">06 / A few questions</p>
         <h2 class="section-heading" id="faq-heading">
@@ -1532,49 +1832,192 @@
       <div class="faq-list">
 
         <details>
-          <summary>Do you take on smaller projects?</summary>
+          <summary>What should I send you?</summary>
           <div class="faq-answer">
-            Yes. Repairs and smaller improvements are an important
-            part of what we do. Send us a little information about
-            what you need, and we’ll take it from there.
+            <p>
+              You don’t need to have anything prepared. We welcome a
+              completely open conversation, even if you’re unsure what
+              you want to build or where to start.
+            </p>
+            <p>
+              We’re a small, hands-on office. When you contact Marra, you
+              speak directly with us—the people working on your project.
+            </p>
+            <p>
+              If you have them, a location, photos, drawings, or thoughts
+              about budget and timing can help. They’re useful starting
+              points, not requirements for saying hello.
+            </p>
           </div>
         </details>
 
         <details>
-          <summary>Can we talk about an ADU or addition?</summary>
+          <summary>What if I mainly need construction, rather than design?</summary>
           <div class="faq-answer">
-            Absolutely. We’re developing this side of our practice
-            and welcome early conversations. The right approach depends
-            on your property, goals, budget, and local requirements.
+            <p>
+              That’s welcome too. We can work from existing plans, focus
+              on a defined repair or renovation, or keep design involvement
+              limited to the decisions your project actually needs.
+            </p>
+            <p>
+              We like being involved early because it helps connect the
+              plans to the work on site. But you don’t need to commission
+              a full design service to work with us.
+            </p>
           </div>
         </details>
 
         <details>
-          <summary>Where do you work?</summary>
+          <summary>Doesn’t “designer” just mean more expensive?</summary>
           <div class="faq-answer">
-            Our work is focused on the Salt Lake Valley and Boise,
-            Idaho. Get in touch with your project’s location and
-            a brief description so we can discuss the fit.
+            <p>
+              Design is a service with a fee, but it doesn’t have to mean
+              expensive finishes or a more elaborate building. It can mean
+              a simpler layout, better daylight, fewer awkward spaces,
+              or deciding what not to build.
+            </p>
+            <p>
+              Housing is expensive enough that decisions about space,
+              materials, comfort, and future use deserve careful thought.
+              We see design as a way to make those decisions deliberately,
+              within a budget—not as an excuse to disregard one.
+            </p>
+            <p>
+              We prefer to connect design and construction from the start,
+              but we can scale our involvement to the project. We’ll
+              explain the fee and deliverables before you commit.
+              Design can help avoid some costly changes; it cannot
+              guarantee a cheaper build.
+            </p>
+          </div>
+        </details>
+
+        <details>
+          <summary>How much does an ADU cost in the Salt Lake Valley?</summary>
+          <div class="faq-answer">
+            <p>
+              The type of ADU and the conditions of your property matter
+              more than a single price per square foot. For an initial
+              conversation, a published Salt Lake City builder guide gives
+              these broad 2026 ranges:
+            </p>
+
+            <table class="cost-table">
+              <thead>
+                <tr>
+                  <th scope="col">ADU type</th>
+                  <th scope="col">Published planning range</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Garage conversion</td>
+                  <td>$80,000–$150,000</td>
+                </tr>
+                <tr>
+                  <td>Internal or basement ADU</td>
+                  <td>$90,000–$175,000</td>
+                </tr>
+                <tr>
+                  <td>Attached ADU</td>
+                  <td>$150,000–$280,000</td>
+                </tr>
+                <tr>
+                  <td>Detached new construction</td>
+                  <td>$175,000–$350,000+</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <p>
+              These are outside market references, not Marra estimates or
+              guaranteed total project budgets. Before using any range,
+              we need to establish what it includes: design, engineering,
+              permits, utility work, site preparation, construction,
+              and a contingency.
+            </p>
+            <p>
+              Location matters through the actual site conditions:
+              access for equipment, utility distances, slope, existing
+              structures, and the reviewing city’s requirements.
+              Two lots in the same neighborhood can need very different work.
+            </p>
+            <p>
+              We would rather look at your property and explain the cost
+              drivers than promise a number before understanding the project.
+            </p>
+
+            <p class="source-note">
+              Reference:
+              <a
+                href="https://ironwoodcustombuilders.com/news/accessory-dwelling-unit-contractor/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >Ironwood Custom Builders’ 2026 Salt Lake City ADU cost guide</a>.
+              Referenced November 2026. Published ranges are indicative
+              and may change.
+            </p>
           </div>
         </details>
 
         <details>
           <summary>Are you licensed and insured?</summary>
           <div class="faq-answer">
-            We hold a roofing license in Utah and general contractor
-            registration in Idaho, and carry general liability and
-            workers’ compensation insurance. We’ll confirm the
-            applicable credentials and scope for your project.
+            <p>
+              We hold roofing and residential construction contractor
+              licenses in Utah and general contractor registration in Idaho.
+              We carry general liability and workers’ compensation insurance.
+            </p>
+            <p>
+              We also have an established network of contractor partners
+              and tradespeople, and can bring the right specialists into
+              a project when their expertise is needed.
+            </p>
+            <p>
+              We’ll confirm the applicable credentials, scope, and project
+              team before work begins. Where licensed architectural or
+              engineering services are required, we coordinate with the
+              appropriate professionals.
+            </p>
           </div>
         </details>
 
         <details>
-          <summary>What should I send you?</summary>
+          <summary>Where do you work?</summary>
           <div class="faq-answer">
-            A short description, the project location, a few photos,
-            and any timing or budget considerations you already have.
-            Drawings are welcome, but you don’t need them to start
-            a conversation.
+            <p>
+              Our work is currently focused on the Salt Lake Valley
+              and Boise, Idaho.
+            </p>
+          </div>
+        </details>
+
+        <details>
+          <summary>Do you still take on roofing and smaller repairs?</summary>
+          <div class="faq-answer">
+            <p>
+              Yes. Roofing is where Marra began, and it remains part of
+              our work. Repairs, roof replacements, and smaller residential
+              improvements are welcome alongside our growing design practice.
+            </p>
+          </div>
+        </details>
+
+        <details>
+          <summary>Is this residential design direction new for Marra?</summary>
+          <div class="faq-answer">
+            <p>
+              Yes. Our company has been operating since March 2019,
+              but this broader residential design service is a new chapter.
+              We want that distinction to be clear.
+            </p>
+            <p>
+              We bring more than 25 years of Mario’s construction experience,
+              over 250 completed roofing projects as a company, and Martin’s
+              recent architectural education. We’re building the practice
+              carefully, with project-specific scopes, direct involvement,
+              and specialist collaborators where needed.
+            </p>
           </div>
         </details>
 
@@ -1585,16 +2028,14 @@
 
   <footer class="contact" id="contact">
     <div class="wrap">
-
       <div class="contact-grid">
-
         <div>
-          <p class="eyebrow">Have something in mind?</p>
+          <p class="eyebrow">An idea, a repair, or an open conversation.</p>
 
           <h2 class="contact-heading">
             <a href="mailto:mario@marra.works">
-              Let’s make<br>
-              a start. ↗
+              Let’s work<br>
+              together. ↗
             </a>
           </h2>
         </div>
@@ -1612,28 +2053,27 @@
             +1 801.783.0184 - Mario
           </a>
         </address>
-
       </div>
 
       <p class="contact-note">
-        A repair, a renovation, or an idea you haven’t quite figured
-        out yet. Tell us a little about it.
+        You don’t need a set of plans or a finished idea.
+        Start with a conversation. You’ll be speaking with us.
       </p>
 
       <div class="footer-meta eyebrow">
         <span>Marra Roofing LLC / Marra Construction Services</span>
-
         <a href="https://marioramirezarrazola.com/">
           Mario Ramirez-Arrazola ↗
         </a>
-
         <span>© <span id="year"></span> Marra</span>
       </div>
-
     </div>
 
     <div class="footer-crew-note">
-      <a class="speech-bubble speech-bubble--crew" href="mailto:mario@marra.works">
+      <a
+        class="speech-bubble speech-bubble--crew"
+        href="mailto:mario@marra.works"
+      >
         We carry a big crew<br>
         to get the job done!
       </a>
@@ -1657,7 +2097,6 @@
   >
     <div class="dialog-bar">
       <p class="eyebrow" id="dialog-label">Field image</p>
-
       <button
         class="dialog-close"
         id="dialog-close"
@@ -1678,13 +2117,9 @@
       document.getElementById("year").textContent =
         new Date().getFullYear();
 
-      /*
-       * Use transparent PNG versions if an SVG cannot load.
-       */
       document.querySelectorAll("img[data-fallback]").forEach((image) => {
         const useFallback = () => {
           const fallback = image.dataset.fallback;
-
           if (!fallback) return;
 
           delete image.dataset.fallback;
@@ -1702,9 +2137,6 @@
         }
       });
 
-      /*
-       * Full-color photo viewer.
-       */
       const dialog = document.getElementById("photo-dialog");
       const dialogImage = document.getElementById("dialog-image");
       const dialogLabel = document.getElementById("dialog-label");
@@ -1733,15 +2165,12 @@
         });
       });
 
-      closeButton.addEventListener("click", () => {
-        dialog.close();
-      });
+      closeButton.addEventListener("click", () => dialog.close());
 
       dialog.addEventListener("click", (event) => {
         if (event.target !== dialog) return;
 
         const bounds = dialog.getBoundingClientRect();
-
         const outside =
           event.clientX < bounds.left ||
           event.clientX > bounds.right ||
