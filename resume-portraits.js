@@ -35,7 +35,19 @@
         will-change: transform;
       }
 
-      .portrait-pair img {
+      .portrait-face {
+        position: absolute;
+        inset: 0 auto auto 0;
+
+        width: 100%;
+        margin: 0;
+        padding: 0;
+
+        background: transparent;
+        pointer-events: none;
+      }
+
+      .portrait-face img {
         display: block;
         width: 100%;
         height: auto;
@@ -51,33 +63,11 @@
 
         animation:
           paired-portrait-color
-          var(--color-duration, 32s)
+          32s
           linear
           infinite;
 
         animation-delay: var(--color-delay, 0s);
-      }
-
-      .portrait-pair .portrait-shadow {
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 0;
-
-        opacity: 0.3;
-
-        transform:
-          translate(
-            var(--shadow-x, 24px),
-            var(--shadow-y, 18px)
-          );
-      }
-
-      .portrait-pair .portrait-main {
-        position: relative;
-        z-index: 1;
-
-        opacity: 0.62;
       }
 
       @keyframes paired-portrait-color {
@@ -102,18 +92,10 @@
         .portrait-pair {
           width: clamp(160px, 48vw, 240px);
         }
-
-        .portrait-pair .portrait-main {
-          opacity: 0.54;
-        }
-
-        .portrait-pair .portrait-shadow {
-          opacity: 0.27;
-        }
       }
 
       @media (prefers-reduced-motion: reduce) {
-        .portrait-pair img {
+        .portrait-face img {
           animation: none;
         }
       }
@@ -133,53 +115,46 @@
       ? ["MarioHeadshot1.png", "MarioHeadshot2.png"]
       : ["MarioHeadshot2.png", "MarioHeadshot1.png"];
 
-    const main = document.createElement("img");
-    main.className = "portrait-main";
-    main.alt = "";
-    main.draggable = false;
-    main.decoding = "async";
+    const faces = sources.map((source, index) => {
+      const wrapper = document.createElement("div");
+      wrapper.className = "portrait-face";
 
-    const shadow = document.createElement("img");
-    shadow.className = "portrait-shadow";
-    shadow.alt = "";
-    shadow.draggable = false;
-    shadow.decoding = "async";
+      const image = document.createElement("img");
 
-    pair.style.setProperty(
-      "--shadow-x",
-      `${18 + Math.random() * 24}px`
-    );
+      image.alt = "";
+      image.draggable = false;
+      image.decoding = "async";
 
-    pair.style.setProperty(
-      "--shadow-y",
-      `${12 + Math.random() * 20}px`
-    );
+      wrapper.appendChild(image);
+      pair.appendChild(wrapper);
+
+      return { wrapper, image, source, index };
+    });
+
+    layer.appendChild(pair);
+    document.body.appendChild(layer);
+
+    const offsetX = 18 + Math.random() * 24;
+    const offsetY = 12 + Math.random() * 20;
+
+    faces[1].wrapper.style.transform =
+      `translate(${offsetX}px, ${offsetY}px)`;
 
     const colorStart = Math.random() * 32;
 
-    main.style.setProperty("--color-duration", "32s");
-    shadow.style.setProperty("--color-duration", "32s");
-
-    main.style.setProperty(
-      "--color-delay",
-      `${-colorStart}s`
-    );
-
-    // A different tint, moving at the same rate.
-    shadow.style.setProperty(
-      "--color-delay",
-      `${-(colorStart + 10)}s`
-    );
-
-    pair.append(shadow, main);
-    layer.appendChild(pair);
-    document.body.appendChild(layer);
+    faces.forEach((face, index) => {
+      face.image.style.setProperty(
+        "--color-delay",
+        `${-(colorStart + index * 10)}s`
+      );
+    });
 
     const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     );
 
-    let animation = null;
+    let movement = null;
+    let exchangeAnimations = [];
     let generation = 0;
     let ready = false;
     let resizeTimer = null;
@@ -187,6 +162,116 @@
     function randomBetween(minimum, maximum) {
       return minimum + Math.random() * (maximum - minimum);
     }
+
+    /* ========================================
+       GRADUALLY EXCHANGE THE FRONT PORTRAIT
+    ======================================== */
+
+    function animateExchange() {
+      exchangeAnimations.forEach(animation => animation.cancel());
+      exchangeAnimations = [];
+
+      const mobile = window.innerWidth <= 600;
+
+      const strongOpacity = mobile ? 0.54 : 0.62;
+      const softOpacity = mobile ? 0.24 : 0.28;
+
+      faces[0].wrapper.style.opacity = strongOpacity;
+      faces[0].wrapper.style.zIndex = "2";
+
+      faces[1].wrapper.style.opacity = softOpacity;
+      faces[1].wrapper.style.zIndex = "1";
+
+      if (reducedMotion.matches) return;
+
+      /*
+       * Each portrait fades fully back before its stacking
+       * order changes, avoiding a visible layer-switch jump.
+       */
+      const firstOpacity = faces[0].wrapper.animate(
+        [
+          { opacity: strongOpacity, offset: 0 },
+          { opacity: strongOpacity, offset: 0.18 },
+          { opacity: 0, offset: 0.42 },
+          { opacity: 0, offset: 0.48 },
+          { opacity: softOpacity, offset: 0.62 },
+          { opacity: softOpacity, offset: 0.78 },
+          { opacity: strongOpacity, offset: 1 }
+        ],
+        {
+          duration: 24000,
+          iterations: Infinity,
+          easing: "linear"
+        }
+      );
+
+      const secondOpacity = faces[1].wrapper.animate(
+        [
+          { opacity: softOpacity, offset: 0 },
+          { opacity: softOpacity, offset: 0.18 },
+          { opacity: strongOpacity, offset: 0.42 },
+          { opacity: strongOpacity, offset: 0.62 },
+          { opacity: 0, offset: 0.84 },
+          { opacity: 0, offset: 0.9 },
+          { opacity: softOpacity, offset: 1 }
+        ],
+        {
+          duration: 24000,
+          iterations: Infinity,
+          easing: "linear"
+        }
+      );
+
+      const firstStack = faces[0].wrapper.animate(
+        [
+          { zIndex: 2, offset: 0 },
+          { zIndex: 2, offset: 0.4499 },
+          { zIndex: 1, offset: 0.45 },
+          { zIndex: 1, offset: 0.8699 },
+          { zIndex: 2, offset: 0.87 },
+          { zIndex: 2, offset: 1 }
+        ],
+        {
+          duration: 24000,
+          iterations: Infinity,
+          easing: "linear"
+        }
+      );
+
+      const secondStack = faces[1].wrapper.animate(
+        [
+          { zIndex: 1, offset: 0 },
+          { zIndex: 1, offset: 0.4499 },
+          { zIndex: 2, offset: 0.45 },
+          { zIndex: 2, offset: 0.8699 },
+          { zIndex: 1, offset: 0.87 },
+          { zIndex: 1, offset: 1 }
+        ],
+        {
+          duration: 24000,
+          iterations: Infinity,
+          easing: "linear"
+        }
+      );
+
+      exchangeAnimations = [
+        firstOpacity,
+        secondOpacity,
+        firstStack,
+        secondStack
+      ];
+
+      // Keep all four animations on precisely the same clock.
+      const startTime = document.timeline.currentTime;
+
+      exchangeAnimations.forEach(animation => {
+        animation.startTime = startTime;
+      });
+    }
+
+    /* ========================================
+       PAIR MOVEMENT
+    ======================================== */
 
     function transformAt(point, rotation) {
       return (
@@ -225,17 +310,33 @@
       }
     }
 
+    function sizePair() {
+      const imageWidth = pair.clientWidth;
+
+      const heights = faces.map(face => {
+        const image = face.image;
+
+        return image.naturalWidth
+          ? imageWidth * image.naturalHeight / image.naturalWidth
+          : 0;
+      });
+
+      pair.style.height =
+        `${Math.max(heights[0], heights[1] + offsetY)}px`;
+    }
+
     async function startDrifting() {
       if (!ready) return;
 
       const currentGeneration = ++generation;
 
-      animation?.cancel();
+      movement?.cancel();
+      sizePair();
 
       const width = layer.clientWidth;
       const height = layer.clientHeight;
 
-      const imageWidth = pair.offsetWidth;
+      const imageWidth = pair.offsetWidth + offsetX;
       const imageHeight = pair.offsetHeight;
 
       if (reducedMotion.matches) {
@@ -268,7 +369,6 @@
       pair.style.visibility = "visible";
 
       while (currentGeneration === generation) {
-        // Exit through another edge.
         const exitEdge = (
           edge + 1 + Math.floor(Math.random() * 3)
         ) % 4;
@@ -294,7 +394,7 @@
 
         const endRotation = randomBetween(-8, 8);
 
-        animation = pair.animate(
+        movement = pair.animate(
           [
             {
               transform: transformAt(start, rotation),
@@ -313,30 +413,34 @@
             }
           ],
           {
-            duration: randomBetween(55000, 85000),
+            // Slightly faster than the previous 55–85 seconds.
+            duration: randomBetween(42000, 65000),
             delay: firstPass
-              ? randomBetween(0, 7000)
-              : randomBetween(1500, 5000),
+              ? randomBetween(0, 4000)
+              : randomBetween(1000, 3000),
             easing: "linear",
             fill: "both"
           }
         );
 
         try {
-          await animation.finished;
+          await movement.finished;
         } catch {
           return;
         }
 
         if (currentGeneration !== generation) return;
 
-        // The next pass begins where the pair just left.
         start = end;
         edge = exitEdge;
         rotation = endRotation;
         firstPass = false;
       }
     }
+
+    /* ========================================
+       IMAGE LOADING
+    ======================================== */
 
     function loadImage(image, source) {
       return new Promise(resolve => {
@@ -356,30 +460,37 @@
       });
     }
 
-    Promise.all([
-      loadImage(main, sources[0]),
-      loadImage(shadow, sources[1])
-    ]).then(results => {
-      if (!results[0]) {
+    Promise.all(
+      faces.map(face => loadImage(face.image, face.source))
+    ).then(results => {
+      if (!results.every(Boolean)) {
         layer.remove();
         return;
       }
 
-      if (!results[1]) {
-        shadow.remove();
-      }
-
       ready = true;
+
+      animateExchange();
       startDrifting();
     });
 
     window.addEventListener("resize", () => {
       clearTimeout(resizeTimer);
 
-      resizeTimer = setTimeout(startDrifting, 180);
+      resizeTimer = setTimeout(() => {
+        if (!ready) return;
+
+        animateExchange();
+        startDrifting();
+      }, 180);
     });
 
-    reducedMotion.addEventListener("change", startDrifting);
+    reducedMotion.addEventListener("change", () => {
+      if (!ready) return;
+
+      animateExchange();
+      startDrifting();
+    });
   }
 
   if (document.readyState === "loading") {
