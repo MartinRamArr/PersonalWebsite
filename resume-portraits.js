@@ -24,7 +24,7 @@
         top: 0;
         left: 0;
 
-        width: clamp(170px, 27vw, 410px);
+        width: clamp(85px, 13.5vw, 205px);
         margin: 0;
         padding: 0;
 
@@ -90,7 +90,7 @@
 
       @media (max-width: 600px) {
         .portrait-pair {
-          width: clamp(160px, 48vw, 240px);
+          width: clamp(80px, 24vw, 120px);
         }
       }
 
@@ -184,10 +184,6 @@
 
       if (reducedMotion.matches) return;
 
-      /*
-       * Each portrait fades fully back before its stacking
-       * order changes, avoiding a visible layer-switch jump.
-       */
       const firstOpacity = faces[0].wrapper.animate(
         [
           { opacity: strongOpacity, offset: 0 },
@@ -261,7 +257,6 @@
         secondStack
       ];
 
-      // Keep all four animations on precisely the same clock.
       const startTime = document.timeline.currentTime;
 
       exchangeAnimations.forEach(animation => {
@@ -413,7 +408,6 @@
             }
           ],
           {
-            // Slightly faster than the previous 55–85 seconds.
             duration: randomBetween(42000, 65000),
             delay: firstPass
               ? randomBetween(0, 4000)
