@@ -77,7 +77,7 @@
 
     title.className = "site-title";
     title.href = "index.html";
-    title.textContent = "Mario Martin Ramirez-Arrazola";
+    title.textContent = "Mario Ramirez-Arrazola";
 
     header.replaceChildren(title);
     container.insertBefore(header, navigation);
