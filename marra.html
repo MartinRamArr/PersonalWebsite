@@ -4,13 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>marra</title>
+  <title>marra — Make It Happen.</title>
 
-  <meta
-    name="description"
-    content="Family-owned construction since March 2019. Based in the Salt Lake Valley, Marra brings together residential design, construction, roofing, additions, and ADUs."
-  >
-
+  <meta name="description" content="Family-owned construction since March 2019. Marra brings together residential design, construction, roofing, additions, and ADUs.">
   <meta name="theme-color" content="#bdf226">
 
   <link rel="icon" type="image/svg+xml" href="SVGMarraFavicon.svg">
@@ -175,20 +171,31 @@
     }
 
     .brand-description {
-      max-width: 330px;
+      margin: 0;
+      max-width: none;
       font-family: var(--mono-font);
       font-size: 10px;
       line-height: 1.5;
     }
 
-    .brand-motto {
+    .brand-motto,
+    .brand-services {
       display: block;
+    }
+
+    .brand-services {
+      white-space: nowrap;
+    }
+
+    .brand-service-group {
+      white-space: nowrap;
     }
 
     .nav {
       display: flex;
       align-items: center;
       gap: clamp(20px, 3vw, 45px);
+      flex-shrink: 0;
       font-family: var(--mono-font);
       font-size: 12px;
     }
@@ -306,7 +313,6 @@
       z-index: 2;
       display: flex;
       justify-content: center;
-      padding: 0;
       margin-bottom: -22px;
     }
 
@@ -321,7 +327,6 @@
       border: 2px solid var(--black);
       border-radius: 43% 57% 45% 55% / 55% 42% 58% 45%;
       background: var(--accent);
-      color: var(--black);
       font-family: var(--mono-font);
       font-size: clamp(16px, 1.65vw, 23px);
       line-height: 1.25;
@@ -469,11 +474,7 @@
 
     /* OFFICE */
 
-    .office {
-      padding-bottom: var(--space);
-      background: var(--white);
-      color: var(--black);
-    }
+    .office { padding-bottom: var(--space); }
 
     .office-heading {
       max-width: 950px;
@@ -523,7 +524,7 @@
       50% { transform: rotate(2deg) translateY(-8px); }
     }
 
-    /* PROCESS AND PAYMENT */
+    /* PROCESS */
 
     .process { padding-bottom: var(--space); }
     .process-heading { max-width: 1000px; margin-bottom: 35px; }
@@ -683,7 +684,7 @@
     .info-table th { color: var(--black); font-weight: 400; }
     .source-note { font-size: 13px; line-height: 1.5; }
 
-    /* MR. MAKE IT HAPPEN */
+    /* MASCOT */
 
     .mascot-section { padding-bottom: var(--space); }
 
@@ -729,7 +730,6 @@
     .contact {
       padding-top: var(--space);
       background: var(--accent);
-      color: var(--black);
     }
 
     .contact-grid {
@@ -793,7 +793,7 @@
       text-underline-offset: 4px;
     }
 
-    /* FOOTER CREW AND ANIMATED SPEECH BLOBS */
+    /* FOOTER CREW */
 
     .footer-crew {
       position: relative;
@@ -860,9 +860,7 @@
       animation-delay: -3.4s;
     }
 
-    .footer-cheer:hover {
-      animation-play-state: paused;
-    }
+    .footer-cheer:hover { animation-play-state: paused; }
 
     @keyframes cheer-float {
       0%, 100% {
@@ -927,10 +925,14 @@
 
     /* RESPONSIVE */
 
-    @media (max-width: 1100px) {
+    @media (max-width: 1200px) {
       .header { gap: 20px; }
-      .brand-description { max-width: 240px; font-size: 9px; }
+      .header-identity { gap: 20px; }
+      .brand-description { font-size: 9px; }
       .nav { gap: 20px; }
+    }
+
+    @media (max-width: 1100px) {
       .hero-grid { gap: 35px; }
 
       .service-row {
@@ -948,7 +950,26 @@
       .contact-grid { gap: 35px; }
     }
 
+    /* Give the description room instead of squeezing it beside the nav. */
+    @media (max-width: 1000px) {
+      .header {
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+
+      .header-identity {
+        width: 100%;
+      }
+
+      .nav {
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
+
     @media (max-width: 800px) {
+      html { scroll-padding-top: 165px; }
+
       .hero-grid,
       .intro-grid,
       .office-grid,
@@ -977,7 +998,7 @@
 
       .phase-fee { grid-column: 3; grid-row: 1; }
       .footer-meta { flex-wrap: wrap; }
-      .mascot-card { grid-template-columns: 0.8fr 1.2fr; gap: 30px; }
+      .mascot-card { gap: 30px; }
 
       .footer-cheers {
         padding-inline: 3%;
@@ -994,30 +1015,25 @@
     }
 
     @media (max-width: 650px) {
-      html { scroll-padding-top: 165px; }
-
-      .header {
-        flex-wrap: wrap;
-        gap: 18px;
-        padding-block: 15px;
-      }
+      .header { padding-block: 15px; }
 
       .header-identity {
-        width: 100%;
         justify-content: space-between;
-        gap: 20px;
+        gap: 18px;
       }
 
-      .brand-description { max-width: 220px; font-size: 8px; }
+      .brand-description {
+        min-width: 0;
+        font-size: 8px;
+      }
+
+      .brand-services {
+        white-space: normal;
+      }
+
       .brand-symbol { width: 30px; height: 30px; }
       .logo { font-size: 30px; }
-
-      .nav {
-        width: 100%;
-        justify-content: space-between;
-        gap: 15px;
-      }
-
+      .nav { gap: 15px; }
       .nav-contact { padding: 9px 12px; }
 
       .section-top {
@@ -1084,7 +1100,6 @@
       .contact-details { font-size: clamp(18px, 5.2vw, 24px); }
       .footer-meta { flex-direction: column; gap: 15px; }
       .info-table { font-size: 14px; }
-
       .footer-crew { padding-top: 40px; }
 
       .footer-cheers {
@@ -1142,7 +1157,10 @@
 
       <p class="brand-description">
         <span class="brand-motto">Make It Happen.</span>
-        Local. Family-owned. Residential design &amp construction.
+        <span class="brand-services">
+          Local. Family-owned. Residential design,
+          <span class="brand-service-group">construction &amp; ADUs.</span>
+        </span>
       </p>
     </div>
 
@@ -1192,7 +1210,6 @@
           alt="A home in the Salt Lake Valley"
           fetchpriority="high"
         >
-
         <figcaption class="hero-stamp">
           Name a neighborhood in the Salt Lake Valley.
           Chances are, we’ve worked on a roof nearby.
@@ -1258,8 +1275,7 @@
       <figure class="crew-landscape" aria-label="The Marra crew">
         <div class="bubble-row">
           <a class="speech-bubble" href="#contact">
-            Let us put the<br>
-            pieces together!
+            Let us put the<br>pieces together!
           </a>
         </div>
 
@@ -1282,8 +1298,7 @@
       </div>
 
       <h2 class="section-heading services-heading" id="services-heading">
-        From the first drawing<br>
-        to the work on site.
+        From the first drawing<br>to the work on site.
       </h2>
 
       <p class="services-intro body-copy">
@@ -1293,7 +1308,6 @@
       </p>
 
       <div class="service-list">
-
         <article class="service-row">
           <span class="service-number">01</span>
           <h3>Homes, townhouses<br>&amp; additions.</h3>
@@ -1367,7 +1381,6 @@
             </p>
           </div>
         </article>
-
       </div>
 
       <p class="scope-note">
@@ -1389,114 +1402,72 @@
       </h2>
 
       <div class="work-grid">
-
         <figure class="work-card">
-          <button
-            class="photo-button"
-            type="button"
-            data-photo="marra2.jpg"
-            data-label="Around the valley / 01"
-            aria-label="Open photograph of a home in the valley, image 01"
-          >
-            <img
-              src="marra2.jpg"
-              alt="A home in the Salt Lake Valley, photograph 01"
-              loading="lazy"
-              decoding="async"
-            >
+          <button class="photo-button" type="button"
+            data-photo="marra2.jpg" data-label="Around the valley / 01"
+            aria-label="Open photograph 01">
+            <img src="marra2.jpg" alt="A home in the Salt Lake Valley, photograph 01"
+              loading="lazy" decoding="async">
           </button>
           <figcaption class="eyebrow">
-            <span>Around the valley / 01</span>
-            <span aria-hidden="true">↗</span>
+            <span>Around the valley / 01</span><span aria-hidden="true">↗</span>
           </figcaption>
         </figure>
 
         <figure class="work-card">
-          <button
-            class="photo-button"
-            type="button"
-            data-photo="marra5.jpg"
-            data-label="Around the valley / 02"
-            aria-label="Open photograph of a home in the valley, image 02"
-          >
-            <img
-              src="marra5.jpg"
-              alt="A home in the Salt Lake Valley, photograph 02"
-              loading="lazy"
-              decoding="async"
-            >
+          <button class="photo-button" type="button"
+            data-photo="marra5.jpg" data-label="Around the valley / 02"
+            aria-label="Open photograph 02">
+            <img src="marra5.jpg" alt="A home in the Salt Lake Valley, photograph 02"
+              loading="lazy" decoding="async">
           </button>
           <figcaption class="eyebrow">
-            <span>Around the valley / 02</span>
-            <span aria-hidden="true">↗</span>
+            <span>Around the valley / 02</span><span aria-hidden="true">↗</span>
           </figcaption>
         </figure>
 
         <figure class="work-card">
-          <button
-            class="photo-button"
-            type="button"
-            data-photo="marra9.jpg"
-            data-label="Around the valley / 03"
-            aria-label="Open photograph of a home in the valley, image 03"
-          >
-            <img
-              src="marra9.jpg"
-              alt="A home in the Salt Lake Valley, photograph 03"
-              loading="lazy"
-              decoding="async"
-            >
+          <button class="photo-button" type="button"
+            data-photo="marra9.jpg" data-label="Around the valley / 03"
+            aria-label="Open photograph 03">
+            <img src="marra9.jpg" alt="A home in the Salt Lake Valley, photograph 03"
+              loading="lazy" decoding="async">
           </button>
           <figcaption class="eyebrow">
-            <span>Around the valley / 03</span>
-            <span aria-hidden="true">↗</span>
+            <span>Around the valley / 03</span><span aria-hidden="true">↗</span>
           </figcaption>
         </figure>
 
         <figure class="work-card">
-          <button
-            class="photo-button"
-            type="button"
-            data-photo="marra12.jpg"
-            data-label="Around the valley / 04"
-            aria-label="Open photograph of a home in the valley, image 04"
-          >
-            <img
-              src="marra12.jpg"
-              alt="A home in the Salt Lake Valley, photograph 04"
-              loading="lazy"
-              decoding="async"
-            >
+          <button class="photo-button" type="button"
+            data-photo="marra12.jpg" data-label="Around the valley / 04"
+            aria-label="Open photograph 04">
+            <img src="marra12.jpg" alt="A home in the Salt Lake Valley, photograph 04"
+              loading="lazy" decoding="async">
           </button>
           <figcaption class="eyebrow">
-            <span>Around the valley / 04</span>
-            <span aria-hidden="true">↗</span>
+            <span>Around the valley / 04</span><span aria-hidden="true">↗</span>
           </figcaption>
         </figure>
-
       </div>
     </section>
 
     <section class="office wrap" id="office" aria-labelledby="office-heading">
       <div class="section-top">
         <p class="eyebrow">04 / The office</p>
-        <p class="eyebrow">Family-owned. Make It Happen Ethos Rooted In Hardwork and Craftsmanship.</p>
+        <p class="eyebrow">Family-owned. Make It Happen.</p>
       </div>
 
       <h2 class="section-heading office-heading" id="office-heading">
-        Two generations.<br>
-        One next chapter.
+        Two generations.<br>One next chapter.
       </h2>
 
       <div class="office-grid">
         <figure class="office-art">
-          <img
-            src="SVGMarraTwoMascots.svg"
+          <img src="SVGMarraTwoMascots.svg"
             data-fallback="TransparentMarraTwoMascots.png"
             alt="Two Marra mascots representing our father-and-son partnership"
-            loading="lazy"
-            decoding="async"
-          >
+            loading="lazy" decoding="async">
         </figure>
 
         <div class="office-copy body-copy">
@@ -1505,28 +1476,24 @@
             LLC together in March 2019, building a business around work we
             could take responsibility for ourselves.
           </p>
-
           <p>
             Mario brings more than 25 years of experience in roofing and
             general construction. His experience is grounded in the daily
             work of building: understanding materials, organizing crews,
             solving problems on site, and seeing a job through.
           </p>
-
           <p>
             Martin graduated in 2026 with a Master of Architecture from
             Columbia University GSAPP. He brings architectural experience
             and an interest in how space, materials, and construction
             decisions shape everyday life.
           </p>
-
           <p>
             After years of running a company together, we’re ready to bring
             those backgrounds into closer conversation. We want to be
             involved earlier, help shape the plans, and carry that thinking
             through to the work on site.
           </p>
-
           <p>
             We’re a small office. When you work with Marra, you work directly
             with us, supported by our crew and the contractor partners
@@ -1534,8 +1501,7 @@
           </p>
 
           <a class="text-link" href="mailto:mario@marra.works">
-            Let’s have a conversation
-            <span aria-hidden="true">↗</span>
+            Let’s have a conversation <span aria-hidden="true">↗</span>
           </a>
         </div>
       </div>
@@ -1548,8 +1514,7 @@
       </div>
 
       <h2 class="section-heading process-heading" id="process-heading">
-        A clear process.<br>
-        An open conversation.
+        A clear process.<br>An open conversation.
       </h2>
 
       <div class="process-intro body-copy">
@@ -1572,7 +1537,6 @@
       </div>
 
       <div class="phase-list">
-
         <article class="phase-row">
           <span class="phase-code">SD</span>
           <h4>Schematic design</h4>
@@ -1627,7 +1591,6 @@
           </p>
           <span class="phase-fee">15% of fee</span>
         </article>
-
       </div>
 
       <p class="payment-note">
@@ -1679,13 +1642,10 @@
     <section class="faq wrap" aria-labelledby="faq-heading">
       <div class="faq-heading">
         <p class="eyebrow">06 / A few questions</p>
-        <h2 class="section-heading" id="faq-heading">
-          Before<br>we begin.
-        </h2>
+        <h2 class="section-heading" id="faq-heading">Before<br>we begin.</h2>
       </div>
 
       <div class="faq-list">
-
         <details>
           <summary>How do we begin? What should I send you?</summary>
           <div class="faq-answer">
@@ -1781,11 +1741,9 @@
 
             <p class="source-note">
               Source:
-              <a
-                href="https://ironwoodcustombuilders.com/news/accessory-dwelling-unit-contractor/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >Ironwood Custom Builders’ 2026 Salt Lake City ADU guide</a>.
+              <a href="https://ironwoodcustombuilders.com/news/accessory-dwelling-unit-contractor/"
+                target="_blank" rel="noopener noreferrer">
+                Ironwood Custom Builders’ 2026 Salt Lake City ADU guide</a>.
               Referenced November 2026.
             </p>
           </div>
@@ -1823,11 +1781,9 @@
 
             <p class="source-note">
               Source:
-              <a
-                href="https://ironwoodcustombuilders.com/news/accessory-dwelling-unit-contractor/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >Ironwood Custom Builders’ 2026 Salt Lake City ADU guide</a>.
+              <a href="https://ironwoodcustombuilders.com/news/accessory-dwelling-unit-contractor/"
+                target="_blank" rel="noopener noreferrer">
+                Ironwood Custom Builders’ 2026 Salt Lake City ADU guide</a>.
               Referenced November 2026.
             </p>
           </div>
@@ -1891,28 +1847,21 @@
             </p>
           </div>
         </details>
-
       </div>
     </section>
 
     <section class="mascot-section wrap" aria-labelledby="mascot-heading">
       <div class="mascot-card">
         <figure class="mascot-portrait">
-          <img
-            src="SVGMarraFavicon.svg"
+          <img src="SVGMarraFavicon.svg"
             data-fallback="TransparentMarraFavicon.png"
-            alt="Mr. Make It Happen, Marra’s little mascot wearing a hard hat"
-            loading="lazy"
-            decoding="async"
-          >
+            alt="Mr. Make It Happen, Marra’s mascot wearing a hard hat"
+            loading="lazy" decoding="async">
         </figure>
 
         <div class="mascot-copy">
           <p class="eyebrow">A very important introduction</p>
-
-          <h2 class="section-heading" id="mascot-heading">
-            Who is this?
-          </h2>
+          <h2 class="section-heading" id="mascot-heading">Who is this??</h2>
 
           <div class="body-copy">
             <p>
@@ -1936,25 +1885,17 @@
       <div class="contact-grid">
         <div>
           <p class="eyebrow">An idea, a repair, or an open conversation.</p>
-
           <h2 class="contact-heading">
             <a href="mailto:mario@marra.works">
-              Let’s work<br>
-              together. ↗
+              Let’s work<br>together. ↗
             </a>
           </h2>
         </div>
 
         <address class="contact-details">
-          <a href="mailto:mario@marra.works">
-            mario@marra.works
-          </a>
-          <a href="tel:+18018332752">
-            +1 801.833.2752 - Martin
-          </a>
-          <a href="tel:+18017830184">
-            +1 801.783.0184 - Mario
-          </a>
+          <a href="mailto:mario@marra.works">mario@marra.works</a>
+          <a href="tel:+18018332752">+1 801.833.2752 - Martin</a>
+          <a href="tel:+18017830184">+1 801.783.0184 - Mario</a>
         </address>
       </div>
 
@@ -1965,10 +1906,8 @@
 
       <div class="footer-meta eyebrow">
         <span>Marra Roofing LLC / Marra Construction Services</span>
-        <a href="https://marioramirezarrazola.com/">
-          Mario Ramirez-Arrazola ↗
-        </a>
-        <span>© <span id="year"></span> Marra. Website made by us.</span>
+        <a href="https://marioramirezarrazola.com/">Mario Ramirez-Arrazola ↗</a>
+        <span>© <span id="year"></span> Marra</span>
       </div>
     </div>
 
@@ -1977,45 +1916,31 @@
         <a class="footer-cheer" href="mailto:mario@marra.works">
           Let’s Make<br>It Happen!
         </a>
-
         <a class="footer-cheer" href="mailto:mario@marra.works">
           Let’s Make<br>It Happen!
         </a>
-
         <a class="footer-cheer" href="mailto:mario@marra.works">
           Let’s Make<br>It Happen!
         </a>
       </div>
 
       <figure class="footer-peeking">
-        <img
-          src="SVGMarraPeeking.svg"
+        <img src="SVGMarraPeeking.svg"
           data-fallback="TransparentMarraPeeking.png"
           alt="Marra’s crew peeking up from the bottom of the page"
-          loading="lazy"
-          decoding="async"
-        >
+          loading="lazy" decoding="async">
       </figure>
     </div>
   </footer>
 
-  <dialog
-    class="photo-dialog"
-    id="photo-dialog"
-    aria-labelledby="dialog-label"
-  >
+  <dialog class="photo-dialog" id="photo-dialog" aria-labelledby="dialog-label">
     <div class="dialog-bar">
       <p class="eyebrow" id="dialog-label">Around the valley</p>
-      <button
-        class="dialog-close"
-        id="dialog-close"
-        type="button"
-        aria-label="Close image viewer"
-      >
+      <button class="dialog-close" id="dialog-close"
+        type="button" aria-label="Close image viewer">
         Close ×
       </button>
     </div>
-
     <img class="dialog-image" id="dialog-image" alt="">
   </dialog>
 
@@ -2030,7 +1955,6 @@
         const useFallback = () => {
           const fallback = image.dataset.fallback;
           if (!fallback) return;
-
           delete image.dataset.fallback;
           image.src = fallback;
         };
@@ -2050,7 +1974,6 @@
       const dialogImage = document.getElementById("dialog-image");
       const dialogLabel = document.getElementById("dialog-label");
       const closeButton = document.getElementById("dialog-close");
-
       let previousOverflow = "";
 
       document.querySelectorAll("[data-photo]").forEach((button) => {
@@ -2067,7 +1990,6 @@
           dialogImage.src = source;
           dialogImage.alt = thumbnail ? thumbnail.alt : label;
           dialogLabel.textContent = label;
-
           previousOverflow = document.body.style.overflow;
           dialog.showModal();
           document.body.style.overflow = "hidden";
@@ -2080,7 +2002,6 @@
         if (event.target !== dialog) return;
 
         const bounds = dialog.getBoundingClientRect();
-
         const outside =
           event.clientX < bounds.left ||
           event.clientX > bounds.right ||
