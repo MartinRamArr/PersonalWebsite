@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>marra — Residential Design & Construction</title>
+  <title>marra — Make It Happen.</title>
 
   <meta
     name="description"
@@ -179,6 +179,10 @@
       font-family: var(--mono-font);
       font-size: 10px;
       line-height: 1.5;
+    }
+
+    .brand-motto {
+      display: block;
     }
 
     .nav {
@@ -427,7 +431,7 @@
     /* PHOTOGRAPHS */
 
     .work { padding-bottom: var(--space); }
-    .work-heading { max-width: 900px; margin-bottom: 45px; }
+    .work-heading { max-width: 1100px; margin-bottom: 45px; }
 
     .work-grid {
       display: grid;
@@ -679,7 +683,7 @@
     .info-table th { color: var(--black); font-weight: 400; }
     .source-note { font-size: 13px; line-height: 1.5; }
 
-    /* MR. MAKE */
+    /* MR. MAKE IT HAPPEN */
 
     .mascot-section { padding-bottom: var(--space); }
 
@@ -789,38 +793,90 @@
       text-underline-offset: 4px;
     }
 
-    .footer-crew-note {
+    /* FOOTER CREW AND ANIMATED SPEECH BLOBS */
+
+    .footer-crew {
+      position: relative;
+      padding-top: clamp(35px, 4vw, 65px);
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .footer-cheers {
       position: relative;
       z-index: 2;
       display: flex;
-      justify-content: center;
-      padding: clamp(45px, 5vw, 75px) var(--gutter) 0;
-      margin-bottom: clamp(-60px, -4vw, -25px);
+      justify-content: space-around;
+      align-items: flex-start;
+      gap: 20px;
+      padding-inline: 5%;
+      margin-bottom: clamp(-50px, -3vw, -15px);
     }
 
-    .speech-bubble--crew {
-      width: min(100%, 390px);
-      min-height: 155px;
-      border-radius: 58% 42% 49% 51% / 43% 58% 42% 57%;
+    .footer-cheer {
+      --tilt: -6deg;
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: clamp(135px, 17vw, 260px);
+      min-height: clamp(95px, 10vw, 150px);
+      padding: 24px 22px;
+      border: 2px solid var(--black);
+      border-radius: 43% 57% 48% 52% / 55% 43% 57% 45%;
       background: var(--white);
-      transform: rotate(5deg);
+      font-family: var(--mono-font);
+      font-size: clamp(13px, 1.3vw, 19px);
+      line-height: 1.25;
+      text-align: center;
+      animation: cheer-float 5.5s ease-in-out infinite;
     }
 
-    .speech-bubble--crew::after {
-      left: 32%;
+    .footer-cheer::after {
+      content: "";
+      position: absolute;
+      bottom: -12px;
+      left: 48%;
+      width: 22px;
+      height: 25px;
+      border-right: 2px solid var(--black);
+      border-bottom: 2px solid var(--black);
+      border-radius: 0 0 7px 0;
       background: var(--white);
-      transform: rotate(42deg) skew(-9deg, -8deg);
+      transform: rotate(35deg) skew(8deg, 8deg);
     }
 
-    .speech-bubble--crew:hover {
-      transform: rotate(2deg) translateY(-3px);
+    .footer-cheer:nth-child(2) {
+      --tilt: 5deg;
+      margin-top: 18px;
+      border-radius: 57% 43% 53% 47% / 44% 58% 42% 56%;
+      animation-duration: 6.2s;
+      animation-delay: -2.1s;
+    }
+
+    .footer-cheer:nth-child(3) {
+      --tilt: -3deg;
+      border-radius: 48% 52% 42% 58% / 59% 44% 56% 41%;
+      animation-duration: 5.8s;
+      animation-delay: -3.4s;
+    }
+
+    .footer-cheer:hover {
+      animation-play-state: paused;
+    }
+
+    @keyframes cheer-float {
+      0%, 100% {
+        transform: translateY(0) rotate(var(--tilt));
+      }
+      50% {
+        transform: translateY(-9px) rotate(calc(var(--tilt) + 3deg));
+      }
     }
 
     .footer-peeking {
       width: 100%;
       margin: 0;
       padding: 0;
-      overflow: hidden;
       line-height: 0;
     }
 
@@ -876,15 +932,19 @@
       .brand-description { max-width: 240px; font-size: 9px; }
       .nav { gap: 20px; }
       .hero-grid { gap: 35px; }
+
       .service-row {
         grid-template-columns: 35px 1fr 1.15fr;
         gap: 20px;
       }
+
       .office-grid { gap: 40px; }
+
       .phase-row {
         grid-template-columns: 45px 0.8fr 1.2fr 100px;
         gap: 18px;
       }
+
       .contact-grid { gap: 35px; }
     }
 
@@ -917,8 +977,20 @@
 
       .phase-fee { grid-column: 3; grid-row: 1; }
       .footer-meta { flex-wrap: wrap; }
-      .footer-crew-note { margin-bottom: -20px; }
       .mascot-card { grid-template-columns: 0.8fr 1.2fr; gap: 30px; }
+
+      .footer-cheers {
+        padding-inline: 3%;
+        gap: 15px;
+        margin-bottom: -10px;
+      }
+
+      .footer-cheer {
+        width: 29%;
+        min-height: 110px;
+        padding: 20px 14px;
+        font-size: 13px;
+      }
     }
 
     @media (max-width: 650px) {
@@ -1011,13 +1083,32 @@
       .contact-heading { font-size: clamp(58px, 13vw, 78px); }
       .contact-details { font-size: clamp(18px, 5.2vw, 24px); }
       .footer-meta { flex-direction: column; gap: 15px; }
+      .info-table { font-size: 14px; }
 
-      .footer-crew-note {
-        padding-top: 40px;
-        margin-bottom: -10px;
+      .footer-crew { padding-top: 40px; }
+
+      .footer-cheers {
+        justify-content: space-between;
+        padding-inline: 5%;
+        gap: 12px;
+        margin-bottom: -5px;
       }
 
-      .info-table { font-size: 14px; }
+      .footer-cheer {
+        width: 44%;
+        min-height: 90px;
+        padding: 18px 14px;
+        font-size: 12px;
+      }
+
+      .footer-cheer:nth-child(2) { margin-top: 8px; }
+      .footer-cheer:nth-child(3) { display: none; }
+
+      .footer-cheer::after {
+        width: 17px;
+        height: 20px;
+        bottom: -10px;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1050,7 +1141,7 @@
       </a>
 
       <p class="brand-description">
-        Family-owned. Building our next chapter.<br>
+        <span class="brand-motto">Family-owned. Make It Happen.</span>
         Residential design, construction &amp; ADUs.
       </p>
     </div>
@@ -1294,7 +1385,7 @@
       </div>
 
       <h2 class="section-heading work-heading" id="work-heading">
-        Houses around here.
+        Houses around the valley.
       </h2>
 
       <div class="work-grid">
@@ -1389,7 +1480,7 @@
     <section class="office wrap" id="office" aria-labelledby="office-heading">
       <div class="section-top">
         <p class="eyebrow">04 / The office</p>
-        <p class="eyebrow">Family-owned. Building our next chapter.</p>
+        <p class="eyebrow">Family-owned. Make It Happen.</p>
       </div>
 
       <h2 class="section-heading office-heading" id="office-heading">
@@ -1596,7 +1687,7 @@
       <div class="faq-list">
 
         <details>
-          <summary>What should I send you?</summary>
+          <summary>How do we begin? What should I send you?</summary>
           <div class="faq-answer">
             <p>
               You don’t need to have anything prepared. We welcome a
@@ -1804,16 +1895,13 @@
       </div>
     </section>
 
-    <section
-      class="mascot-section wrap"
-      aria-labelledby="mascot-heading"
-    >
+    <section class="mascot-section wrap" aria-labelledby="mascot-heading">
       <div class="mascot-card">
         <figure class="mascot-portrait">
           <img
             src="SVGMarraFavicon.svg"
             data-fallback="TransparentMarraFavicon.png"
-            alt="Mr. Make, Marra’s little mascot wearing a hard hat"
+            alt="Mr. Make It Happen, Marra’s little mascot wearing a hard hat"
             loading="lazy"
             decoding="async"
           >
@@ -1828,17 +1916,13 @@
 
           <div class="body-copy">
             <p>
-              That’s Mr. Make. Our mascot, resident hard-hat wearer,
+              That’s Mr. Make It Happen. Our mascot, resident hard-hat wearer,
               and the little guy you’ve been seeing around here.
             </p>
             <p>
               He’s here because building things is serious work,
               but we don’t think a construction company has to be
               entirely serious about itself.
-            </p>
-            <p>
-              Please direct all actual construction questions to us.
-              He’s more of an ideas guy.
             </p>
           </div>
         </div>
@@ -1888,25 +1972,31 @@
       </div>
     </div>
 
-    <div class="footer-crew-note">
-      <a
-        class="speech-bubble speech-bubble--crew"
-        href="mailto:mario@marra.works"
-      >
-        We carry a big crew<br>
-        to get the job done!
-      </a>
-    </div>
+    <div class="footer-crew">
+      <div class="footer-cheers">
+        <a class="footer-cheer" href="mailto:mario@marra.works">
+          Let’s Make<br>It Happen!
+        </a>
 
-    <figure class="footer-peeking">
-      <img
-        src="SVGMarraPeeking.svg"
-        data-fallback="TransparentMarraPeeking.png"
-        alt="Marra’s crew peeking up from the bottom of the page"
-        loading="lazy"
-        decoding="async"
-      >
-    </figure>
+        <a class="footer-cheer" href="mailto:mario@marra.works">
+          Let’s Make<br>It Happen!
+        </a>
+
+        <a class="footer-cheer" href="mailto:mario@marra.works">
+          Let’s Make<br>It Happen!
+        </a>
+      </div>
+
+      <figure class="footer-peeking">
+        <img
+          src="SVGMarraPeeking.svg"
+          data-fallback="TransparentMarraPeeking.png"
+          alt="Marra’s crew peeking up from the bottom of the page"
+          loading="lazy"
+          decoding="async"
+        >
+      </figure>
+    </div>
   </footer>
 
   <dialog
