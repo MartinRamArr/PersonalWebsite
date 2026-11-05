@@ -8,23 +8,13 @@
 
   <meta
     name="description"
-    content="Marra is a family-owned residential design and construction practice serving the Salt Lake Valley and Boise. Roofing roots. Residential ambitions.">
+    content="A family-owned residential design and construction practice. Roofing, renovations, and ambitions for additions, ADUs, and new homes.">
 
   <meta name="theme-color" content="#bdf226">
 
-  <link
-    rel="icon"
-    type="image/svg+xml"
-    href="SVGMarraFavicon.svg">
-
-  <link
-    rel="alternate icon"
-    type="image/png"
-    href="TransparentMarraFavicon.png">
-
-  <link
-    rel="apple-touch-icon"
-    href="TransparentMarraFavicon.png">
+  <link rel="icon" type="image/svg+xml" href="SVGMarraFavicon.svg">
+  <link rel="alternate icon" type="image/png" href="TransparentMarraFavicon.png">
+  <link rel="apple-touch-icon" href="TransparentMarraFavicon.png">
 
   <style>
     @font-face {
@@ -63,7 +53,7 @@
 
     html {
       scroll-behavior: smooth;
-      scroll-padding-top: 100px;
+      scroll-padding-top: 110px;
     }
 
     body {
@@ -159,17 +149,25 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 24px;
-      min-height: 82px;
+      gap: 30px;
+      min-height: 90px;
       padding: 18px var(--gutter);
       background: var(--white);
       border-bottom: 1px solid var(--line);
+    }
+
+    .header-identity {
+      display: flex;
+      align-items: center;
+      gap: clamp(20px, 3vw, 45px);
+      min-width: 0;
     }
 
     .brand {
       display: inline-flex;
       align-items: center;
       gap: 12px;
+      flex-shrink: 0;
     }
 
     .brand-symbol {
@@ -191,10 +189,19 @@
       letter-spacing: -0.07em;
     }
 
+    .brand-description {
+      max-width: 300px;
+      font-family: var(--mono);
+      font-size: 10px;
+      line-height: 1.5;
+      text-wrap: balance;
+    }
+
     .nav {
       display: flex;
       align-items: center;
       gap: clamp(18px, 3vw, 45px);
+      flex-shrink: 0;
     }
 
     .nav a {
@@ -219,30 +226,7 @@
     /* HERO */
 
     .hero {
-      padding-top: clamp(40px, 7vw, 105px);
-    }
-
-    .hero-top {
-      display: flex;
-      justify-content: space-between;
-      gap: 24px;
-      margin-bottom: 35px;
-    }
-
-    .status {
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
-    }
-
-    .status::before {
-      content: "";
-      flex-shrink: 0;
-      width: 9px;
-      height: 9px;
-      border: 1px solid var(--black);
-      border-radius: 50%;
-      background: var(--accent);
+      padding-top: clamp(45px, 7vw, 105px);
     }
 
     .hero h1 {
@@ -353,11 +337,50 @@
       line-height: 1.5;
     }
 
-    /* TRANSPARENT LANDSCAPE CREW */
+    /* CREW + SPEECH BUBBLE */
 
     .crew-landscape {
       position: relative;
       margin-block: clamp(50px, 8vw, 115px) var(--space);
+    }
+
+    .bubble-row {
+      display: flex;
+      justify-content: center;
+      padding-bottom: 30px;
+    }
+
+    .speech-bubble {
+      position: relative;
+      display: block;
+      max-width: 380px;
+      padding: 22px 32px;
+      border: 2px solid var(--black);
+      border-radius: 50%;
+      background: var(--accent);
+      text-align: center;
+      font-family: var(--mono);
+      font-size: clamp(14px, 1.5vw, 20px);
+      line-height: 1.35;
+      transform: rotate(-4deg);
+      transition: transform 200ms ease;
+    }
+
+    .speech-bubble::after {
+      content: "";
+      position: absolute;
+      left: 57%;
+      bottom: -13px;
+      width: 22px;
+      height: 22px;
+      border-right: 2px solid var(--black);
+      border-bottom: 2px solid var(--black);
+      background: var(--accent);
+      transform: skewY(20deg) rotate(35deg);
+    }
+
+    .speech-bubble:hover {
+      transform: rotate(0deg) translateY(-3px);
     }
 
     .crew-stage {
@@ -399,7 +422,6 @@
       0%, 100% {
         transform: translateY(0) rotate(-0.4deg);
       }
-
       50% {
         transform: translateY(-9px) rotate(0.4deg);
       }
@@ -513,30 +535,30 @@
       color: var(--muted);
     }
 
-    /* STUDIO */
+    /* OFFICE */
 
-    .studio {
+    .office {
       padding-block: clamp(60px, 8vw, 120px);
       color: var(--white);
       background: var(--black);
     }
 
-    .studio .section-top {
+    .office .section-top {
       border-top-color: #555555;
     }
 
-    .studio .eyebrow {
+    .office .eyebrow {
       color: var(--accent);
     }
 
-    .studio-grid {
+    .office-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: clamp(35px, 7vw, 110px);
       margin-top: 55px;
     }
 
-    .studio h2 {
+    .office h2 {
       font-size: clamp(44px, 5.8vw, 90px);
       line-height: 0.98;
       letter-spacing: -0.06em;
@@ -569,13 +591,12 @@
       0%, 100% {
         transform: rotate(-2deg);
       }
-
       50% {
         transform: rotate(2deg) translateY(-6px);
       }
     }
 
-    .studio-copy p {
+    .office-copy p {
       max-width: 480px;
       margin-bottom: 24px;
       font-size: clamp(18px, 1.7vw, 23px);
@@ -583,7 +604,7 @@
       letter-spacing: -0.02em;
     }
 
-    .studio-copy .eyebrow {
+    .office-copy .eyebrow {
       margin-top: 40px;
       font-size: 11px;
       letter-spacing: 0;
@@ -707,7 +728,6 @@
 
     .contact {
       padding-top: clamp(55px, 7vw, 100px);
-      overflow: hidden;
       color: var(--black);
       background: var(--accent);
     }
@@ -764,18 +784,23 @@
       border-top: 1px solid rgba(0, 0, 0, 0.35);
     }
 
-    .footer-wordmark {
-      display: block;
+    /* Full-width illustration, outside the padded wrapper. */
+    .footer-peeking {
       width: 100%;
-      height: auto;
-      margin-top: 10px;
+      margin: 30px 0 0;
+      padding: 0;
+      overflow: hidden;
+      line-height: 0;
     }
 
-    .footer-wordmark text {
-      fill: var(--black);
-      font-family: var(--mono);
-      font-size: 265px;
-      letter-spacing: -20px;
+    .footer-peeking img {
+      display: block;
+      width: 100%;
+      max-width: none;
+      height: auto;
+      margin: 0;
+      padding: 0;
+      background: transparent;
     }
 
     /* PHOTO VIEWER */
@@ -821,28 +846,30 @@
 
     /* RESPONSIVE */
 
-    @media (max-width: 800px) {
+    @media (max-width: 1000px) {
       .header {
-        min-height: 72px;
+        gap: 20px;
+      }
+
+      .header-identity {
+        gap: 20px;
+      }
+
+      .brand-description {
+        max-width: 210px;
+        font-size: 9px;
       }
 
       .nav {
         gap: 20px;
       }
+    }
 
-      .nav-contact {
-        padding: 10px;
-      }
-
-      .nav-contact .arrow,
-      .hero-top > :last-child {
-        display: none;
-      }
-
+    @media (max-width: 800px) {
       .hero-bottom,
       .intro-grid,
       .work-heading,
-      .studio-grid,
+      .office-grid,
       .questions,
       .contact-grid {
         grid-template-columns: 1fr;
@@ -883,30 +910,44 @@
       }
     }
 
-    @media (max-width: 520px) {
-      .brand {
-        gap: 8px;
+    @media (max-width: 650px) {
+      .header {
+        flex-wrap: wrap;
+        gap: 18px;
       }
 
-      .brand-symbol {
-        width: 27px;
-        height: 27px;
+      .header-identity {
+        width: 100%;
+        gap: 20px;
       }
 
-      .logo {
-        font-size: 28px;
+      .brand-description {
+        max-width: 230px;
+        font-size: 9px;
       }
 
       .nav {
-        gap: 14px;
+        width: 100%;
+        justify-content: space-between;
       }
 
-      .nav a {
-        font-size: 10px;
+      .nav-contact {
+        padding: 9px 12px;
       }
 
-      .nav .nav-studio {
-        display: none;
+      .brand-symbol {
+        width: 30px;
+        height: 30px;
+      }
+
+      .logo {
+        font-size: 30px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      html {
+        scroll-padding-top: 160px;
       }
 
       .hero {
@@ -950,12 +991,21 @@
         margin-top: 0;
       }
 
+      .speech-bubble {
+        max-width: 280px;
+        padding: 20px 25px;
+      }
+
       .contact h2 {
         font-size: 58px;
       }
 
       .footer-meta {
         margin-top: 45px;
+      }
+
+      .footer-peeking {
+        margin-top: 20px;
       }
     }
 
@@ -977,38 +1027,42 @@
 <body>
 
   <header class="header">
-    <a class="brand" href="#top" aria-label="Marra home">
-      <img
-        class="brand-symbol"
-        src="SVGMarraFavicon.svg"
-        data-fallback="TransparentMarraFavicon.png"
-        alt=""
-        width="36"
-        height="36">
 
-      <span class="logo">marra</span>
-    </a>
+    <div class="header-identity">
+      <a class="brand" href="#top" aria-label="Marra home">
+        <img
+          class="brand-symbol"
+          src="SVGMarraFavicon.svg"
+          data-fallback="TransparentMarraFavicon.png"
+          alt=""
+          width="36"
+          height="36">
+
+        <span class="logo">marra</span>
+      </a>
+
+      <p class="brand-description">
+        Family-owned. Forward-looking.<br>
+        Residential design, construction & ADUs.
+      </p>
+    </div>
 
     <nav class="nav" aria-label="Marra navigation">
       <a href="#work">Work</a>
-      <a href="#studio" class="nav-studio">Studio</a>
+      <a href="#office">Office</a>
 
       <a href="#contact" class="nav-contact">
         Let’s talk
         <span class="arrow" aria-hidden="true">↗</span>
       </a>
     </nav>
+
   </header>
 
   <main id="top">
 
     <!-- HERO -->
     <section class="hero wrap" aria-labelledby="hero-title">
-
-      <div class="hero-top eyebrow">
-        <span>Residential design & construction</span>
-        <span class="status">Family-owned. Forward-looking.</span>
-      </div>
 
       <h1 id="hero-title">
         Good bones.<br>
@@ -1082,11 +1136,19 @@
       </div>
 
       <figure class="crew-landscape">
+
+        <div class="bubble-row">
+          <a class="speech-bubble" href="#contact">
+            Let’s put the<br>
+            pieces together.
+          </a>
+        </div>
+
         <div class="crew-stage">
           <img
             src="SVGMarraLandscapeCrew.svg"
             data-fallback="TransparentMarraLandscapeCrew.png"
-            alt="Marra’s illustrated crew of design and construction mascots"
+            alt="Marra’s interlocking design and construction mascots"
             loading="lazy"
             decoding="async">
         </div>
@@ -1095,8 +1157,8 @@
           <span>Different skills. Shared ambition.</span>
           <span>The marra crew</span>
         </figcaption>
-      </figure>
 
+      </figure>
     </section>
 
     <!-- SERVICES -->
@@ -1260,18 +1322,18 @@
       </div>
     </section>
 
-    <!-- STUDIO -->
-    <section class="studio wrap" id="studio" aria-labelledby="studio-title">
+    <!-- OFFICE -->
+    <section class="office wrap" id="office" aria-labelledby="office-title">
 
       <div class="section-top">
         <span class="eyebrow">04 / The people behind it</span>
         <span class="eyebrow">Established 2019 / Still becoming</span>
       </div>
 
-      <div class="studio-grid">
+      <div class="office-grid">
 
         <div>
-          <h2 id="studio-title">
+          <h2 id="office-title">
             Two generations.<br>
             One next chapter.
           </h2>
@@ -1286,7 +1348,7 @@
           </figure>
         </div>
 
-        <div class="studio-copy">
+        <div class="office-copy">
           <p>
             Marra began with a father and son, and a
             roofing business built together.
@@ -1430,61 +1492,67 @@
     </section>
 
     <!-- CONTACT -->
-    <footer class="contact wrap" id="contact">
+    <footer class="contact" id="contact">
 
-      <div class="contact-grid">
+      <div class="wrap">
 
-        <div>
-          <div class="eyebrow">06 / Something in mind?</div>
+        <div class="contact-grid">
 
-          <h2>
-            <a href="mailto:marraroofing@gmail.com">
-              Let’s make<br>
-              a start.
-              <span class="arrow" aria-hidden="true">↗</span>
+          <div>
+            <div class="eyebrow">06 / Something in mind?</div>
+
+            <h2>
+              <a href="mailto:mario@mario.works">
+                Let’s make<br>
+                a start.
+                <span class="arrow" aria-hidden="true">↗</span>
+              </a>
+            </h2>
+          </div>
+
+          <address class="contact-details">
+            <a href="mailto:mario@mario.works">
+              mario@mario.works
             </a>
-          </h2>
+
+            <a href="tel:+18018332752">
+              +1 801.833.2752 - Martin
+            </a>
+
+            <a href="tel:+18017830184">
+              +1 801.783.0184 - Mario
+            </a>
+          </address>
+
         </div>
 
-        <address class="contact-details">
-          <a href="mailto:marraroofing@gmail.com">
-            marraroofing@gmail.com
+        <p class="contact-note">
+          Tell us about the home you have,
+          the changes you need, or the idea
+          you’re not quite sure how to begin.
+        </p>
+
+        <div class="footer-meta eyebrow">
+          <span>Marra Roofing LLC / Marra Construction Services</span>
+
+          <a href="https://marioramirezarrazola.com/">
+            Mario Ramirez-Arrazola ↗
           </a>
-          <a href="tel:+18018332752">+1 801.833.2752</a>
-          <a href="tel:+18017830184">+1 801.783.0184</a>
-        </address>
+
+          <span>© <span id="year">2026</span> marra</span>
+        </div>
 
       </div>
 
-      <p class="contact-note">
-        Tell us about the home you have,
-        the changes you need, or the idea
-        you’re not quite sure how to begin.
-      </p>
-
-      <div class="footer-meta eyebrow">
-        <span>Marra Roofing LLC / Marra Construction Services</span>
-
-        <a href="https://marioramirezarrazola.com/">
-          Mario Ramirez-Arrazola ↗
-        </a>
-
-        <span>© <span id="year">2026</span> marra</span>
-      </div>
-
-      <svg
-        class="footer-wordmark"
-        viewBox="0 0 1000 240"
-        role="img"
-        aria-label="marra">
-        <text
-          x="0"
-          y="220"
-          textLength="1000"
-          lengthAdjust="spacingAndGlyphs">
-          marra
-        </text>
-      </svg>
+      <!-- Edge-to-edge peeking crew, with no page gutters. -->
+      <figure class="footer-peeking">
+        <img
+          src="SVGMarraPeeking.svg"
+          data-fallback="TransparentMarraPeeking.png"
+          alt="Marra’s crew peeking up from the bottom of the page"
+          loading="lazy"
+          decoding="async">
+      </figure>
 
     </footer>
 
@@ -1518,7 +1586,7 @@
       document.getElementById("year").textContent =
         new Date().getFullYear();
 
-      /* Use the transparent PNG if an SVG fails to load. */
+      /* SVG fallback to transparent PNG */
       document.querySelectorAll("img[data-fallback]").forEach(image => {
         function useFallback() {
           const fallback = image.dataset.fallback;
@@ -1531,7 +1599,11 @@
 
         image.addEventListener("error", useFallback, { once: true });
 
-        if (image.complete && image.naturalWidth === 0) {
+        if (
+          image.complete &&
+          image.naturalWidth === 0 &&
+          image.getAttribute("loading") !== "lazy"
+        ) {
           useFallback();
         }
       });
