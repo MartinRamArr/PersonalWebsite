@@ -1770,6 +1770,18 @@
   }
 </style>
 
+
+<style id="marra-quarter-payment-styles">
+  .payment-alternative { margin-top: 50px; }
+  .payment-alternative > h4 { margin-bottom: 16px; font-size: clamp(26px, 3vw, 40px); letter-spacing: -.035em; }
+  .quarter-payments-intro { max-width: 900px; font-size: 18px; line-height: 1.5; }
+  .payment-grid--quarters { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .payment-grid--quarters .payment-card { padding: clamp(22px, 2vw, 32px); }
+  .payment-grid--quarters h5 { margin-bottom: 15px; font-size: clamp(24px, 2vw, 30px); line-height: 1.15; letter-spacing: -.035em; font-weight: inherit; }
+  @media (max-width: 1100px) { .payment-grid--quarters { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 650px) { .payment-grid--quarters { grid-template-columns: 1fr; } }
+</style>
+
 </head>
 
 <body id="top">
@@ -2182,7 +2194,7 @@
       <div class="section-top">
         <p class="eyebrow">04 / The office</p>
         <p class="eyebrow">
-          AN ETHOS ROOTED IN HARD WORK AND CRAFTSMANSHIP.
+          MAKE IT HAPPEN ETHOS ROOTED IN HARD WORK AND CRAFTSMANSHIP.
         </p>
       </div>
 
@@ -2317,6 +2329,7 @@
           <p>
             Coordinate the submission, respond to review comments within
             the agreed scope, and help clarify contractor pricing.
+            Agency review times and approval decisions are outside our control.
           </p>
           <span class="phase-fee">5% of fee</span>
         </article>
@@ -2368,6 +2381,38 @@
               walkthrough and completion requirements.
             </p>
           </article>
+        </div>
+
+        <div class="payment-alternative" aria-labelledby="quarter-payments-heading">
+          <h4 id="quarter-payments-heading">Another option: four payments.</h4>
+          <p class="quarter-payments-intro">
+            We can divide the agreed construction price into four equal
+            payments of 25%. After reviewing the construction timeline
+            together, we agree on the work or milestone that makes each
+            payment due and include that schedule in your agreement.
+          </p>
+          <div class="payment-grid payment-grid--quarters">
+            <article class="payment-card">
+              <span class="payment-percent">25%</span>
+              <h5>Before work begins.</h5>
+              <p>The first quarter covers the agreed initial payment for materials, scheduling, and mobilization.</p>
+            </article>
+            <article class="payment-card">
+              <span class="payment-percent">25%</span>
+              <h5>At the first milestone.</h5>
+              <p>The second quarter is due when the first agreed construction milestone is complete.</p>
+            </article>
+            <article class="payment-card">
+              <span class="payment-percent">25%</span>
+              <h5>At the next milestone.</h5>
+              <p>The third quarter is due when the next agreed stage of work is complete, following the reviewed timeline.</p>
+            </article>
+            <article class="payment-card">
+              <span class="payment-percent">25%</span>
+              <h5>When the work is finished.</h5>
+              <p>The final quarter is paid at completion, following the agreed walkthrough and completion requirements.</p>
+            </article>
+          </div>
         </div>
 
         <p class="payment-note">
