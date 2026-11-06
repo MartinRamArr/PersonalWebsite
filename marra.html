@@ -1710,6 +1710,21 @@
   .marra-study--isometric .marra-study__stage { width: 100%; aspect-ratio: auto; }
 }
 
+
+/* The workers and their close speech bubbles move as a single scene group. */
+.marra-iso__crew-position { transform-origin: 0 0; transition: transform 1600ms ease-in-out; }
+.marra-iso__crew-walk { animation: marra-iso-walk 1.1s ease-in-out infinite; }
+.marra-iso__worker { transform-box: fill-box; transform-origin: 50% 100%; animation: marra-iso-bob 900ms ease-in-out infinite; }
+.marra-iso__worker--two { animation-delay: -.3s; }
+.marra-iso__worker--three { animation-delay: -.6s; }
+@keyframes marra-iso-walk { 0%,100% { transform: translateX(0); } 50% { transform: translateX(5px); } }
+@keyframes marra-iso-bob { 0%,100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-3px) rotate(2deg); } }
+.marra-study.is-paused .marra-iso__crew-walk, .marra-study.is-paused .marra-iso__worker,
+.marra-study.is-offscreen .marra-iso__crew-walk, .marra-study.is-offscreen .marra-iso__worker { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+  .marra-iso__crew-position, .marra-iso__crew-walk, .marra-iso__worker { animation: none !important; transition: none !important; }
+}
+
 </style>
 </head>
 
@@ -1785,18 +1800,40 @@
   <div class="marra-study__stage">
     <svg class="marra-study__scene" viewBox="0 0 1942 809" preserveAspectRatio="xMidYMid meet" role="img" aria-label="A wide isometric backyard with bold architectural linework, a simple branching tree, changing ADU massings and a little working crew">
       <defs><clipPath id="marra-iso-building"><rect x="764" y="120" width="410" height="340"/></clipPath></defs>
-      <image href="marra-isometric-1.webp" width="1942" height="809" preserveAspectRatio="none"/>
-      <g class="marra-study__option is-active" data-study-option="0" clip-path="url(#marra-iso-building)"><image href="marra-isometric-1.webp" width="1942" height="809" preserveAspectRatio="none"/></g>
-      <g class="marra-study__option" data-study-option="1" clip-path="url(#marra-iso-building)"><image href="marra-isometric-2.webp" width="1942" height="809" preserveAspectRatio="none"/></g>
-      <g class="marra-study__option" data-study-option="2" clip-path="url(#marra-iso-building)"><image href="marra-isometric-3.webp" width="1942" height="809" preserveAspectRatio="none"/></g>
-      <a class="marra-iso__speech" href="#contact-form" aria-label="Let’s make it happen. Contact Marra.">
-        <path d="M1207 153C1191 119 1240 85 1358 83C1465 80 1529 100 1529 134C1528 165 1477 183 1381 185L1354 210L1341 184C1261 183 1221 174 1207 153Z" fill="#fff" stroke="#111" stroke-width="4"/>
-        <text x="1365" y="128" text-anchor="middle"><tspan x="1365">Let’s make</tspan><tspan x="1365" dy="33">it happen!</tspan></text>
-      </a>
-      <a class="marra-iso__speech marra-iso__speech--second" href="#contact-form" aria-label="On it. Start a conversation with Marra.">
-        <path d="M1574 221C1551 199 1560 167 1622 163C1698 157 1747 174 1742 202C1739 226 1703 238 1658 238L1636 263L1624 238C1601 236 1583 230 1574 221Z" fill="#fff" stroke="#111" stroke-width="4"/>
-        <text x="1651" y="213" text-anchor="middle">On it!</text>
-      </a>
+      <image href="marra-isometric-repaired-1.webp" width="1942" height="809" preserveAspectRatio="none"/>
+      <g class="marra-study__option is-active" data-study-option="0" clip-path="url(#marra-iso-building)"><image href="marra-isometric-repaired-1.webp" width="1942" height="809" preserveAspectRatio="none"/><path class="marra-iso__outline" data-study-outline="0" d="M778 298L997 143L1146 227L1146 344L1071 427L791 404L791 299Z" fill="none" stroke="#bdf226" stroke-width="9" stroke-linejoin="round" stroke-linecap="round" pointer-events="none"/></g>
+      <g class="marra-study__option" data-study-option="1" clip-path="url(#marra-iso-building)"><image href="marra-isometric-repaired-2.webp" width="1942" height="809" preserveAspectRatio="none"/><path class="marra-iso__outline" data-study-outline="1" d="M788 218L841 168L1147 261L1146 344L1071 427L791 404L791 232Z" fill="none" stroke="#bdf226" stroke-width="9" stroke-linejoin="round" stroke-linecap="round" pointer-events="none"/></g>
+      <g class="marra-study__option" data-study-option="2" clip-path="url(#marra-iso-building)"><image href="marra-isometric-repaired-3.webp" width="1942" height="809" preserveAspectRatio="none"/><path class="marra-iso__outline" data-study-outline="2" d="M787 284L883 219L1146 230L1146 344L1071 427L791 404Z" fill="none" stroke="#bdf226" stroke-width="9" stroke-linejoin="round" stroke-linecap="round" pointer-events="none"/></g>
+
+      <g class="marra-iso__crew-position" data-iso-crew style="transform: translate(1265px, 280px)">
+        <g class="marra-iso__crew-walk">
+          <g class="marra-iso__worker">
+            <path d="M15 91C1 89 0 79 7 66C11 57 10 43 19 34C30 24 42 29 48 39C53 46 53 54 59 62C69 71 72 85 61 91C52 98 45 92 35 96C25 99 23 93 15 91Z" fill="#000"/>
+            <circle cx="28" cy="49" r="3.5" fill="#fff"/><circle cx="41" cy="48" r="3.5" fill="#fff"/>
+          </g>
+          <g class="marra-iso__worker marra-iso__worker--two">
+            <path d="M148 91C133 91 132 79 140 67C145 58 141 46 150 35C160 22 177 25 184 39C188 48 189 58 194 66C203 80 199 93 187 93C179 95 173 90 164 94C155 97 151 92 148 91Z" fill="#000"/>
+            <circle cx="162" cy="47" r="3.5" fill="#fff"/><circle cx="175" cy="46" r="3.5" fill="#fff"/>
+          </g>
+          <g class="marra-iso__beam">
+            <path d="M9 63L181 51L186 62L15 75L9 72Z" fill="#fff" stroke="#111" stroke-width="2.5" stroke-linejoin="round"/>
+            <path d="M15 75V67L186 55 M9 63L15 67" fill="none" stroke="#111" stroke-width="1.5"/>
+          </g>
+          <g class="marra-iso__worker marra-iso__worker--three">
+            <path d="M235 96C223 95 219 86 226 73C231 65 225 57 235 46C244 35 258 38 265 48C271 56 268 62 274 65L283 57C288 52 294 57 290 63L278 80C279 89 275 98 264 98C256 95 248 101 243 98Z" fill="#000"/>
+            <circle cx="245" cy="58" r="3.5" fill="#fff"/><circle cx="257" cy="57" r="3.5" fill="#fff"/>
+            <path d="M281 59L290 34" stroke="#111" stroke-width="4" stroke-linecap="round"/><path d="M282 30L300 36L299 42L289 38L284 39L279 35Z" fill="#111"/>
+          </g>
+        </g>
+        <a class="marra-iso__speech" href="#contact-form" aria-label="Let’s make it happen. Contact Marra.">
+          <path d="M-2 8C-17-12 7-36 76-37C146-39 192-24 192-3C192 17 159 27 91 27L63 41L60 27C26 26 7 19-2 8Z" fill="#fff" stroke="#111" stroke-width="3"/>
+          <text x="91" y="-11" text-anchor="middle" style="font-size:19px"><tspan x="91">Let’s make</tspan><tspan x="91" dy="23">it happen!</tspan></text>
+        </a>
+        <a class="marra-iso__speech" href="#contact-form" aria-label="On it. Contact Marra.">
+          <path d="M213 8C203-7 217-24 249-25C283-27 308-15 307 2C307 17 286 25 260 25L250 38L244 25C230 24 220 18 213 8Z" fill="#fff" stroke="#111" stroke-width="3"/>
+          <text x="257" y="8" text-anchor="middle" style="font-size:19px">On it!</text>
+        </a>
+      </g>
     </svg>
   </div>
 </figure>
@@ -2916,6 +2953,13 @@
     if (header) observer.observe(header);
   }
   const options = [...root.querySelectorAll('[data-study-option]')];
+  const crew = root.querySelector('[data-iso-crew]');
+  const crewPlaces = [[1265,280], [1360,290], [1185,325]];
+  function moveCrew(next) {
+    if (!crew) return;
+    const [x,y] = crewPlaces[next];
+    crew.style.transform = `translate(${x}px, ${y}px)`;
+  }
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
   let index = 0, timer = null, visible = true, ready = [true, false, false];
   function stop() { clearTimeout(timer); timer = null; }
@@ -2927,6 +2971,7 @@
       let next = (index + 1) % options.length;
       while (!ready[next]) next = (next + 1) % options.length;
       options.forEach((el, i) => el.classList.toggle('is-active', i === next));
+      moveCrew(next);
       index = next;
       schedule();
     }, 4200);
@@ -2935,7 +2980,7 @@
     const preload = new Image();
     preload.onload = () => { ready[i] = true; schedule(); };
     preload.onerror = () => { ready[i] = false; };
-    preload.src = `marra-isometric-${i + 1}.webp`;
+    preload.src = `marra-isometric-repaired-${i + 1}.webp`;
   });
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(entries => {
