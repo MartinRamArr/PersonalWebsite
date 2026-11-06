@@ -1686,6 +1686,30 @@
 }
 @media (prefers-reduced-motion: reduce) { .marra-crew *, .marra-crew__bubble { animation: none !important; transition: none !important; } }
 
+
+/* One wide isometric scene; keep every site edge visible. */
+.marra-study--isometric { width: 100%; max-width: none; margin: 0; padding: 0; }
+.marra-study--isometric .marra-study__stage {
+  width: 100%; max-width: none; aspect-ratio: auto; background: #fff;
+  height: min(calc(var(--marra-study-width, 100vw) * .41658), calc(var(--marra-study-viewport, 100vh) - var(--marra-study-header, 100px) - 48px));
+  overflow: hidden;
+}
+.marra-study--isometric .marra-study__scene {
+  display: block; width: 100%; height: 100%;
+  mask-image: none; -webkit-mask-image: none;
+}
+.marra-study--isometric .marra-iso__speech text {
+  font-family: 'ApercuMono', monospace; font-size: 28px; line-height: 1.2;
+  fill: #111; stroke: none; letter-spacing: 0;
+}
+.marra-iso__speech { cursor: pointer; }
+.marra-iso__speech:hover path { fill: #bdf226; }
+.marra-iso__speech:focus-visible path { stroke: #111; stroke-width: 7; fill: #bdf226; }
+@media (max-width: 520px) {
+  .marra-study--isometric { padding-bottom: 0; }
+  .marra-study--isometric .marra-study__stage { width: 100%; aspect-ratio: auto; }
+}
+
 </style>
 </head>
 
@@ -1756,59 +1780,23 @@
 
 
     <!-- New backyard animation. Existing page sections are retained. -->
-<figure class="marra-study" id="marra-backyard-study" aria-label="Backyard ADU possibilities" aria-describedby="marra-study-description">
-  <p class="marra-study__sr" id="marra-study-description">An illustrative design animation over our Utah backyard. ADU concepts change over time, beside a little crew carrying a beam. These are illustrative design possibilities, not measured site plans.</p>
+<figure class="marra-study marra-study--isometric" id="marra-backyard-study" aria-label="Isometric backyard design possibilities" aria-describedby="marra-study-description">
+  <p class="marra-study__sr" id="marra-study-description">A black-and-white architectural drawing of our Utah backyard. The ADU changes between pitched, sloping and flat roofs. Little blob workers carry a beam nearby. These are illustrative concepts, not measured site drawings. The speech bubbles link to our contact form.</p>
   <div class="marra-study__stage">
-    <svg class="marra-study__scene" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid meet" role="img" aria-label="A grainy black-and-white Utah backyard with colorful architectural ADU concepts">
-      <defs>
-<clipPath id="marra-adu-region"><rect x="540" y="300" width="765" height="345"/></clipPath>
-<clipPath id="marra-adu-color-0"><path d="M507 440L623 393L1154 374L1175 451L1152 465L1152 504L1106 515L1031 555L1015 650L525 660Z" transform="translate(0 -100) scale(1.1049723756906078)"/></clipPath>
-<clipPath id="marra-adu-color-1"><path d="M494 388L1160 417L1162 452L1140 464L1140 506L1095 520L1024 559L1010 660L519 660L519 416L494 407Z" transform="translate(0 -100) scale(1.1049723756906078)"/></clipPath>
-<clipPath id="marra-adu-color-2"><path d="M519 422L1168 415L1168 432L1162 483L1138 484L1095 522L1024 559L1010 670L526 660L526 435L519 435Z" transform="translate(0 -100) scale(1.1049723756906078)"/></clipPath>
-        <filter id="marra-study-photo" color-interpolation-filters="sRGB">
-          <feColorMatrix type="saturate" values="0"/>
-          <feComponentTransfer><feFuncR type="linear" slope=".82" intercept=".07"/><feFuncG type="linear" slope=".82" intercept=".07"/><feFuncB type="linear" slope=".82" intercept=".07"/></feComponentTransfer>
-        </filter>
-        <filter id="marra-study-grain" x="0" y="0" width="100%" height="100%">
-          <feTurbulence type="fractalNoise" baseFrequency=".72" numOctaves="3" stitchTiles="stitch"/>
-          <feColorMatrix type="saturate" values="0"/>
-        </filter>
-        <pattern id="marra-study-halftone" width="5" height="5" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r=".68" fill="#111"/></pattern>
-        <marker id="marra-study-tick" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M1 1L7 7" fill="none" stroke="#bdf226" stroke-width="1.4"/></marker>
-      </defs>
-<image href="marra-adu-1.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" filter="url(#marra-study-photo)"/><g class="marra-study__option is-active" data-study-option="0" clip-path="url(#marra-adu-region)"><image href="marra-adu-1.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" filter="url(#marra-study-photo)"/><image href="marra-adu-1.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" clip-path="url(#marra-adu-color-0)"/></g><g class="marra-study__option" data-study-option="1" clip-path="url(#marra-adu-region)"><image href="marra-adu-2.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" filter="url(#marra-study-photo)"/><image href="marra-adu-2.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" clip-path="url(#marra-adu-color-1)"/></g><g class="marra-study__option" data-study-option="2" clip-path="url(#marra-adu-region)"><image href="marra-adu-3.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" filter="url(#marra-study-photo)"/><image href="marra-adu-3.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" clip-path="url(#marra-adu-color-2)"/></g><rect width="1600" height="1000" fill="url(#marra-study-halftone)" opacity=".20" pointer-events="none"/><rect width="1600" height="1000" filter="url(#marra-study-grain)" opacity=".12" pointer-events="none"/>
-    </svg>
-  </div>
-
-  <div class="marra-study__crew">
-    <a class="marra-crew__bubble" href="#contact-form">Let’s make it happen!</a>
-    <svg class="marra-crew" viewBox="0 0 760 550" role="img" aria-label="Three little blob-shaped workers pace to the right, two carrying a shared beam and one bringing a hammer">
-      <g class="marra-crew__pace">
-        <g class="marra-crew__load">
-          <path d="M24 142Q18 130 32 124L532 111Q553 109 555 130L556 158Q556 177 536 178L32 190Q20 190 20 174Z" fill="#bdf226" stroke="#111" stroke-width="7" stroke-linejoin="round"/>
-          <path d="M44 147Q188 130 359 138 M105 168Q241 153 410 157 M459 132L524 129" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round"/>
-          <ellipse cx="537" cy="145" rx="13" ry="26" fill="none" stroke="#111" stroke-width="3"/>
-          <ellipse cx="537" cy="145" rx="5" ry="12" fill="none" stroke="#111" stroke-width="2"/>
-        </g>
-        <g class="marra-crew__worker marra-crew__worker--one">
-          <path d="M84 446C45 443 33 419 42 385L60 320C64 297 69 277 62 244L54 204C50 185 54 174 66 176C81 178 82 196 89 211L107 244C118 237 130 233 144 235C167 237 185 254 192 280L211 326C223 345 230 369 220 391C210 412 219 433 203 444C187 457 167 445 147 449C122 457 104 447 84 446Z" fill="#000"/>
-          <path d="M68 267C70 223 87 207 119 205C155 202 176 220 182 257L195 265Q205 278 187 280L66 283Q48 279 60 271Z" fill="#000"/>
-          <path d="M108 219L103 256 M138 219L145 255" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
-          <circle cx="126" cy="302" r="7" fill="#fff"/><circle cx="151" cy="300" r="7" fill="#fff"/>
-        </g>
-        <g class="marra-crew__worker marra-crew__worker--two">
-          <path d="M310 458C274 458 257 434 267 402L280 356C290 329 280 299 288 268C294 244 309 227 333 222L350 187C356 172 358 158 371 160C385 163 382 182 382 201L382 234C402 248 414 268 416 294C418 320 433 343 436 366C440 390 427 404 430 425C435 450 417 464 393 461C371 457 357 469 336 463Z" fill="#000"/>
-          <circle cx="351" cy="287" r="7" fill="#fff"/><circle cx="377" cy="285" r="7" fill="#fff"/>
-        </g>
-        <g class="marra-crew__worker marra-crew__worker--three">
-          <path d="M553 471C518 469 500 448 511 415C519 393 523 376 518 352C509 321 515 292 541 276C564 261 595 263 616 284C631 300 632 324 640 339C650 349 669 335 679 345C689 359 674 376 658 384L644 392C650 415 666 435 651 456C638 475 614 469 595 475C579 480 564 474 553 471Z" fill="#000"/>
-          <path d="M528 291Q530 242 565 236Q607 229 619 280L632 289Q640 301 624 303L528 309Q508 307 520 296Z" fill="#000"/>
-          <path d="M563 249L559 280 M590 249L597 279" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
-          <circle cx="577" cy="325" r="7" fill="#fff"/><circle cx="602" cy="323" r="7" fill="#fff"/>
-          <g transform="rotate(24 653 334)"><path d="M649 296H662V407Q654 417 649 407Z" fill="#bdf226"/><path d="M626 280Q621 267 634 264L653 266L665 275L691 273L705 287L693 296L677 288L661 301L645 298L643 284Z" fill="#bdf226"/></g>
-          <path d="M631 363Q650 342 666 355Q682 370 661 385L640 389Z" fill="#000"/>
-        </g>
-      </g>
+    <svg class="marra-study__scene" viewBox="0 0 1942 809" preserveAspectRatio="xMidYMid meet" role="img" aria-label="A wide isometric backyard with bold architectural linework, a simple branching tree, changing ADU massings and a little working crew">
+      <defs><clipPath id="marra-iso-building"><rect x="764" y="120" width="410" height="340"/></clipPath></defs>
+      <image href="marra-isometric-1.webp" width="1942" height="809" preserveAspectRatio="none"/>
+      <g class="marra-study__option is-active" data-study-option="0" clip-path="url(#marra-iso-building)"><image href="marra-isometric-1.webp" width="1942" height="809" preserveAspectRatio="none"/></g>
+      <g class="marra-study__option" data-study-option="1" clip-path="url(#marra-iso-building)"><image href="marra-isometric-2.webp" width="1942" height="809" preserveAspectRatio="none"/></g>
+      <g class="marra-study__option" data-study-option="2" clip-path="url(#marra-iso-building)"><image href="marra-isometric-3.webp" width="1942" height="809" preserveAspectRatio="none"/></g>
+      <a class="marra-iso__speech" href="#contact-form" aria-label="Let’s make it happen. Contact Marra.">
+        <path d="M1207 153C1191 119 1240 85 1358 83C1465 80 1529 100 1529 134C1528 165 1477 183 1381 185L1354 210L1341 184C1261 183 1221 174 1207 153Z" fill="#fff" stroke="#111" stroke-width="4"/>
+        <text x="1365" y="128" text-anchor="middle"><tspan x="1365">Let’s make</tspan><tspan x="1365" dy="33">it happen!</tspan></text>
+      </a>
+      <a class="marra-iso__speech marra-iso__speech--second" href="#contact-form" aria-label="On it. Start a conversation with Marra.">
+        <path d="M1574 221C1551 199 1560 167 1622 163C1698 157 1747 174 1742 202C1739 226 1703 238 1658 238L1636 263L1624 238C1601 236 1583 230 1574 221Z" fill="#fff" stroke="#111" stroke-width="4"/>
+        <text x="1651" y="213" text-anchor="middle">On it!</text>
+      </a>
     </svg>
   </div>
 </figure>
@@ -2109,7 +2097,7 @@
       <div class="section-top">
         <p class="eyebrow">04 / The office</p>
         <p class="eyebrow">
-          AN ETHOS ROOTED IN HARD WORK AND CRAFTSMANSHIP.
+          MAKE IT HAPPEN ETHOS ROOTED IN HARD WORK AND CRAFTSMANSHIP.
         </p>
       </div>
 
@@ -2913,17 +2901,19 @@
 (() => {
   const root = document.getElementById('marra-backyard-study');
   if (!root) return;
-
-  // Header height changes with responsive navigation and loaded fonts.
   const header = document.querySelector('.header');
   function fitStudyToViewport() {
-    const height = header ? Math.ceil(header.getBoundingClientRect().height) : 0;
-    root.style.setProperty('--marra-study-header', `${height}px`);
+    const headerHeight = header ? Math.ceil(header.getBoundingClientRect().height) : 0;
+    const width = Math.floor(root.getBoundingClientRect().width);
+    root.style.setProperty('--marra-study-header', `${headerHeight}px`);
+    root.style.setProperty('--marra-study-width', `${width}px`);
   }
   fitStudyToViewport();
   window.addEventListener('resize', fitStudyToViewport, { passive: true });
-  if (header && 'ResizeObserver' in window) {
-    new ResizeObserver(fitStudyToViewport).observe(header);
+  if ('ResizeObserver' in window) {
+    const observer = new ResizeObserver(fitStudyToViewport);
+    observer.observe(root);
+    if (header) observer.observe(header);
   }
   const options = [...root.querySelectorAll('[data-study-option]')];
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -2939,13 +2929,13 @@
       options.forEach((el, i) => el.classList.toggle('is-active', i === next));
       index = next;
       schedule();
-    }, 4500);
+    }, 4200);
   }
   options.forEach((el, i) => {
     const preload = new Image();
     preload.onload = () => { ready[i] = true; schedule(); };
     preload.onerror = () => { ready[i] = false; };
-    preload.src = `marra-adu-${i + 1}.webp`;
+    preload.src = `marra-isometric-${i + 1}.webp`;
   });
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(entries => {
