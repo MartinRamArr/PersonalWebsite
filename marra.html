@@ -1791,10 +1791,9 @@
     gtag('js', new Date());
     gtag('config', 'AW-18559132395');
 
-    // Google supplies this label in the conversion event snippet:
-    // send_to: 'AW-18559132395/YOUR_CONVERSION_LABEL'
-    // Leave empty until the actual form-submission conversion label is known.
-    window.marraAdsConversionLabel = '';
+    // Contact conversion supplied by Google Ads.
+    // Fired only after a successful Netlify form submission below.
+    window.marraAdsConversionLabel = 'dN22CIrlw7MdEOvF15FF';
 
     window.marraTrackSuccessfulEnquiry = function () {
       // No name, email, phone number or message content is sent here.
@@ -1802,7 +1801,9 @@
       const label = window.marraAdsConversionLabel;
       if (!label) return;
       gtag('event', 'conversion', {
-        send_to: 'AW-18559132395/' + label
+        send_to: 'AW-18559132395/' + label,
+        value: 1.0,
+        currency: 'USD'
       });
     };
   </script>
