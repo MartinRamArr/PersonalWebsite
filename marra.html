@@ -1613,6 +1613,25 @@
 .marra-study__drawings { pointer-events: none; }
 @media (max-width: 650px) { .marra-study__scene { object-fit: cover; } }
 
+
+/* Keep the complete animation within one viewport below the actual header. */
+.marra-study {
+  --marra-study-viewport: 100vh;
+  --marra-study-header: 100px;
+  width: min(100%, 1040px, calc((var(--marra-study-viewport) - var(--marra-study-header) - 48px) * 1.6));
+  margin-inline: auto;
+  scroll-margin-top: calc(var(--marra-study-header) + 24px);
+}
+@supports (height: 100svh) {
+  .marra-study { --marra-study-viewport: 100svh; }
+}
+@media (max-width: 650px) {
+  .marra-study {
+    width: min(100%, calc((var(--marra-study-viewport) - var(--marra-study-header) - 32px) * 1.333333));
+    scroll-margin-top: calc(var(--marra-study-header) + 16px);
+  }
+}
+
 </style>
 </head>
 
@@ -2847,6 +2866,18 @@
 (() => {
   const root = document.getElementById('marra-backyard-study');
   if (!root) return;
+
+  // Header height changes with responsive navigation and loaded fonts.
+  const header = document.querySelector('.header');
+  function fitStudyToViewport() {
+    const height = header ? Math.ceil(header.getBoundingClientRect().height) : 0;
+    root.style.setProperty('--marra-study-header', `${height}px`);
+  }
+  fitStudyToViewport();
+  window.addEventListener('resize', fitStudyToViewport, { passive: true });
+  if (header && 'ResizeObserver' in window) {
+    new ResizeObserver(fitStudyToViewport).observe(header);
+  }
   const options = [...root.querySelectorAll('[data-study-option]')];
   const drawings = [...root.querySelectorAll('[data-study-drawing]')];
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
