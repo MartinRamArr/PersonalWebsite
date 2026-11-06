@@ -1632,6 +1632,60 @@
   }
 }
 
+
+/* The photo and crew share one open composition, without separate cards. */
+.marra-study {
+  width: 100%; max-width: none; position: relative; margin-inline: 0;
+  --marra-study-viewport: 100vh;
+}
+@supports (height: 100svh) { .marra-study { --marra-study-viewport: 100svh; } }
+.marra-study__stage {
+  width: min(72%, 1040px, calc((var(--marra-study-viewport) - var(--marra-study-header) - 48px) * 1.6));
+  aspect-ratio: 8 / 5;
+}
+.marra-study__scene {
+  -webkit-mask-image: linear-gradient(to right, #000 0%, #000 92%, transparent 100%);
+  mask-image: linear-gradient(to right, #000 0%, #000 92%, transparent 100%);
+}
+.marra-study__stage { background: transparent; }
+.marra-study__crew { position: absolute; width: 42%; max-width: 640px; right: 0; bottom: -3%; z-index: 2; }
+.marra-crew { width: 100%; height: auto; display: block; overflow: visible; }
+.marra-crew__bubble {
+  position: absolute; top: 0; right: 7%; width: 72%; padding: clamp(12px, 1.6vw, 26px);
+  color: #111; background: #bdf226; border: 2px solid #111;
+  border-radius: 52% 48% 56% 44% / 49% 58% 42% 51%;
+  font-family: 'ApercuMono', monospace; font-size: clamp(12px, 1.2vw, 20px);
+  line-height: 1.3; text-align: center; transform: rotate(-5deg); z-index: 3;
+}
+.marra-crew__bubble::after {
+  content: ''; position: absolute; width: 18px; height: 18px; left: 65%; bottom: -10px;
+  background: #bdf226; border-right: 2px solid #111; border-bottom: 2px solid #111;
+  transform: rotate(39deg); border-radius: 0 0 5px;
+}
+.marra-crew__bubble:hover { transform: rotate(-2deg); }
+.marra-crew__pace { animation: marra-crew-pace 3.2s ease-in-out infinite; }
+.marra-crew__worker { transform-box: fill-box; transform-origin: 50% 100%; animation: marra-crew-waddle 1.1s ease-in-out infinite; }
+.marra-crew__worker--two { animation-delay: -.35s; }
+.marra-crew__worker--three { animation-delay: -.7s; }
+.marra-crew__load { animation: marra-crew-load 1.1s ease-in-out infinite; }
+@keyframes marra-crew-pace { 0%,100% { transform: translateX(0); } 50% { transform: translateX(12px); } }
+@keyframes marra-crew-waddle { 0%,100% { transform: translateY(0) rotate(-1.4deg); } 50% { transform: translateY(-7px) rotate(1.4deg); } }
+@keyframes marra-crew-load { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+.marra-study.is-paused .marra-crew *, .marra-study.is-offscreen .marra-crew * { animation-play-state: paused; }
+@media (max-width: 800px) {
+  .marra-study__stage { width: min(77%, calc((var(--marra-study-viewport) - var(--marra-study-header) - 48px) * 1.6)); }
+  .marra-study__crew { width: 39%; bottom: -5%; }
+  .marra-crew__bubble { width: 95%; right: 0; top: -8%; padding: 12px 16px; }
+}
+@media (max-width: 520px) {
+  .marra-study { padding-bottom: 100px; }
+  .marra-study__stage { width: 100%; aspect-ratio: 8 / 5; }
+  .marra-study__scene { mask-image: none; -webkit-mask-image: none; }
+  .marra-study__crew { width: 72%; bottom: -8px; right: -2%; max-width: 350px; }
+  .marra-crew__bubble { width: 75%; top: -1%; font-size: 12px; padding: 10px 15px; }
+}
+@media (prefers-reduced-motion: reduce) { .marra-crew *, .marra-crew__bubble { animation: none !important; transition: none !important; } }
+
 </style>
 </head>
 
@@ -1703,9 +1757,9 @@
 
     <!-- New backyard animation. Existing page sections are retained. -->
 <figure class="marra-study" id="marra-backyard-study" aria-label="Backyard ADU possibilities" aria-describedby="marra-study-description">
-  <p class="marra-study__sr" id="marra-study-description">An illustrative design animation over our Utah backyard. AI-generated ADU concepts, plans, sections, and example dimensions change over time. These are schematic ideas, not measured site plans or permit drawings.</p>
+  <p class="marra-study__sr" id="marra-study-description">An illustrative design animation over our Utah backyard. ADU concepts change over time, beside a little crew carrying a beam. These are illustrative design possibilities, not measured site plans.</p>
   <div class="marra-study__stage">
-    <svg class="marra-study__scene" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid meet" role="img" aria-label="A grainy black-and-white Utah backyard with colorful AI-generated ADU options and transparent architectural drawings">
+    <svg class="marra-study__scene" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid meet" role="img" aria-label="A grainy black-and-white Utah backyard with colorful architectural ADU concepts">
       <defs>
 <clipPath id="marra-adu-region"><rect x="540" y="300" width="765" height="345"/></clipPath>
 <clipPath id="marra-adu-color-0"><path d="M507 440L623 393L1154 374L1175 451L1152 465L1152 504L1106 515L1031 555L1015 650L525 660Z" transform="translate(0 -100) scale(1.1049723756906078)"/></clipPath>
@@ -1722,47 +1776,40 @@
         <pattern id="marra-study-halftone" width="5" height="5" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r=".68" fill="#111"/></pattern>
         <marker id="marra-study-tick" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M1 1L7 7" fill="none" stroke="#bdf226" stroke-width="1.4"/></marker>
       </defs>
-<image href="marra-adu-1.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" filter="url(#marra-study-photo)"/><g class="marra-study__option is-active" data-study-option="0" clip-path="url(#marra-adu-region)"><image href="marra-adu-1.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" filter="url(#marra-study-photo)"/><image href="marra-adu-1.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" clip-path="url(#marra-adu-color-0)"/></g><g class="marra-study__option" data-study-option="1" clip-path="url(#marra-adu-region)"><image href="marra-adu-2.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" filter="url(#marra-study-photo)"/><image href="marra-adu-2.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" clip-path="url(#marra-adu-color-1)"/></g><g class="marra-study__option" data-study-option="2" clip-path="url(#marra-adu-region)"><image href="marra-adu-3.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" filter="url(#marra-study-photo)"/><image href="marra-adu-3.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" clip-path="url(#marra-adu-color-2)"/></g><rect width="1600" height="1000" fill="url(#marra-study-halftone)" opacity=".20" pointer-events="none"/><rect width="1600" height="1000" filter="url(#marra-study-grain)" opacity=".12" pointer-events="none"/>
-      <g class="marra-study__drawings">
-        <g class="marra-study__drawing is-active" data-study-drawing="0">
-          <g class="marra-study__line" transform="translate(155 265)">
-            <path d="M0 0H310V240H0Z M8 8H302V232H8Z M185 8V146H302 M185 146V232 M8 146H110 M110 146V232 M185 83H302"/>
-            <path d="M8 195H49V232 M49 195A37 37 0 0 1 86 232 M185 146H221 M221 146A36 36 0 0 0 185 110 M185 83H221 M221 83A36 36 0 0 0 185 47"/>
-            <path d="M203 17H286V66H203Z M208 21H230V36H208Z M257 21H279V36H257Z M203 165H286V217H203Z M203 165L286 217 M286 165L203 217"/>
-            <path d="M20 18H157V37H20Z M20 18V100H39V37 M55 70H129V110H55Z M63 65V55 M63 115V125 M118 65V55 M118 115V125"/>
-            <path d="M0 110H8 M0 90H8 M302 110H310 M302 90H310"/>
-          </g>
-          <g class="marra-study__dimension" transform="translate(155 265)">
-            <path d="M0 -10V-38 M310 -10V-38 M-12 0H-40 M-12 240H-40"/>
-            <path d="M0 -28H310 M-30 0V240" marker-start="url(#marra-study-tick)" marker-end="url(#marra-study-tick)"/>
-            <text x="155" y="-42" fill="#bdf226" text-anchor="middle">20′–0″</text>
-            <text x="-48" y="120" fill="#bdf226" transform="rotate(-90 -48 120)" text-anchor="middle">16′–0″</text>
-          </g>
-          <g class="marra-study__line" transform="translate(1080 130)">
-            <path d="M0 205H325 M22 195V83L155 5L288 83V195Z M35 195V92L155 21L275 92V195 M35 185H275 M35 177H275 M155 21V70 M144 70H166L180 86H130Z"/>
-            <path d="M68 177V126H118V177 M178 177V147H243V177 M180 147V138H240V147 M195 177V187 M229 177V187"/>
-          </g>
-          <g class="marra-study__dimension"><path d="M1398 135V325" marker-start="url(#marra-study-tick)" marker-end="url(#marra-study-tick)"/><text x="1420" y="235" fill="#bdf226">12′–6″</text></g>
-          <g class="marra-study__line" transform="translate(140 785)"><path d="M0 100H285 M20 95V38L130 0L245 38V95Z M35 95V48H85V95 M145 58H215V90H145Z M180 58V90"/></g>
+<image href="marra-adu-collage-1.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" filter="url(#marra-study-photo)"/><g class="marra-study__option is-active" data-study-option="0" clip-path="url(#marra-adu-region)"><image href="marra-adu-collage-1.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" filter="url(#marra-study-photo)"/><image href="marra-adu-collage-1.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" clip-path="url(#marra-adu-color-0)"/></g><g class="marra-study__option" data-study-option="1" clip-path="url(#marra-adu-region)"><image href="marra-adu-collage-2.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" filter="url(#marra-study-photo)"/><image href="marra-adu-collage-2.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" clip-path="url(#marra-adu-color-1)"/></g><g class="marra-study__option" data-study-option="2" clip-path="url(#marra-adu-region)"><image href="marra-adu-collage-3.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" filter="url(#marra-study-photo)"/><image href="marra-adu-collage-3.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" clip-path="url(#marra-adu-color-2)"/></g><rect width="1600" height="1000" fill="url(#marra-study-halftone)" opacity=".20" pointer-events="none"/><rect width="1600" height="1000" filter="url(#marra-study-grain)" opacity=".12" pointer-events="none"/>
+    </svg>
+  </div>
+
+  <div class="marra-study__crew">
+    <a class="marra-crew__bubble" href="#contact-form">Let’s make it happen!</a>
+    <svg class="marra-crew" viewBox="0 0 760 550" role="img" aria-label="Three little blob-shaped workers pace to the right, two carrying a shared beam and one bringing a hammer">
+      <g class="marra-crew__pace">
+        <g class="marra-crew__load">
+          <path d="M24 142Q18 130 32 124L532 111Q553 109 555 130L556 158Q556 177 536 178L32 190Q20 190 20 174Z" fill="#bdf226" stroke="#111" stroke-width="7" stroke-linejoin="round"/>
+          <path d="M44 147Q188 130 359 138 M105 168Q241 153 410 157 M459 132L524 129" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+          <ellipse cx="537" cy="145" rx="13" ry="26" fill="none" stroke="#111" stroke-width="3"/>
+          <ellipse cx="537" cy="145" rx="5" ry="12" fill="none" stroke="#111" stroke-width="2"/>
         </g>
-        <g class="marra-study__drawing" data-study-drawing="1">
-          <g class="marra-study__line" transform="translate(150 265)"><path d="M0 0H350V230H0Z M8 8H342V222H8Z M220 8V135H342 M220 135V222 M8 145H125V222 M220 80H342 M220 135H258 M258 135A38 38 0 0 0 220 97"/><path d="M242 19H326V66H242Z M236 155H325V207H236Z M236 155L325 207 M325 155L236 207 M20 20H185V40H20Z M20 20V105H40V40 M65 78H165V118H65Z M8 185H48 M48 185A37 37 0 0 1 85 222"/></g>
-          <g class="marra-study__dimension"><path d="M150 230H500" marker-start="url(#marra-study-tick)" marker-end="url(#marra-study-tick)"/><text x="325" y="215" fill="#bdf226" text-anchor="middle">24′–0″</text><path d="M120 265V495" marker-start="url(#marra-study-tick)" marker-end="url(#marra-study-tick)"/><text x="95" y="380" fill="#bdf226" transform="rotate(-90 95 380)" text-anchor="middle">16′–0″</text></g>
-          <g class="marra-study__line" transform="translate(1080 160)"><path d="M0 180H320 M20 170V42L280 0V170Z M32 170V51L268 14V170 M32 158H268 M80 158V107H135V158 M175 158V123H245V158 M175 123V114H245V123 M195 158V167 M228 158V167"/></g>
-          <g class="marra-study__dimension"><path d="M1390 160V330" marker-start="url(#marra-study-tick)" marker-end="url(#marra-study-tick)"/><text x="1410" y="250" fill="#bdf226">11′–0″</text></g>
-          <g class="marra-study__line" transform="translate(140 800)"><path d="M0 90H300 M20 80V25L270 0V80Z M40 80V35H92V80 M145 40H235V70H145Z M190 40V70"/></g>
+        <g class="marra-crew__worker marra-crew__worker--one">
+          <path d="M84 446C45 443 33 419 42 385L60 320C64 297 69 277 62 244L54 204C50 185 54 174 66 176C81 178 82 196 89 211L107 244C118 237 130 233 144 235C167 237 185 254 192 280L211 326C223 345 230 369 220 391C210 412 219 433 203 444C187 457 167 445 147 449C122 457 104 447 84 446Z" fill="#000"/>
+          <path d="M68 267C70 223 87 207 119 205C155 202 176 220 182 257L195 265Q205 278 187 280L66 283Q48 279 60 271Z" fill="#000"/>
+          <path d="M108 219L103 256 M138 219L145 255" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+          <circle cx="126" cy="302" r="7" fill="#fff"/><circle cx="151" cy="300" r="7" fill="#fff"/>
         </g>
-        <g class="marra-study__drawing" data-study-drawing="2">
-          <g class="marra-study__line" transform="translate(150 260)"><path d="M0 0H330V250H0Z M8 8H322V242H8Z M200 8V150H322 M200 150V242 M8 155H110V242 M200 85H322 M200 150H240 M240 150A40 40 0 0 0 200 110"/><path d="M219 22H305V68H219Z M216 172H306V225H216Z M216 172L306 225 M306 172L216 225 M22 22H169V40H22Z M22 22V110H40V40 M65 80H149V123H65Z M8 200H47 M47 200A42 42 0 0 1 89 242"/></g>
-          <g class="marra-study__dimension"><path d="M150 225H480" marker-start="url(#marra-study-tick)" marker-end="url(#marra-study-tick)"/><text x="315" y="210" fill="#bdf226" text-anchor="middle">22′–0″</text><path d="M120 260V510" marker-start="url(#marra-study-tick)" marker-end="url(#marra-study-tick)"/><text x="95" y="385" fill="#bdf226" transform="rotate(-90 95 385)" text-anchor="middle">18′–0″</text></g>
-          <g class="marra-study__line" transform="translate(1080 170)"><path d="M0 170H320 M20 160V0H280V160Z M32 160V13H268V160 M32 148H268 M70 148V98H125V148 M177 148V117H242V148 M177 117V107H242V117 M195 148V157 M226 148V157"/></g>
-          <g class="marra-study__dimension"><path d="M1390 170V330" marker-start="url(#marra-study-tick)" marker-end="url(#marra-study-tick)"/><text x="1410" y="255" fill="#bdf226">10′–0″</text></g>
-          <g class="marra-study__line" transform="translate(140 805)"><path d="M0 80H300 M20 70V0H275V70Z M40 70V15H90V70 M145 18H245V55H145Z M195 18V55"/></g>
+        <g class="marra-crew__worker marra-crew__worker--two">
+          <path d="M310 458C274 458 257 434 267 402L280 356C290 329 280 299 288 268C294 244 309 227 333 222L350 187C356 172 358 158 371 160C385 163 382 182 382 201L382 234C402 248 414 268 416 294C418 320 433 343 436 366C440 390 427 404 430 425C435 450 417 464 393 461C371 457 357 469 336 463Z" fill="#000"/>
+          <circle cx="351" cy="287" r="7" fill="#fff"/><circle cx="377" cy="285" r="7" fill="#fff"/>
+        </g>
+        <g class="marra-crew__worker marra-crew__worker--three">
+          <path d="M553 471C518 469 500 448 511 415C519 393 523 376 518 352C509 321 515 292 541 276C564 261 595 263 616 284C631 300 632 324 640 339C650 349 669 335 679 345C689 359 674 376 658 384L644 392C650 415 666 435 651 456C638 475 614 469 595 475C579 480 564 474 553 471Z" fill="#000"/>
+          <path d="M528 291Q530 242 565 236Q607 229 619 280L632 289Q640 301 624 303L528 309Q508 307 520 296Z" fill="#000"/>
+          <path d="M563 249L559 280 M590 249L597 279" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+          <circle cx="577" cy="325" r="7" fill="#fff"/><circle cx="602" cy="323" r="7" fill="#fff"/>
+          <g transform="rotate(24 653 334)"><path d="M649 296H662V407Q654 417 649 407Z" fill="#bdf226"/><path d="M626 280Q621 267 634 264L653 266L665 275L691 273L705 287L693 296L677 288L661 301L645 298L643 284Z" fill="#bdf226"/></g>
+          <path d="M631 363Q650 342 666 355Q682 370 661 385L640 389Z" fill="#000"/>
         </g>
       </g>
     </svg>
-    <div class="marra-study__mascot"><img src="marra-make-it-happen.svg" alt="Mr. Make It Happen holding a hammer and giving a thumbs-up" loading="lazy" decoding="async"></div>
-    <a class="marra-study__bubble" href="#contact-form">Let’s make it happen!</a>
   </div>
 </figure>
 
@@ -2879,7 +2926,6 @@
     new ResizeObserver(fitStudyToViewport).observe(header);
   }
   const options = [...root.querySelectorAll('[data-study-option]')];
-  const drawings = [...root.querySelectorAll('[data-study-drawing]')];
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
   let index = 0, timer = null, visible = true, ready = [true, false, false];
   function stop() { clearTimeout(timer); timer = null; }
@@ -2891,7 +2937,6 @@
       let next = (index + 1) % options.length;
       while (!ready[next]) next = (next + 1) % options.length;
       options.forEach((el, i) => el.classList.toggle('is-active', i === next));
-      drawings.forEach((el, i) => el.classList.toggle('is-active', i === next));
       index = next;
       schedule();
     }, 4500);
@@ -2900,7 +2945,7 @@
     const preload = new Image();
     preload.onload = () => { ready[i] = true; schedule(); };
     preload.onerror = () => { ready[i] = false; };
-    preload.src = `marra-adu-${i + 1}.webp`;
+    preload.src = `marra-adu-collage-${i + 1}.webp`;
   });
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(entries => {
