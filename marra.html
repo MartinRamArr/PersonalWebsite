@@ -1782,6 +1782,31 @@
   @media (max-width: 650px) { .payment-grid--quarters { grid-template-columns: 1fr; } }
 </style>
 
+
+  <!-- Google Ads tag: AW-18559132395 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18559132395"></script>
+  <script id="marra-google-tag">
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){window.dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-18559132395');
+
+    // Google supplies this label in the conversion event snippet:
+    // send_to: 'AW-18559132395/YOUR_CONVERSION_LABEL'
+    // Leave empty until the actual form-submission conversion label is known.
+    window.marraAdsConversionLabel = '';
+
+    window.marraTrackSuccessfulEnquiry = function () {
+      // No name, email, phone number or message content is sent here.
+      window.dataLayer.push({ event: 'marra_enquiry_submitted' });
+      const label = window.marraAdsConversionLabel;
+      if (!label) return;
+      gtag('event', 'conversion', {
+        send_to: 'AW-18559132395/' + label
+      });
+    };
+  </script>
+
 </head>
 
 <body id="top">
@@ -3005,6 +3030,17 @@
 
           if (!response.ok) {
             throw new Error("Form submission failed");
+          }
+
+          // Tracking must never interrupt successful form submission.
+          if (!String(data.get("bot-field") || "").trim()) {
+            try {
+              if (typeof window.marraTrackSuccessfulEnquiry === "function") {
+                window.marraTrackSuccessfulEnquiry();
+              }
+            } catch (trackingError) {
+              // Keep the success message working if tracking is unavailable.
+            }
           }
 
           form.reset();
