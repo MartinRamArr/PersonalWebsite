@@ -1801,7 +1801,7 @@
     <svg class="marra-study__scene" viewBox="0 0 1942 809" preserveAspectRatio="xMidYMid meet" role="img" aria-label="A wide isometric backyard with bold architectural linework, a simple branching tree, changing ADU massings and a little working crew">
       <defs><clipPath id="marra-iso-building"><rect x="764" y="120" width="410" height="340"/></clipPath></defs>
       <image href="marra-isometric-repaired-1.webp" width="1942" height="809" preserveAspectRatio="none"/>
-      <g class="marra-study__option is-active" data-study-option="0" clip-path="url(#marra-iso-building)"><image href="marra-isometric-repaired-1.webp" width="1942" height="809" preserveAspectRatio="none"/><path class="marra-iso__outline" data-study-outline="0" d="M778 298L997 143L1146 227L1146 344L1071 427L791 404L791 299Z" fill="none" stroke="#bdf226" stroke-width="9" stroke-linejoin="round" stroke-linecap="round" pointer-events="none"/></g>
+      <g class="marra-study__option is-active" data-study-option="0" clip-path="url(#marra-iso-building)"><image href="marra-isometric-repaired-1.webp" width="1942" height="809" preserveAspectRatio="none"/><path class="marra-iso__outline" data-study-outline="0" d="M779 298L850 225L997 144L1146 227L1146 344L1071 427L791 404L791 300Z" fill="none" stroke="#bdf226" stroke-width="9" stroke-linejoin="round" stroke-linecap="round" pointer-events="none"/></g>
       <g class="marra-study__option" data-study-option="1" clip-path="url(#marra-iso-building)"><image href="marra-isometric-repaired-2.webp" width="1942" height="809" preserveAspectRatio="none"/><path class="marra-iso__outline" data-study-outline="1" d="M788 218L841 168L1147 261L1146 344L1071 427L791 404L791 232Z" fill="none" stroke="#bdf226" stroke-width="9" stroke-linejoin="round" stroke-linecap="round" pointer-events="none"/></g>
       <g class="marra-study__option" data-study-option="2" clip-path="url(#marra-iso-building)"><image href="marra-isometric-repaired-3.webp" width="1942" height="809" preserveAspectRatio="none"/><path class="marra-iso__outline" data-study-outline="2" d="M787 284L883 219L1146 230L1146 344L1071 427L791 404Z" fill="none" stroke="#bdf226" stroke-width="9" stroke-linejoin="round" stroke-linecap="round" pointer-events="none"/></g>
 
@@ -2954,11 +2954,11 @@
   }
   const options = [...root.querySelectorAll('[data-study-option]')];
   const crew = root.querySelector('[data-iso-crew]');
-  const crewPlaces = [[1265,280], [1360,290], [1185,325]];
+  const crewPlaces = [[1265,280,1], [610,480,.95], [605,275,.55]];
   function moveCrew(next) {
     if (!crew) return;
-    const [x,y] = crewPlaces[next];
-    crew.style.transform = `translate(${x}px, ${y}px)`;
+    const [x,y,scale] = crewPlaces[next];
+    crew.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
   }
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
   let index = 0, timer = null, visible = true, ready = [true, false, false];
