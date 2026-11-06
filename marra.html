@@ -1606,6 +1606,13 @@
   .work > .hero-image { margin-bottom: 100px; }
 }
 
+/* Photographic design options: fixed yard, local crossfades. */
+.marra-study__option { opacity: 0; transition: opacity 850ms ease-in-out; }
+.marra-study__option.is-active { opacity: 1; }
+.marra-study__drawing.is-active { opacity: .68; }
+.marra-study__drawings { pointer-events: none; }
+@media (max-width: 650px) { .marra-study__scene { object-fit: cover; } }
+
 </style>
 </head>
 
@@ -1677,10 +1684,14 @@
 
     <!-- New backyard animation. Existing page sections are retained. -->
 <figure class="marra-study" id="marra-backyard-study" aria-label="Backyard ADU possibilities" aria-describedby="marra-study-description">
-  <p class="marra-study__sr" id="marra-study-description">An illustrative design animation over our Utah backyard. ADU shapes, plans, sections, and example dimensions change over time. These are schematic ideas, not measured site plans or permit drawings.</p>
+  <p class="marra-study__sr" id="marra-study-description">An illustrative design animation over our Utah backyard. AI-generated ADU concepts, plans, sections, and example dimensions change over time. These are schematic ideas, not measured site plans or permit drawings.</p>
   <div class="marra-study__stage">
-    <svg class="marra-study__scene" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid meet" role="img" aria-label="A grainy black-and-white Utah backyard with a translucent lime ADU and transparent architectural drawings">
+    <svg class="marra-study__scene" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid meet" role="img" aria-label="A grainy black-and-white Utah backyard with colorful AI-generated ADU options and transparent architectural drawings">
       <defs>
+<clipPath id="marra-adu-region"><rect x="540" y="300" width="765" height="345"/></clipPath>
+<clipPath id="marra-adu-color-0"><path d="M507 440L623 393L1154 374L1175 451L1152 465L1152 504L1106 515L1031 555L1015 650L525 660Z" transform="translate(0 -100) scale(1.1049723756906078)"/></clipPath>
+<clipPath id="marra-adu-color-1"><path d="M494 388L1160 417L1162 452L1140 464L1140 506L1095 520L1024 559L1010 660L519 660L519 416L494 407Z" transform="translate(0 -100) scale(1.1049723756906078)"/></clipPath>
+<clipPath id="marra-adu-color-2"><path d="M519 422L1168 415L1168 432L1162 483L1138 484L1095 522L1024 559L1010 670L526 660L526 435L519 435Z" transform="translate(0 -100) scale(1.1049723756906078)"/></clipPath>
         <filter id="marra-study-photo" color-interpolation-filters="sRGB">
           <feColorMatrix type="saturate" values="0"/>
           <feComponentTransfer><feFuncR type="linear" slope=".82" intercept=".07"/><feFuncG type="linear" slope=".82" intercept=".07"/><feFuncB type="linear" slope=".82" intercept=".07"/></feComponentTransfer>
@@ -1692,30 +1703,7 @@
         <pattern id="marra-study-halftone" width="5" height="5" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r=".68" fill="#111"/></pattern>
         <marker id="marra-study-tick" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M1 1L7 7" fill="none" stroke="#bdf226" stroke-width="1.4"/></marker>
       </defs>
-      <image href="marra-backyard.jpeg" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="xMidYMid slice" filter="url(#marra-study-photo)"/>
-      <rect width="1600" height="1000" fill="url(#marra-study-halftone)" opacity=".19"/>
-      <rect width="1600" height="1000" filter="url(#marra-study-grain)" opacity=".13" pointer-events="none"/>
-      <g opacity=".65" class="marra-study__line" stroke-dasharray="9 8">
-        <polygon data-study-ghost="front" points="500,690 500,490 660,400 820,490 820,690"/>
-        <polygon data-study-ghost="side" points="820,690 820,490 1020,440 1020,640"/>
-        <polygon data-study-ghost="roof" points="660,400 860,350 1020,440 820,490"/>
-      </g>
-      <g stroke="#111" stroke-width="2.2" stroke-linejoin="round">
-        <polygon data-study-face="side" points="840,710 840,510 1040,460 1040,660" fill="#a7d822"/>
-        <polygon data-study-face="roof" points="680,420 880,370 1040,460 840,510" fill="#d0f76a"/>
-        <polygon data-study-face="front" points="520,710 520,510 680,420 840,510 840,710" fill="#bdf226"/>
-        <rect data-study-door x="566" y="568" width="78" height="142" fill="#111" fill-opacity=".10"/>
-        <rect data-study-window x="695" y="560" width="105" height="95" fill="#fff" fill-opacity=".13"/>
-        <line data-study-mullion x1="747" y1="560" x2="747" y2="655"/>
-      </g>
-      <g class="marra-study__dimension" aria-hidden="true">
-        <path data-study-width-ext d="M520 720V754 M840 720V754"/>
-        <line data-study-width-line x1="520" y1="744" x2="840" y2="744" marker-start="url(#marra-study-tick)" marker-end="url(#marra-study-tick)"/>
-        <text data-study-width-label x="680" y="774" fill="#bdf226" stroke="none" text-anchor="middle">20′–0″</text>
-        <path data-study-depth-ext d="M850 718L860 738 M1045 667L1055 687"/>
-        <line data-study-depth-line x1="858" y1="730" x2="1050" y2="680" marker-start="url(#marra-study-tick)" marker-end="url(#marra-study-tick)"/>
-        <text data-study-depth-label x="975" y="728" fill="#bdf226" stroke="none" text-anchor="middle">16′–0″</text>
-      </g>
+<image href="marra-adu-1.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" filter="url(#marra-study-photo)"/><g class="marra-study__option is-active" data-study-option="0" clip-path="url(#marra-adu-region)"><image href="marra-adu-1.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" filter="url(#marra-study-photo)"/><image href="marra-adu-1.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" clip-path="url(#marra-adu-color-0)"/></g><g class="marra-study__option" data-study-option="1" clip-path="url(#marra-adu-region)"><image href="marra-adu-2.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" filter="url(#marra-study-photo)"/><image href="marra-adu-2.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" clip-path="url(#marra-adu-color-1)"/></g><g class="marra-study__option" data-study-option="2" clip-path="url(#marra-adu-region)"><image href="marra-adu-3.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" filter="url(#marra-study-photo)"/><image href="marra-adu-3.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" clip-path="url(#marra-adu-color-2)"/></g><rect width="1600" height="1000" fill="url(#marra-study-halftone)" opacity=".20" pointer-events="none"/><rect width="1600" height="1000" filter="url(#marra-study-grain)" opacity=".12" pointer-events="none"/>
       <g class="marra-study__drawings">
         <g class="marra-study__drawing is-active" data-study-drawing="0">
           <g class="marra-study__line" transform="translate(155 265)">
@@ -2856,111 +2844,44 @@
 
 
 <script id="marra-study-script">
-/* Standalone addition. Does not modify existing forms, navigation, or photos. */
 (() => {
-  'use strict';
   const root = document.getElementById('marra-backyard-study');
   if (!root) return;
-  const stage = root.querySelector('.marra-study__stage');
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const options = [...root.querySelectorAll('[data-study-option]')];
   const drawings = [...root.querySelectorAll('[data-study-drawing]')];
-  const variants = [
-    { name: 'Pitched-roof option', width: '20′–0″', depth: '16′–0″', front:[520,710,520,510,680,420,840,510,840,710], side:[840,710,840,510,1040,460,1040,660], roof:[680,420,880,370,1040,460,840,510], door:[566,568,78,142], window:[695,560,105,95] },
-    { name: 'Sloped-roof option', width: '24′–0″', depth: '16′–0″', front:[470,710,470,520,665,480,860,440,860,710], side:[860,710,860,440,1060,390,1060,660], roof:[470,520,670,470,1060,390,860,440], door:[516,562,82,148], window:[655,542,155,112] },
-    { name: 'Flat-roof option', width: '22′–0″', depth: '18′–0″', front:[500,710,500,485,680,485,860,485,860,710], side:[860,710,860,485,1080,425,1080,650], roof:[500,485,720,425,1080,425,860,485], door:[545,558,80,152], window:[680,535,133,120] }
-  ];
-  const faces = Object.fromEntries(['front','side','roof'].map(key => [key, root.querySelector(`[data-study-face="${key}"]`)]));
-  const ghosts = Object.fromEntries(['front','side','roof'].map(key => [key, root.querySelector(`[data-study-ghost="${key}"]`)]));
-  const get = name => root.querySelector(`[data-study-${name}]`);
-  const attrs = (element, values) => Object.entries(values).forEach(([key,value]) => element.setAttribute(key, value));
-  const points = values => values.reduce((out,n,i) => out + (i ? (i%2 ? ',' : ' ') : '') + n.toFixed(2), '');
-  const copy = variant => Object.fromEntries(Object.entries(variant).map(([key,value]) => [key, Array.isArray(value) ? [...value] : value]));
-  let current = copy(variants[0]);
-  let index = 0;
-  let visible = false;
-  let timer = null;
-  let frame = null;
-  let changing = false;
-  const suspended = () => reduce.matches || !visible || document.hidden;
-
-  function render(value) {
-    for (const key of ['front','side','roof']) {
-      faces[key].setAttribute('points', points(value[key]));
-      ghosts[key].setAttribute('points', points(value[key].map((n,i) => n - (i%2 ? 23 : 22))));
-    }
-    const [dx,dy,dw,dh] = value.door;
-    const [wx,wy,ww,wh] = value.window;
-    attrs(get('door'), {x:dx,y:dy,width:dw,height:dh});
-    attrs(get('window'), {x:wx,y:wy,width:ww,height:wh});
-    attrs(get('mullion'), {x1:wx+ww/2,y1:wy,x2:wx+ww/2,y2:wy+wh});
-    const left = value.front[0], right = value.front[8];
-    const rear = value.side[6], rearY = value.side[7];
-    get('width-ext').setAttribute('d', `M${left} 720V754 M${right} 720V754`);
-    attrs(get('width-line'), {x1:left,y1:744,x2:right,y2:744});
-    attrs(get('width-label'), {x:(left+right)/2,y:774});
-    get('depth-ext').setAttribute('d', `M${right+10} 718L${right+20} 738 M${rear+5} ${rearY+7}L${rear+15} ${rearY+27}`);
-    attrs(get('depth-line'), {x1:right+18,y1:730,x2:rear+10,y2:rearY+20});
-    attrs(get('depth-label'), {x:(right+rear)/2+35,y:(710+rearY)/2+43});
-  }
-
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let index = 0, timer = null, visible = true, ready = [true, false, false];
+  function stop() { clearTimeout(timer); timer = null; }
   function schedule() {
-    clearTimeout(timer);
-    if (!suspended() && !changing) timer = setTimeout(() => change(index+1), 4200 + Math.random()*1000);
+    stop();
+    root.classList.toggle('is-paused', reduce.matches || document.hidden);
+    if (reduce.matches || document.hidden || !visible || ready.filter(Boolean).length < 2) return;
+    timer = setTimeout(() => {
+      let next = (index + 1) % options.length;
+      while (!ready[next]) next = (next + 1) % options.length;
+      options.forEach((el, i) => el.classList.toggle('is-active', i === next));
+      drawings.forEach((el, i) => el.classList.toggle('is-active', i === next));
+      index = next;
+      schedule();
+    }, 4500);
   }
-
-  function change(next) {
-    if (changing) return;
-    clearTimeout(timer);
-    index = (next + variants.length) % variants.length;
-    const target = variants[index];
-    drawings.forEach((drawing,i) => drawing.classList.toggle('is-active', i === index));
-    stage.classList.add('is-changing');
-    changing = true;
-    const start = copy(current);
-    const started = performance.now();
-    const duration = reduce.matches ? 0 : 650;
-    get('width-label').textContent = target.width;
-    get('depth-label').textContent = target.depth;
-    function tick(now) {
-      const t = duration ? Math.min(1,(now-started)/duration) : 1;
-      const eased = t*t*(3-2*t);
-      for (const key of ['front','side','roof','door','window']) current[key] = start[key].map((n,i) => n+(target[key][i]-n)*eased);
-      render(current);
-      if (t < 1) frame = requestAnimationFrame(tick);
-      else {
-        current = copy(target);
-        changing = false;
-        stage.classList.remove('is-changing');
-        schedule();
-      }
-    }
-    frame = requestAnimationFrame(tick);
-  }
-
-  function stopMotion() {
-    clearTimeout(timer);
-    if (changing) {
-      cancelAnimationFrame(frame);
-      current = copy(variants[index]);
-      render(current);
-      changing = false;
-      stage.classList.remove('is-changing');
-    }
-  }
-
-  document.addEventListener('visibilitychange', () => { if(document.hidden) stopMotion(); schedule(); });
-  reduce.addEventListener('change', () => { root.classList.toggle('is-paused',reduce.matches); if(reduce.matches) stopMotion(); schedule(); });
+  options.forEach((el, i) => {
+    const preload = new Image();
+    preload.onload = () => { ready[i] = true; schedule(); };
+    preload.onerror = () => { ready[i] = false; };
+    preload.src = `marra-adu-${i + 1}.webp`;
+  });
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(entries => {
       visible = entries[0].isIntersecting;
       root.classList.toggle('is-offscreen', !visible);
-      if (!visible) stopMotion();
       schedule();
-    }, {threshold:.15}).observe(root);
-  } else { visible=true; schedule(); }
-  render(current); root.classList.toggle('is-paused', reduce.matches);
+    }, { threshold: .15 }).observe(root);
+  }
+  document.addEventListener('visibilitychange', schedule);
+  reduce.addEventListener('change', schedule);
+  schedule();
 })();
-
 </script>
 </body>
 </html>
