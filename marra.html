@@ -1776,7 +1776,7 @@
         <pattern id="marra-study-halftone" width="5" height="5" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r=".68" fill="#111"/></pattern>
         <marker id="marra-study-tick" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M1 1L7 7" fill="none" stroke="#bdf226" stroke-width="1.4"/></marker>
       </defs>
-<image href="marra-adu-collage-1.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" filter="url(#marra-study-photo)"/><g class="marra-study__option is-active" data-study-option="0" clip-path="url(#marra-adu-region)"><image href="marra-adu-collage-1.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" filter="url(#marra-study-photo)"/><image href="marra-adu-collage-1.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" clip-path="url(#marra-adu-color-0)"/></g><g class="marra-study__option" data-study-option="1" clip-path="url(#marra-adu-region)"><image href="marra-adu-collage-2.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" filter="url(#marra-study-photo)"/><image href="marra-adu-collage-2.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" clip-path="url(#marra-adu-color-1)"/></g><g class="marra-study__option" data-study-option="2" clip-path="url(#marra-adu-region)"><image href="marra-adu-collage-3.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" filter="url(#marra-study-photo)"/><image href="marra-adu-collage-3.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" clip-path="url(#marra-adu-color-2)"/></g><rect width="1600" height="1000" fill="url(#marra-study-halftone)" opacity=".20" pointer-events="none"/><rect width="1600" height="1000" filter="url(#marra-study-grain)" opacity=".12" pointer-events="none"/>
+<image href="marra-adu-1.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" filter="url(#marra-study-photo)"/><g class="marra-study__option is-active" data-study-option="0" clip-path="url(#marra-adu-region)"><image href="marra-adu-1.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" filter="url(#marra-study-photo)"/><image href="marra-adu-1.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" clip-path="url(#marra-adu-color-0)"/></g><g class="marra-study__option" data-study-option="1" clip-path="url(#marra-adu-region)"><image href="marra-adu-2.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" filter="url(#marra-study-photo)"/><image href="marra-adu-2.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" clip-path="url(#marra-adu-color-1)"/></g><g class="marra-study__option" data-study-option="2" clip-path="url(#marra-adu-region)"><image href="marra-adu-3.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" filter="url(#marra-study-photo)"/><image href="marra-adu-3.webp" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="none" clip-path="url(#marra-adu-color-2)"/></g><rect width="1600" height="1000" fill="url(#marra-study-halftone)" opacity=".20" pointer-events="none"/><rect width="1600" height="1000" filter="url(#marra-study-grain)" opacity=".12" pointer-events="none"/>
     </svg>
   </div>
 
@@ -2109,7 +2109,7 @@
       <div class="section-top">
         <p class="eyebrow">04 / The office</p>
         <p class="eyebrow">
-          MAKE IT HAPPEN ETHOS ROOTED IN HARD WORK AND CRAFTSMANSHIP.
+          AN ETHOS ROOTED IN HARD WORK AND CRAFTSMANSHIP.
         </p>
       </div>
 
@@ -2945,7 +2945,7 @@
     const preload = new Image();
     preload.onload = () => { ready[i] = true; schedule(); };
     preload.onerror = () => { ready[i] = false; };
-    preload.src = `marra-adu-collage-${i + 1}.webp`;
+    preload.src = `marra-adu-${i + 1}.webp`;
   });
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(entries => {
