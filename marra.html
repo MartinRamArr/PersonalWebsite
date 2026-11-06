@@ -1565,6 +1565,43 @@
       }
     }
   </style>
+
+<style id="marra-study-styles">
+/* Additive backyard study: every selector is scoped to this panel. */
+.marra-study { margin: 0 0 clamp(55px, 7vw, 100px); }
+.marra-study__stage { position: relative; isolation: isolate; aspect-ratio: 8 / 5; overflow: hidden; background: #b8b8b8; }
+.marra-study__scene { display: block; width: 100%; height: 100%; }
+.marra-study__scene text { font-family: 'ApercuMono', monospace; font-size: 14px; letter-spacing: .02em; paint-order: stroke; stroke: #111; stroke-width: 3px; stroke-linejoin: round; }
+.marra-study__line { fill: none; stroke: #fff; stroke-width: 1.6; vector-effect: non-scaling-stroke; }
+.marra-study__dimension { fill: none; stroke: #bdf226; stroke-width: 1.2; vector-effect: non-scaling-stroke; }
+.marra-study__drawings { transition: opacity 500ms ease; }
+.marra-study__stage.is-changing .marra-study__drawings { opacity: .12; }
+.marra-study__drawing { opacity: 0; transition: opacity 700ms ease; pointer-events: none; }
+.marra-study__drawing.is-active { opacity: .92; }
+.marra-study__mascot { position: absolute; width: 22%; right: 1.5%; bottom: 1%; pointer-events: none; transform-origin: 50% 90%; animation: marra-study-mascot 5s ease-in-out infinite; }
+.marra-study__mascot img { width: 100%; height: auto; }
+.marra-study__bubble { position: absolute; z-index: 3; right: 1.5%; bottom: 30%; width: 25%; padding: clamp(12px, 1.8vw, 28px); background: #bdf226; color: #111; border: 2px solid #111; border-radius: 45% 55% 48% 52% / 55% 43% 57% 45%; font-family: 'ApercuMono', monospace; font-size: clamp(12px, 1.25vw, 20px); line-height: 1.25; text-align: center; transform: rotate(-5deg); transition: transform 180ms ease; }
+.marra-study__bubble::after { content: ''; position: absolute; bottom: -11px; left: 66%; width: 22px; height: 23px; background: #bdf226; border-right: 2px solid #111; border-bottom: 2px solid #111; border-radius: 0 0 8px 0; transform: rotate(35deg); }
+.marra-study__bubble:hover { transform: rotate(-2deg) translateY(-3px); }
+.marra-study__controls { position: absolute; z-index: 4; left: 16px; bottom: 16px; display: flex; align-items: center; gap: 7px; }
+.marra-study__control { display: grid; place-items: center; width: 42px; height: 42px; padding: 0; border: 1px solid #111; border-radius: 50%; background: #fff; color: #111; font-family: 'ApercuMono', monospace; font-size: 18px; cursor: pointer; }
+.marra-study__control:hover { background: #bdf226; }
+.marra-study__sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.marra-study.is-paused .marra-study__mascot, .marra-study.is-offscreen .marra-study__mascot { animation-play-state: paused; }
+@keyframes marra-study-mascot { 0%,100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-5px) rotate(1deg); } }
+@media (max-width: 650px) {
+  .marra-study__stage { aspect-ratio: 4 / 3; }
+  .marra-study__bubble { width: 38%; right: 2%; bottom: 27%; font-size: 12px; padding: 14px 15px; border-width: 1.5px; }
+  .marra-study__mascot { width: 29%; right: 1%; bottom: 1%; }
+  .marra-study__controls { left: 9px; bottom: 9px; gap: 4px; }
+  .marra-study__control { width: 35px; height: 35px; font-size: 16px; }
+  .marra-study__scene text { font-size: 17px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marra-study *, .marra-study *::after { animation: none !important; transition: none !important; }
+}
+
+</style>
 </head>
 
 <body id="top">
@@ -1631,6 +1668,97 @@
           </a>
         </div>
       </div>
+
+      <!-- New backyard animation. Existing page sections are retained. -->
+<figure class="marra-study" id="marra-backyard-study" aria-label="Backyard ADU possibilities" aria-describedby="marra-study-description">
+  <p class="marra-study__sr" id="marra-study-description">An illustrative design animation over our Utah backyard. ADU shapes, plans, sections, and example dimensions change over time. These are schematic ideas, not measured site plans or permit drawings.</p>
+  <div class="marra-study__stage">
+    <svg class="marra-study__scene" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid meet" role="img" aria-label="A grainy black-and-white Utah backyard with a translucent lime ADU and transparent architectural drawings">
+      <defs>
+        <filter id="marra-study-photo" color-interpolation-filters="sRGB">
+          <feColorMatrix type="saturate" values="0"/>
+          <feComponentTransfer><feFuncR type="linear" slope=".82" intercept=".07"/><feFuncG type="linear" slope=".82" intercept=".07"/><feFuncB type="linear" slope=".82" intercept=".07"/></feComponentTransfer>
+        </filter>
+        <filter id="marra-study-grain" x="0" y="0" width="100%" height="100%">
+          <feTurbulence type="fractalNoise" baseFrequency=".72" numOctaves="3" stitchTiles="stitch"/>
+          <feColorMatrix type="saturate" values="0"/>
+        </filter>
+        <pattern id="marra-study-halftone" width="5" height="5" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r=".68" fill="#111"/></pattern>
+        <marker id="marra-study-tick" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M1 1L7 7" fill="none" stroke="#bdf226" stroke-width="1.4"/></marker>
+      </defs>
+      <image href="marra-backyard.jpeg" x="0" y="-100" width="1600" height="1200" preserveAspectRatio="xMidYMid slice" filter="url(#marra-study-photo)"/>
+      <rect width="1600" height="1000" fill="url(#marra-study-halftone)" opacity=".19"/>
+      <rect width="1600" height="1000" filter="url(#marra-study-grain)" opacity=".13" pointer-events="none"/>
+      <g opacity=".65" class="marra-study__line" stroke-dasharray="9 8">
+        <polygon data-study-ghost="front" points="500,690 500,490 660,400 820,490 820,690"/>
+        <polygon data-study-ghost="side" points="820,690 820,490 1020,440 1020,640"/>
+        <polygon data-study-ghost="roof" points="660,400 860,350 1020,440 820,490"/>
+      </g>
+      <g stroke="#111" stroke-width="2.2" stroke-linejoin="round">
+        <polygon data-study-face="side" points="840,710 840,510 1040,460 1040,660" fill="#bdf226" fill-opacity=".37"/>
+        <polygon data-study-face="roof" points="680,420 880,370 1040,460 840,510" fill="#bdf226" fill-opacity=".68"/>
+        <polygon data-study-face="front" points="520,710 520,510 680,420 840,510 840,710" fill="#bdf226" fill-opacity=".48"/>
+        <rect data-study-door x="566" y="568" width="78" height="142" fill="#111" fill-opacity=".10"/>
+        <rect data-study-window x="695" y="560" width="105" height="95" fill="#fff" fill-opacity=".13"/>
+        <line data-study-mullion x1="747" y1="560" x2="747" y2="655"/>
+      </g>
+      <g class="marra-study__dimension" aria-hidden="true">
+        <path data-study-width-ext d="M520 720V754 M840 720V754"/>
+        <line data-study-width-line x1="520" y1="744" x2="840" y2="744" marker-start="url(#marra-study-tick)" marker-end="url(#marra-study-tick)"/>
+        <text data-study-width-label x="680" y="774" fill="#bdf226" stroke="none" text-anchor="middle">20′–0″</text>
+        <path data-study-depth-ext d="M850 718L860 738 M1045 667L1055 687"/>
+        <line data-study-depth-line x1="858" y1="730" x2="1050" y2="680" marker-start="url(#marra-study-tick)" marker-end="url(#marra-study-tick)"/>
+        <text data-study-depth-label x="975" y="728" fill="#bdf226" stroke="none" text-anchor="middle">16′–0″</text>
+      </g>
+      <g class="marra-study__drawings">
+        <g class="marra-study__drawing is-active" data-study-drawing="0">
+          <g class="marra-study__line" transform="translate(155 265)">
+            <path d="M0 0H310V240H0Z M8 8H302V232H8Z M185 8V146H302 M185 146V232 M8 146H110 M110 146V232 M185 83H302"/>
+            <path d="M8 195H49V232 M49 195A37 37 0 0 1 86 232 M185 146H221 M221 146A36 36 0 0 0 185 110 M185 83H221 M221 83A36 36 0 0 0 185 47"/>
+            <path d="M203 17H286V66H203Z M208 21H230V36H208Z M257 21H279V36H257Z M203 165H286V217H203Z M203 165L286 217 M286 165L203 217"/>
+            <path d="M20 18H157V37H20Z M20 18V100H39V37 M55 70H129V110H55Z M63 65V55 M63 115V125 M118 65V55 M118 115V125"/>
+            <path d="M0 110H8 M0 90H8 M302 110H310 M302 90H310"/>
+          </g>
+          <g class="marra-study__dimension" transform="translate(155 265)">
+            <path d="M0 -10V-38 M310 -10V-38 M-12 0H-40 M-12 240H-40"/>
+            <path d="M0 -28H310 M-30 0V240" marker-start="url(#marra-study-tick)" marker-end="url(#marra-study-tick)"/>
+            <text x="155" y="-42" fill="#bdf226" text-anchor="middle">20′–0″</text>
+            <text x="-48" y="120" fill="#bdf226" transform="rotate(-90 -48 120)" text-anchor="middle">16′–0″</text>
+          </g>
+          <g class="marra-study__line" transform="translate(1080 130)">
+            <path d="M0 205H325 M22 195V83L155 5L288 83V195Z M35 195V92L155 21L275 92V195 M35 185H275 M35 177H275 M155 21V70 M144 70H166L180 86H130Z"/>
+            <path d="M68 177V126H118V177 M178 177V147H243V177 M180 147V138H240V147 M195 177V187 M229 177V187"/>
+          </g>
+          <g class="marra-study__dimension"><path d="M1398 135V325" marker-start="url(#marra-study-tick)" marker-end="url(#marra-study-tick)"/><text x="1420" y="235" fill="#bdf226">12′–6″</text></g>
+          <g class="marra-study__line" transform="translate(140 785)"><path d="M0 100H285 M20 95V38L130 0L245 38V95Z M35 95V48H85V95 M145 58H215V90H145Z M180 58V90"/></g>
+        </g>
+        <g class="marra-study__drawing" data-study-drawing="1">
+          <g class="marra-study__line" transform="translate(150 265)"><path d="M0 0H350V230H0Z M8 8H342V222H8Z M220 8V135H342 M220 135V222 M8 145H125V222 M220 80H342 M220 135H258 M258 135A38 38 0 0 0 220 97"/><path d="M242 19H326V66H242Z M236 155H325V207H236Z M236 155L325 207 M325 155L236 207 M20 20H185V40H20Z M20 20V105H40V40 M65 78H165V118H65Z M8 185H48 M48 185A37 37 0 0 1 85 222"/></g>
+          <g class="marra-study__dimension"><path d="M150 230H500" marker-start="url(#marra-study-tick)" marker-end="url(#marra-study-tick)"/><text x="325" y="215" fill="#bdf226" text-anchor="middle">24′–0″</text><path d="M120 265V495" marker-start="url(#marra-study-tick)" marker-end="url(#marra-study-tick)"/><text x="95" y="380" fill="#bdf226" transform="rotate(-90 95 380)" text-anchor="middle">16′–0″</text></g>
+          <g class="marra-study__line" transform="translate(1080 160)"><path d="M0 180H320 M20 170V42L280 0V170Z M32 170V51L268 14V170 M32 158H268 M80 158V107H135V158 M175 158V123H245V158 M175 123V114H245V123 M195 158V167 M228 158V167"/></g>
+          <g class="marra-study__dimension"><path d="M1390 160V330" marker-start="url(#marra-study-tick)" marker-end="url(#marra-study-tick)"/><text x="1410" y="250" fill="#bdf226">11′–0″</text></g>
+          <g class="marra-study__line" transform="translate(140 800)"><path d="M0 90H300 M20 80V25L270 0V80Z M40 80V35H92V80 M145 40H235V70H145Z M190 40V70"/></g>
+        </g>
+        <g class="marra-study__drawing" data-study-drawing="2">
+          <g class="marra-study__line" transform="translate(150 260)"><path d="M0 0H330V250H0Z M8 8H322V242H8Z M200 8V150H322 M200 150V242 M8 155H110V242 M200 85H322 M200 150H240 M240 150A40 40 0 0 0 200 110"/><path d="M219 22H305V68H219Z M216 172H306V225H216Z M216 172L306 225 M306 172L216 225 M22 22H169V40H22Z M22 22V110H40V40 M65 80H149V123H65Z M8 200H47 M47 200A42 42 0 0 1 89 242"/></g>
+          <g class="marra-study__dimension"><path d="M150 225H480" marker-start="url(#marra-study-tick)" marker-end="url(#marra-study-tick)"/><text x="315" y="210" fill="#bdf226" text-anchor="middle">22′–0″</text><path d="M120 260V510" marker-start="url(#marra-study-tick)" marker-end="url(#marra-study-tick)"/><text x="95" y="385" fill="#bdf226" transform="rotate(-90 95 385)" text-anchor="middle">18′–0″</text></g>
+          <g class="marra-study__line" transform="translate(1080 170)"><path d="M0 170H320 M20 160V0H280V160Z M32 160V13H268V160 M32 148H268 M70 148V98H125V148 M177 148V117H242V148 M177 117V107H242V117 M195 148V157 M226 148V157"/></g>
+          <g class="marra-study__dimension"><path d="M1390 170V330" marker-start="url(#marra-study-tick)" marker-end="url(#marra-study-tick)"/><text x="1410" y="255" fill="#bdf226">10′–0″</text></g>
+          <g class="marra-study__line" transform="translate(140 805)"><path d="M0 80H300 M20 70V0H275V70Z M40 70V15H90V70 M145 18H245V55H145Z M195 18V55"/></g>
+        </g>
+      </g>
+    </svg>
+    <div class="marra-study__mascot"><img src="marra-make-it-happen.svg" alt="Mr. Make It Happen holding a hammer and giving a thumbs-up" loading="lazy" decoding="async"></div>
+    <a class="marra-study__bubble" href="#contact-form">Like what you see?<br>Let’s make it happen!</a>
+    <div class="marra-study__controls" role="group" aria-label="Backyard animation controls">
+      <button class="marra-study__control" type="button" data-study-previous aria-label="Previous ADU shape">‹</button>
+      <button class="marra-study__control" type="button" data-study-pause aria-label="Pause animation" aria-pressed="false"><span aria-hidden="true">Ⅱ</span></button>
+      <button class="marra-study__control" type="button" data-study-next aria-label="Next ADU shape">›</button>
+    </div>
+    <p class="marra-study__sr" data-study-announcement role="status" aria-live="polite"></p>
+  </div>
+</figure>
+
 
       <figure class="hero-image">
         <img
@@ -2428,15 +2556,7 @@
           </nav>
         </div>
 
-        <form
-          class="contact-form"
-          id="contact-form"
-          name="marra-contact"
-          method="POST"
-          data-netlify="true"
-          netlify-honeypot="bot-field"
-          aria-labelledby="form-heading"
-        >
+        <form aria-labelledby='form-heading' class='contact-form' id='contact-form' method='POST' name='marra-contact' data-netlify="true" netlify-honeypot="bot-field">
           <input type="hidden" name="form-name" value="marra-contact">
           <input type="hidden" name="subject" value="New enquiry from marra.works">
 
@@ -2734,5 +2854,137 @@
     })();
   </script>
 
+
+<script id="marra-study-script">
+/* Standalone addition. Does not modify existing forms, navigation, or photos. */
+(() => {
+  'use strict';
+  const root = document.getElementById('marra-backyard-study');
+  if (!root) return;
+  const stage = root.querySelector('.marra-study__stage');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const pauseButton = root.querySelector('[data-study-pause]');
+  const announcement = root.querySelector('[data-study-announcement]');
+  const drawings = [...root.querySelectorAll('[data-study-drawing]')];
+  const variants = [
+    { name: 'Pitched-roof option', width: '20′–0″', depth: '16′–0″', front:[520,710,520,510,680,420,840,510,840,710], side:[840,710,840,510,1040,460,1040,660], roof:[680,420,880,370,1040,460,840,510], door:[566,568,78,142], window:[695,560,105,95] },
+    { name: 'Sloped-roof option', width: '24′–0″', depth: '16′–0″', front:[470,710,470,520,665,480,860,440,860,710], side:[860,710,860,440,1060,390,1060,660], roof:[470,520,670,470,1060,390,860,440], door:[516,562,82,148], window:[655,542,155,112] },
+    { name: 'Flat-roof option', width: '22′–0″', depth: '18′–0″', front:[500,710,500,485,680,485,860,485,860,710], side:[860,710,860,485,1080,425,1080,650], roof:[500,485,720,425,1080,425,860,485], door:[545,558,80,152], window:[680,535,133,120] }
+  ];
+  const faces = Object.fromEntries(['front','side','roof'].map(key => [key, root.querySelector(`[data-study-face="${key}"]`)]));
+  const ghosts = Object.fromEntries(['front','side','roof'].map(key => [key, root.querySelector(`[data-study-ghost="${key}"]`)]));
+  const get = name => root.querySelector(`[data-study-${name}]`);
+  const attrs = (element, values) => Object.entries(values).forEach(([key,value]) => element.setAttribute(key, value));
+  const points = values => values.reduce((out,n,i) => out + (i ? (i%2 ? ',' : ' ') : '') + n.toFixed(2), '');
+  const copy = variant => Object.fromEntries(Object.entries(variant).map(([key,value]) => [key, Array.isArray(value) ? [...value] : value]));
+  let current = copy(variants[0]);
+  let index = 0;
+  let paused = reduce.matches;
+  let visible = false;
+  let timer = null;
+  let frame = null;
+  let changing = false;
+  let pointerInside = false;
+  let focusInside = false;
+  const suspended = () => paused || !visible || document.hidden || pointerInside || focusInside;
+
+  function render(value) {
+    for (const key of ['front','side','roof']) {
+      faces[key].setAttribute('points', points(value[key]));
+      ghosts[key].setAttribute('points', points(value[key].map((n,i) => n - (i%2 ? 23 : 22))));
+    }
+    const [dx,dy,dw,dh] = value.door;
+    const [wx,wy,ww,wh] = value.window;
+    attrs(get('door'), {x:dx,y:dy,width:dw,height:dh});
+    attrs(get('window'), {x:wx,y:wy,width:ww,height:wh});
+    attrs(get('mullion'), {x1:wx+ww/2,y1:wy,x2:wx+ww/2,y2:wy+wh});
+    const left = value.front[0], right = value.front[8];
+    const rear = value.side[6], rearY = value.side[7];
+    get('width-ext').setAttribute('d', `M${left} 720V754 M${right} 720V754`);
+    attrs(get('width-line'), {x1:left,y1:744,x2:right,y2:744});
+    attrs(get('width-label'), {x:(left+right)/2,y:774});
+    get('depth-ext').setAttribute('d', `M${right+10} 718L${right+20} 738 M${rear+5} ${rearY+7}L${rear+15} ${rearY+27}`);
+    attrs(get('depth-line'), {x1:right+18,y1:730,x2:rear+10,y2:rearY+20});
+    attrs(get('depth-label'), {x:(right+rear)/2+35,y:(710+rearY)/2+43});
+  }
+
+  function updatePause() {
+    root.classList.toggle('is-paused', paused);
+    pauseButton.setAttribute('aria-pressed', String(paused));
+    pauseButton.setAttribute('aria-label', paused ? 'Play animation' : 'Pause animation');
+    pauseButton.firstElementChild.textContent = paused ? '▶' : 'Ⅱ';
+  }
+
+  function schedule() {
+    clearTimeout(timer);
+    if (!suspended() && !changing) timer = setTimeout(() => change(index+1, false), 6500 + Math.random()*1800);
+  }
+
+  function change(next, manual) {
+    if (changing) return;
+    clearTimeout(timer);
+    index = (next + variants.length) % variants.length;
+    const target = variants[index];
+    drawings.forEach((drawing,i) => drawing.classList.toggle('is-active', i === index));
+    stage.classList.add('is-changing');
+    changing = true;
+    const start = copy(current);
+    const started = performance.now();
+    const duration = reduce.matches ? 0 : 1250;
+    get('width-label').textContent = target.width;
+    get('depth-label').textContent = target.depth;
+    function tick(now) {
+      const t = duration ? Math.min(1,(now-started)/duration) : 1;
+      const eased = t*t*(3-2*t);
+      for (const key of ['front','side','roof','door','window']) current[key] = start[key].map((n,i) => n+(target[key][i]-n)*eased);
+      render(current);
+      if (t < 1) frame = requestAnimationFrame(tick);
+      else {
+        current = copy(target);
+        changing = false;
+        stage.classList.remove('is-changing');
+        if (manual) announcement.textContent = `${target.name}. Illustrative dimensions ${target.width} by ${target.depth}.`;
+        schedule();
+      }
+    }
+    frame = requestAnimationFrame(tick);
+  }
+
+  function stopMotion() {
+    clearTimeout(timer);
+    if (changing) {
+      cancelAnimationFrame(frame);
+      current = copy(variants[index]);
+      render(current);
+      changing = false;
+      stage.classList.remove('is-changing');
+    }
+  }
+
+  pauseButton.addEventListener('click', () => {
+    paused = !paused;
+    if (paused) stopMotion();
+    updatePause(); schedule();
+  });
+  get('previous').addEventListener('click', () => change(index-1,true));
+  get('next').addEventListener('click', () => change(index+1,true));
+  root.addEventListener('pointerenter', () => { pointerInside=true; schedule(); });
+  root.addEventListener('pointerleave', () => { pointerInside=false; schedule(); });
+  root.addEventListener('focusin', () => { focusInside=true; schedule(); });
+  root.addEventListener('focusout', event => { if (!root.contains(event.relatedTarget)) { focusInside=false; schedule(); } });
+  document.addEventListener('visibilitychange', () => { if(document.hidden) stopMotion(); schedule(); });
+  reduce.addEventListener('change', () => { paused=reduce.matches; if(paused) stopMotion(); updatePause(); schedule(); });
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(entries => {
+      visible = entries[0].isIntersecting;
+      root.classList.toggle('is-offscreen', !visible);
+      if (!visible) stopMotion();
+      schedule();
+    }, {threshold:.15}).observe(root);
+  } else { visible=true; schedule(); }
+  render(current); updatePause();
+})();
+
+</script>
 </body>
 </html>
