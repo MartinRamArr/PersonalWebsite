@@ -1726,6 +1726,50 @@
 }
 
 </style>
+
+<style id="marra-section-navigation-styles">
+  html { scroll-padding-top: calc(var(--marra-nav-header-height, 110px) + 16px); }
+  #services, #work, #office, #process, #questions, #adu-cost, #contact-form { scroll-margin-top: 0; }
+  .section-menu { position: relative; flex-shrink: 0; }
+  .section-menu > summary { display: none; }
+  .header .section-nav { gap: clamp(8px, 1vw, 18px); font-size: 11px; }
+  .section-nav > a { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 9px 10px; border-radius: 999px; }
+  .section-nav > a:not(.nav-contact)[aria-current="location"] { color: #111; background: var(--accent); }
+  .section-nav > a:not(.nav-contact):hover { background: #f1f1ec; text-decoration: none; }
+  .section-nav > a[aria-current="location"]:hover { background: var(--accent); }
+  .section-nav > .nav-contact { gap: 12px; padding-inline: 16px; }
+  .section-nav a:focus-visible, .section-menu > summary:focus-visible { outline: 2px solid #111; outline-offset: 3px; }
+  @media (min-width: 901px) and (max-width: 1500px) {
+    .header { flex-wrap: wrap; gap: 8px; }
+    .header-identity { width: 100%; }
+    .section-menu { width: 100%; }
+    .header .section-nav { width: 100%; justify-content: space-between; }
+  }
+  @media (max-width: 900px) {
+    .header { flex-wrap: wrap; gap: 10px; padding-block: 12px; }
+    .header-identity { width: 100%; }
+    .section-menu { width: 100%; position: relative; }
+    .section-menu > summary {
+      display: flex; align-items: center; justify-content: space-between; list-style: none;
+      padding: 8px 14px; min-height: 40px; border: 1px solid var(--line);
+      border-radius: 999px; font-family: var(--mono-font); font-size: 12px; cursor: pointer;
+    }
+    .section-menu > summary::-webkit-details-marker { display: none; }
+    .section-menu > summary span { font-size: 18px; line-height: 1; }
+    .section-menu[open] > summary { background: var(--accent); border-color: transparent; }
+    .section-menu[open] > summary span { transform: rotate(180deg); }
+    .header .section-menu .section-nav {
+      position: absolute; left: 0; right: 0; top: calc(100% + 8px); z-index: 60;
+      width: 100%; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 7px; padding: 12px; border: 1px solid var(--line); border-radius: 20px;
+      background: #fff; box-shadow: 0 12px 24px #00000014;
+    }
+    .section-nav > a { min-height: 44px; padding: 10px; justify-content: flex-start; white-space: normal; }
+    .section-nav > .nav-contact { grid-column: 1 / -1; justify-content: space-between; }
+    .section-menu:not([open]) > .section-nav { display: none; }
+  }
+</style>
+
 </head>
 
 <body id="top">
@@ -1753,13 +1797,18 @@
       </p>
     </div>
 
-    <nav class="nav" aria-label="Main navigation">
-      <a href="#work">Work</a>
-      <a href="#office">Office</a>
-      <a class="nav-contact" href="#contact-form">
-        Let’s talk <span aria-hidden="true">↗</span>
-      </a>
-    </nav>
+    <details class="section-menu" open>
+      <summary>Jump to a section <span aria-hidden="true">⌄</span></summary>
+      <nav class="nav section-nav" aria-label="Page sections">
+        <a href="#services">Services</a>
+        <a href="#work">Work</a>
+        <a href="#office">About</a>
+        <a href="#process">Fees &amp; payment</a>
+        <a href="#adu-cost">ADU costs</a>
+        <a href="#questions">Questions</a>
+        <a class="nav-contact" href="#contact-form">Let’s talk <span aria-hidden="true">↗</span></a>
+      </nav>
+    </details>
   </header>
 
   <main>
@@ -1915,7 +1964,7 @@
       </figure>
     </section>
 
-    <section class="services wrap" aria-labelledby="services-heading">
+    <section id="services" class="services wrap" aria-labelledby="services-heading">
       <div class="section-top">
         <p class="eyebrow">02 / What we do</p>
         <p class="eyebrow">Design, documents, permits, and building.</p>
@@ -2198,7 +2247,7 @@
       </div>
     </section>
 
-    <section class="process wrap" aria-labelledby="process-heading">
+    <section id="process" class="process wrap" aria-labelledby="process-heading">
       <div class="section-top">
         <p class="eyebrow">05 / Process &amp; payment</p>
         <p class="eyebrow">Know what happens next—and what you’re paying for.</p>
@@ -2333,7 +2382,7 @@
       </div>
     </section>
 
-    <section class="faq wrap" aria-labelledby="faq-heading">
+    <section id="questions" class="faq wrap" aria-labelledby="faq-heading">
       <div class="faq-heading">
         <p class="eyebrow">06 / A few questions</p>
         <h2 class="section-heading" id="faq-heading">
@@ -2408,7 +2457,7 @@
           </div>
         </details>
 
-        <details>
+        <details id="adu-cost">
           <summary>How much does an ADU cost in the Salt Lake Valley?</summary>
           <div class="faq-answer">
             <p>
@@ -2992,6 +3041,73 @@
   document.addEventListener('visibilitychange', schedule);
   reduce.addEventListener('change', schedule);
   schedule();
+})();
+</script>
+<script id="marra-section-navigation-script">
+(() => {
+  const header = document.querySelector('.header');
+  const menu = document.querySelector('.section-menu');
+  const nav = document.querySelector('.section-nav');
+  if (!header || !menu || !nav) return;
+  const compact = window.matchMedia('(max-width: 900px)');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const links = [...nav.querySelectorAll('a[href^="#"]')];
+  const targets = links.map(link => document.getElementById(link.hash.slice(1)));
+  function measureHeader() {
+    document.documentElement.style.setProperty('--marra-nav-header-height', `${Math.ceil(header.getBoundingClientRect().height)}px`);
+  }
+  function setMenuMode() { menu.open = !compact.matches; measureHeader(); }
+  setMenuMode();
+  compact.addEventListener('change', setMenuMode);
+  if ('ResizeObserver' in window) new ResizeObserver(measureHeader).observe(header);
+  window.addEventListener('resize', measureHeader, { passive: true });
+  function openHashAnswer() {
+    const target = document.getElementById(window.location.hash.slice(1));
+    if (target && target.tagName === 'DETAILS') target.open = true;
+  }
+  openHashAnswer();
+  window.addEventListener('hashchange', openHashAnswer);
+  links.forEach((link, i) => link.addEventListener('click', event => {
+    const target = targets[i];
+    if (!target) return;
+    event.preventDefault();
+    if (target.tagName === 'DETAILS') target.open = true;
+    if (compact.matches) menu.open = false;
+    if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+    window.history.pushState(null, '', link.hash);
+    requestAnimationFrame(() => {
+      measureHeader();
+      target.scrollIntoView({ behavior: reduce.matches ? 'auto' : 'smooth', block: 'start' });
+      target.focus({ preventScroll: true });
+    });
+  }));
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && compact.matches && menu.open) {
+      menu.open = false; menu.querySelector('summary').focus();
+    }
+  });
+  document.addEventListener('click', event => {
+    if (compact.matches && menu.open && !menu.contains(event.target)) menu.open = false;
+  });
+  let queued = false;
+  function markCurrent() {
+    queued = false;
+    const threshold = header.getBoundingClientRect().height + 80;
+    let current = -1, closest = -Infinity;
+    targets.forEach((target, i) => {
+      if (!target) return;
+      const top = target.getBoundingClientRect().top;
+      if (top <= threshold && top > closest) { closest = top; current = i; }
+    });
+    links.forEach((link, i) => {
+      if (i === current) link.setAttribute('aria-current', 'location');
+      else link.removeAttribute('aria-current');
+    });
+  }
+  window.addEventListener('scroll', () => {
+    if (!queued) { queued = true; requestAnimationFrame(markCurrent); }
+  }, { passive: true });
+  markCurrent();
 })();
 </script>
 </body>
