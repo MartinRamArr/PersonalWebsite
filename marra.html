@@ -1824,6 +1824,13 @@ body{padding-bottom:88px}
   .marra-call-sticker img,.marra-call-sticker small{display:none}
 }
 </style>
+<style>
+.contact-detail-label{display:inline-block;font-size:.8rem;font-weight:600;letter-spacing:.05em}
+.contact-photos{margin-top:18px}
+.contact-photos label{display:block;margin-bottom:8px}
+#contact-form #project-photos{max-width:100%;font:inherit}
+#contact-form #photo-help{margin:8px 0 0;font-size:.85rem}
+</style>
 </head>
 
 <body id="top">
@@ -2742,7 +2749,9 @@ body{padding-bottom:88px}
           </p>
 
           <address class="contact-details">
+            <span class="eyebrow contact-detail-label">Email</span>
             <a href="mailto:mario@marra.works">mario@marra.works</a>
+            <span class="eyebrow contact-detail-label">Phone</span>
             <a href="tel:+18018332752">+1 801.833.2752 - Martin</a>
             <a href="tel:+18017830184">+1 801.783.0184 - Mario</a>
           </address>
@@ -2770,7 +2779,7 @@ body{padding-bottom:88px}
           </nav>
         </div>
 
-        <form aria-labelledby='form-heading' class='contact-form' id='contact-form' method='POST' name='marra-contact'>
+        <form aria-labelledby='form-heading' class='contact-form' id='contact-form' method='POST' name='marra-contact' data-netlify='true' netlify-honeypot='bot-field'>
           <input type="hidden" name="form-name" value="marra-contact">
           <input type="hidden" name="subject" value="New enquiry from marra.works">
 
@@ -2847,6 +2856,21 @@ body{padding-bottom:88px}
 
           </div>
 
+          <div class="contact-photos" hidden>
+            <label for="project-photos">Project photos / optional</label>
+            <input type="file" id="project-photos" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.heic,.heif" multiple aria-describedby="photo-help">
+            <p id="photo-help">Choose up to 10 photos at once, up to 15 megapixels each. Photos are resized for upload. If your browser can’t open a photo, try a JPEG or leave it out.</p>
+          </div>
+<input type="file" name="photo-1" hidden disabled>
+<input type="file" name="photo-2" hidden disabled>
+<input type="file" name="photo-3" hidden disabled>
+<input type="file" name="photo-4" hidden disabled>
+<input type="file" name="photo-5" hidden disabled>
+<input type="file" name="photo-6" hidden disabled>
+<input type="file" name="photo-7" hidden disabled>
+<input type="file" name="photo-8" hidden disabled>
+<input type="file" name="photo-9" hidden disabled>
+<input type="file" name="photo-10" hidden disabled>
           <button class="form-submit" type="submit" id="form-submit">
             <span id="form-submit-label">Send</span>
             <span aria-hidden="true">↗</span>
@@ -3013,6 +3037,40 @@ body{padding-bottom:88px}
       const submitLabel = document.getElementById("form-submit-label");
       const status = document.getElementById("form-status");
 
+      const photos = document.getElementById("project-photos");
+      const cooldownKey = "marraLastPhotoSubmission";
+      let lastPhotoSubmission = 0;
+      photos.parentElement.hidden = false;
+
+      async function preparePhoto(file) {
+        let image;
+        try {
+          image = await createImageBitmap(file);
+        } catch {
+          throw new Error("Couldn’t open " + file.name + ". Try a JPEG or remove this photo.");
+        }
+        try {
+          if (image.width * image.height > 15000000) {
+            throw new Error(file.name + " exceeds 15 megapixels. Resize it or remove it.");
+          }
+          const canvas = document.createElement("canvas");
+          const context = canvas.getContext("2d", { alpha: false });
+          for (const edge of [1800, 1400, 1000, 700]) {
+            const scale = Math.min(1, edge / Math.max(image.width, image.height));
+            canvas.width = Math.max(1, Math.round(image.width * scale));
+            canvas.height = Math.max(1, Math.round(image.height * scale));
+            context.fillStyle = "#fff";
+            context.fillRect(0, 0, canvas.width, canvas.height);
+            context.drawImage(image, 0, 0, canvas.width, canvas.height);
+            const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/jpeg", 0.8));
+            if (blob && blob.size <= 600000) return blob;
+          }
+          throw new Error("Couldn’t resize " + file.name + ". Try a smaller copy or remove it.");
+        } finally {
+          image.close();
+        }
+      }
+
       let submitting = false;
 
       form.addEventListener("submit", async (event) => {
@@ -3027,7 +3085,21 @@ body{padding-bottom:88px}
           return;
         }
 
+        const files = Array.from(photos.files);
+        let previous = lastPhotoSubmission;
+        try {
+          previous = Math.max(previous, Number(localStorage.getItem(cooldownKey)) || 0);
+        } catch {}
+        const remaining = Math.ceil((previous + 60000 - Date.now()) / 1000);
+        if (files.length > 10 || (files.length && remaining > 0)) {
+          status.dataset.state = "error";
+          status.textContent = files.length > 10 ? "Choose up to 10 photos." :
+            "Please wait " + remaining + " seconds before sending more photos, or send without photos.";
+          return;
+        }
+
         submitting = true;
+        photos.disabled = true;
         submitButton.disabled = true;
         submitLabel.textContent = "Sending…";
         form.setAttribute("aria-busy", "true");
@@ -3037,13 +3109,19 @@ body{padding-bottom:88px}
 
         try {
           const data = new FormData(form);
-
+          for (const [index, file] of files.entries()) {
+            try {
+              const photo = await preparePhoto(file);
+              data.append("photo-" + (index + 1), photo, "project-photo-" + (index + 1) + ".jpg");
+            } catch (error) {
+              status.dataset.state = "error";
+              status.textContent = error.message || "A photo couldn’t be prepared. Try a JPEG.";
+              return;
+            }
+          }
           const response = await fetch("/marra.html", {
             method: "POST",
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded"
-            },
-            body: new URLSearchParams(data).toString()
+            body: files.length ? data : new URLSearchParams(data)
           });
 
           if (!response.ok) {
@@ -3061,6 +3139,10 @@ body{padding-bottom:88px}
             }
           }
 
+          if (files.length) {
+            lastPhotoSubmission = Date.now();
+            try { localStorage.setItem(cooldownKey, String(lastPhotoSubmission)); } catch {}
+          }
           form.reset();
           status.dataset.state = "success";
           status.textContent =
@@ -3071,6 +3153,7 @@ body{padding-bottom:88px}
             "We couldn’t confirm your submission. Your message is still here—please try again, or email mario@marra.works.";
         } finally {
           submitting = false;
+          photos.disabled = false;
           submitButton.disabled = false;
           submitLabel.textContent = "Send";
           form.removeAttribute("aria-busy");
