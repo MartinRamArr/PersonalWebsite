@@ -195,14 +195,19 @@ footer{margin-bottom:88px}
             </div>
 
             <div class="form-field">
-              <label for="contact-phone">Phone / optional</label>
+              <label for="contact-phone">U.S. phone number *</label>
               <input
                 id="contact-phone"
                 name="phone"
                 type="tel"
-                autocomplete="tel"
-                maxlength="50"
+                autocomplete="tel-national"
+                inputmode="numeric"
+                pattern="[0-9]{10}"
+                title="Enter 10 digits with area code and no spaces, dashes, parentheses, or +1."
+                aria-describedby="phone-help"
+                required
               >
+              <p class="form-note" id="phone-help">Enter 10 digits, including your area code. Leave out spaces, dashes, parentheses, and +1.</p>
             </div>
 
             <div class="form-field">
@@ -243,6 +248,8 @@ footer{margin-bottom:88px}
           <p class="form-note">
             We’ll use these details to respond to your enquiry.
             Fields marked * are required.
+            If you haven’t heard from us within 24 hours, please follow up at
+            <a href="mailto:mario@marra.works">mario@marra.works</a>.
           </p>
 
           <p
@@ -377,7 +384,7 @@ footer{margin-bottom:88px}
           form.reset();
           status.dataset.state = "success";
           status.textContent =
-            "Thanks for getting in touch. Your enquiry has been submitted, and we’ll be in touch.";
+            "Thanks for getting in touch. Your enquiry has been submitted. If you haven’t heard from us within 24 hours, please email mario@marra.works.";
         } catch (error) {
           status.dataset.state = "error";
           status.textContent =
